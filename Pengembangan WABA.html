@@ -1,0 +1,2517 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WABA Customer Care Prototype</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Inter','Segoe UI','ui-sans-serif','system-ui','-apple-system','sans-serif'] }
+    }
+  }
+}
+</script>
+<style>
+html,body,#root { width:100%; height:100%; margin:0; }
+body { font-family:Inter,'Segoe UI',ui-sans-serif,system-ui,-apple-system,sans-serif; background:#eef1f4; }
+* { box-sizing:border-box; }
+button,input,select,textarea { font:inherit; }
+button:focus-visible,input:focus-visible,select:focus-visible { outline:2px solid #008f69; outline-offset:1px; }
+.cc-context-item { width:100%; display:flex; align-items:center; gap:9px; border:none; background:transparent; color:var(--cc-text); padding:8px 9px; border-radius:7px; font-size:12.5px; text-align:left; cursor:pointer; }
+.cc-context-item:hover { background:var(--cc-bg-panel-alt); }
+::-webkit-scrollbar { width:7px; height:7px; }
+::-webkit-scrollbar-thumb { background:#cfd4dc; border-radius:99px; }
+::-webkit-scrollbar-track { background:transparent; }
+[data-cc-theme="dark"] input::placeholder{color:#788493}.cc-tag-icons{display:flex;align-items:center;gap:3px;flex-shrink:0}.cc-tag-icon{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:5px}.cc-filter-pill{flex:0 0 auto;white-space:nowrap}.cc-filter-menu{position:relative;display:inline-block}.cc-filter-button{display:flex;align-items:center;gap:6px;border:1px solid var(--cc-border);background:var(--cc-bg-panel);color:var(--cc-text-soft);border-radius:8px;padding:7px 9px;font-size:12px;cursor:pointer}.cc-filter-option{width:100%;border:none;background:transparent;color:var(--cc-text);padding:7px 9px;text-align:left;border-radius:6px;font-size:12px;cursor:pointer}.cc-filter-option:hover{background:var(--cc-bg-panel-alt)}
+</style>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function(){
+  window.addEventListener("error", function(e){
+    var root=document.getElementById("root");
+    if(root && !root.hasChildNodes()){
+      root.innerHTML='<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#eef1f4;font-family:Segoe UI,sans-serif;padding:24px"><div style="max-width:760px;background:#fff;border:1px solid #e5e8ec;border-radius:12px;padding:22px;box-shadow:0 8px 30px rgba(0,0,0,.08)"><h2 style="margin:0 0 8px;color:#1f2430;font-size:18px">Prototype gagal dimuat</h2><p style="margin:0 0 12px;color:#5b6270;font-size:13px">Terjadi error saat menjalankan prototype. Detail teknis:</p><pre style="white-space:pre-wrap;color:#b42318;background:#fdecec;padding:12px;border-radius:8px;font-size:11px">'+String(e.error||e.message||e).replace(/</g,"&lt;")+'</pre><p style="margin:12px 0 0;color:#8a90a0;font-size:11px">Pastikan koneksi internet tersedia karena prototype menggunakan React, Babel, dan Tailwind dari CDN.</p></div></div>';
+    }
+  });
+})();
+</script>
+<script type="text/babel">
+
+const {useState, useMemo, useEffect, useRef} = React;
+const IconGlyph = ({children, size=16, color=C.textFaint}) => <span style={{display:"inline-flex",width:size,height:size,alignItems:"center",justifyContent:"center",color}}>{children}</span>;
+const Maximize2 = (p) => <IconGlyph {...p}>⛶</IconGlyph>;
+const Minimize2 = (p) => <IconGlyph {...p}>⛶</IconGlyph>;
+const CheckSquare = (p) => <IconGlyph {...p}>☑</IconGlyph>;
+
+
+const CR12_USER_IDS = {"G11042622719": "U000001", "G09042622717": "U000002", "BJ23032622700": "U000003", "KK23032622695": "U000004", "BL23032622687": "U000005", "PU23032622678": "U000006", "PK23032622671": "U000007", "PU23032622658": "U000008", "G22032622656": "U000009", "G22032622655": "U000010", "BJ22032622654": "U000011", "KP22032622651": "U000012", "DA22032622647": "U000013", "DA22032622645": "U000014", "DA22032622644": "U000015"};
+
+const CR12_SERVICE_CONTACTS = {
+  "G11042622719": [
+    { contactId:"C000001", nama:"Sinta", nomorHp:"08123456789", hubungan:"Istri", is_primary:true },
+    { contactId:"C000002", nama:"Budi", nomorHp:"08129876543", hubungan:"Pemilik", is_primary:false },
+    { contactId:"C000003", nama:"Andi", nomorHp:"08135555555", hubungan:"PIC", is_primary:false }
+  ],
+  "G09042622717": [
+    { contactId:"C000002", nama:"Budi", nomorHp:"08129876543", hubungan:"Suami", is_primary:true },
+    { contactId:"C000001", nama:"Sinta", nomorHp:"08123456789", hubungan:"Istri", is_primary:false }
+  ],
+  "BJ23032622700": [
+    { contactId:"C000004", nama:"Rina", nomorHp:"08136666666", hubungan:"Pemilik", is_primary:true },
+    { contactId:"C000005", nama:"Doni", nomorHp:"08137777777", hubungan:"PIC", is_primary:false }
+  ],
+  "KK23032622695": [
+    { contactId:"C000006", nama:"Fajar", nomorHp:"08138888888", hubungan:"Pemilik", is_primary:true }
+  ]
+};
+
+function CR12ServiceContacts({serviceId, onChanged}) {
+  const [rows,setRows] = React.useState(() => (CR12_SERVICE_CONTACTS[serviceId] || []).map(x=>({...x})));
+  const [edit,setEdit] = React.useState(null);
+  const [pendingPrimary,setPendingPrimary] = React.useState(null);
+  const [feedback,setFeedback] = React.useState(null);
+
+  React.useEffect(() => {
+    setRows((CR12_SERVICE_CONTACTS[serviceId] || []).map(x=>({...x})));
+    setEdit(null);
+    setPendingPrimary(null);
+  },[serviceId]);
+
+  const save = (nextRows) => {
+    const primaryCount = nextRows.filter(x=>x.is_primary).length;
+    if (primaryCount !== 1) {
+      setFeedback({type:"error",message:"Perubahan gagal disimpan. Service harus memiliki satu Primary Contact."});
+      return false;
+    }
+    // RULE BARU: satu nomorHp primary hanya di satu service (cek lintas CR12_SERVICE_CONTACTS by nomorHp).
+    const promoted = nextRows.find(x=>x.is_primary && !rows.find(r=>r.contactId===x.contactId && r.is_primary));
+    if (promoted) {
+      const elsewhere = Object.keys(CR12_SERVICE_CONTACTS).find(sid => sid !== serviceId && (CR12_SERVICE_CONTACTS[sid]||[]).some(r=>r.nomorHp===promoted.nomorHp && r.is_primary));
+      if (elsewhere) {
+        setFeedback({type:"error",message:"Gagal: nomor " + promoted.nomorHp + " sudah menjadi Primary di layanan " + elsewhere + ". Satu nomor primary hanya bisa di satu layanan."});
+        return false;
+      }
+    }
+    CR12_SERVICE_CONTACTS[serviceId] = nextRows.map(x=>({...x}));
+    setRows(nextRows);
+    if (onChanged) onChanged(nextRows);
+    setFeedback({type:"success",message:"Perubahan berhasil disimpan."});
+    return true;
+  };
+
+  const commitPrimary = (row, makePrimary) => {
+    if (row.is_primary && !makePrimary) {
+      setFeedback({type:"error",message:"Primary Contact tidak dapat dinonaktifkan tanpa pengganti."});
+      return;
+    }
+    if (!makePrimary) {
+      setEdit(null);
+      return;
+    }
+    if (row.is_primary) {
+      setEdit(null);
+      return;
+    }
+    // RULE BARU: cegah sebelum dialog konfirmasi.
+    const elsewhere = Object.keys(CR12_SERVICE_CONTACTS).find(sid => sid !== serviceId && (CR12_SERVICE_CONTACTS[sid]||[]).some(r=>r.nomorHp===row.nomorHp && r.is_primary));
+    if (elsewhere) {
+      setFeedback({type:"error",message:"Gagal: nomor ini sudah menjadi Primary di layanan " + elsewhere + "."});
+      return;
+    }
+    setPendingPrimary(row);
+  };
+
+  const confirmPrimary = () => {
+    if (!pendingPrimary) return;
+    const next = rows.map(x=>({...x,is_primary:x.contactId===pendingPrimary.contactId}));
+    const ok = save(next);
+    if (ok) {
+      setPendingPrimary(null);
+      setEdit(null);
+    }
+  };
+
+  const relationshipOptions = ["Pemilik","Keluarga","Pasangan","Anak","Orang Tua","PIC","Karyawan","Lainnya"];
+
+  return <React.Fragment>
+    <div style={{display:"flex",flexDirection:"column",gap:7}}>
+      {rows.map(row =>
+        <div key={row.contactId} style={{display:"grid",gridTemplateColumns:"1.1fr 1fr 1fr .7fr auto",gap:8,alignItems:"center",padding:"8px 10px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel}}>
+          <div><div style={{fontSize:12,fontWeight:600,color:C.text}}>{row.nomorHp}</div><div style={{fontSize:10.5,color:C.textFaint}}>{row.nama}</div></div>
+          <div style={{fontSize:11.5,color:C.text}}>{row.nama}</div>
+          <div style={{fontSize:11.5,color:C.text}}>{row.hubungan}</div>
+          <div style={{fontSize:11.5,color:row.is_primary?C.accent:C.textFaint,fontWeight:row.is_primary?700:500}}>{row.is_primary ? "✓ Primary" : "Non-primary"}</div>
+          <button onClick={()=>setEdit({...row})} style={{fontSize:11,padding:"4px 8px",border:`1px solid ${C.border}`,borderRadius:6,background:C.bgPanel,color:C.accent,cursor:"pointer"}}>Edit</button>
+        </div>
+      )}
+    </div>
+
+    {edit && <Modal title="Edit Service Contact" onClose={()=>setEdit(null)}>
+      <div className="flex flex-col gap-3">
+        <InfoRow label="Nomor HP" value={edit.nomorHp}/>
+        <InfoRow label="Nama Contact" value={edit.nama}/>
+        <div>
+          <label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Hubungan</label>
+          <select value={edit.hubungan} onChange={e=>setEdit({...edit,hubungan:e.target.value})}
+            style={{width:"100%",marginTop:4,padding:"7px 8px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12}}>
+            {relationshipOptions.map(x=><option key={x}>{x}</option>)}
+          </select>
+        </div>
+        <div>
+          <label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Primary Contact</label>
+          <select value={edit.is_primary ? "Yes":"No"} onChange={e=>commitPrimary(edit,e.target.value==="Yes")}
+            style={{width:"100%",marginTop:4,padding:"7px 8px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12}}>
+            <option value="Yes">Yes</option><option value="No" disabled={edit.is_primary}>No</option>
+          </select>
+          <div style={{fontSize:10.5,color:C.textFaint,marginTop:4}}>Service harus memiliki satu Primary Contact. Satu nomor Primary hanya bisa di satu layanan.</div>
+        </div>
+        <div className="flex justify-end gap-2">
+          <button onClick={()=>setEdit(null)} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,cursor:"pointer"}}>Batal</button>
+          <button onClick={()=>{
+            const next=rows.map(x=>x.contactId===edit.contactId?{...x,hubungan:edit.hubungan}:x);
+            save(next); setEdit(null);
+          }} style={{padding:"7px 12px",border:0,borderRadius:7,background:C.accent,color:"#fff",cursor:"pointer",fontWeight:600}}>Simpan</button>
+        </div>
+      </div>
+    </Modal>}
+
+    {pendingPrimary && <Modal title="Konfirmasi Primary Contact" onClose={()=>setPendingPrimary(null)}>
+      <div style={{fontSize:12.5,color:C.text,lineHeight:1.5,marginBottom:14}}>
+        Jadikan <b>{pendingPrimary.nama}</b> sebagai Primary Contact?
+      </div>
+      <div className="flex justify-end gap-2">
+        <button onClick={()=>setPendingPrimary(null)} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,cursor:"pointer"}}>Batal</button>
+        <button onClick={confirmPrimary} style={{padding:"7px 12px",border:0,borderRadius:7,background:C.accent,color:"#fff",cursor:"pointer",fontWeight:600}}>Konfirmasi</button>
+      </div>
+    </Modal>}
+
+    {feedback && <CR12Toast message={feedback.message} type={feedback.type} onClose={()=>setFeedback(null)}/>}
+  </React.Fragment>;
+}
+function MessageCircle(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"M21 11.5a8.4 8.4 0 0 1-9 8.5 9.7 9.7 0 0 1-4-.9L3 21l1.9-4A8.5 8.5 0 1 1 21 11.5Z\"/><path d=\"M8 12h.01M12 12h.01M16 12h.01\"/>"}
+  });
+}
+function TagIcon(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"M20.6 13.6 13.6 20.6a2 2 0 0 1-2.8 0L3.4 13.2a2 2 0 0 1-.6-1.4V5a2 2 0 0 1 2-2h6.8a2 2 0 0 1 1.4.6l7.6 7.2a2 2 0 0 1 0 2.8Z\"/><circle cx=\"7.5\" cy=\"7.5\" r=\"1.2\"/>"}
+  });
+}
+function Users(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8\"/>"}
+  });
+}
+function Wifi(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"M5 13a10 10 0 0 1 14 0\"/><path d=\"M8.5 16.5a5 5 0 0 1 7 0\"/><path d=\"M12 20h.01\"/><path d=\"M2 9a15 15 0 0 1 20 0\"/>"}
+  });
+}
+function Phone(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z\"/>"}
+  });
+}
+function Search(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-4-4\"/>"}
+  });
+}
+function X(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"M18 6 6 18M6 6l12 12\"/>"}
+  });
+}
+function Plus(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"M12 5v14M5 12h14\"/>"}
+  });
+}
+function Pencil(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z\"/>"}
+  });
+}
+function Trash2(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"M3 6h18M8 6V4h8v2M19 6l-1 15H6L5 6M10 11v6M14 11v6\"/>"}
+  });
+}
+function ChevronRight(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"m9 18 6-6-6-6\"/>"}
+  });
+}
+function ChevronLeft(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"m15 18-6-6 6-6\"/>"}
+  });
+}
+function ChevronDown(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"m6 9 6 6 6-6\"/>"}
+  });
+}
+function Star(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z\"/>"}
+  });
+}
+function Pin(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"m15 4 5 5-4 1-4 4 1 4-2 2-3-5-5-3 2-2 4 1 4-4Z\"/>"}
+  });
+}
+function MoreVertical(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<circle cx=\"12\" cy=\"5\" r=\"1\"/><circle cx=\"12\" cy=\"12\" r=\"1\"/><circle cx=\"12\" cy=\"19\" r=\"1\"/>"}
+  });
+}
+function Send(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"m22 2-7 20-4-9-9-4Z\"/><path d=\"M22 2 11 13\"/>"}
+  });
+}
+function ArrowLeft(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"m12 19-7-7 7-7\"/><path d=\"M19 12H5\"/>"}
+  });
+}
+function Check(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"m5 12 4 4L19 6\"/>"}
+  });
+}
+function Sun(props) {
+  const p = props || {};
+  return React.createElement("svg", {width:p.size||24,height:p.size||24,viewBox:"0 0 24 24",fill:"none",stroke:p.color||"currentColor",strokeWidth:p.strokeWidth||2,strokeLinecap:"round",strokeLinejoin:"round"},
+    React.createElement("circle",{cx:12,cy:12,r:4}),
+    React.createElement("path",{d:"M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"})
+  );
+}
+function Moon(props) {
+  const p = props || {};
+  return React.createElement("svg", {width:p.size||24,height:p.size||24,viewBox:"0 0 24 24",fill:"none",stroke:p.color||"currentColor",strokeWidth:p.strokeWidth||2,strokeLinecap:"round",strokeLinejoin:"round"},
+    React.createElement("path",{d:"M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"})
+  );
+}
+
+function Info(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 11v5M12 8h.01\"/>"}
+  });
+}
+function Building2(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<path d=\"M3 21h18M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M9 7h2M9 11h2M9 15h2M13 7h2M13 11h2M13 15h2\"/>"}
+  });
+}
+function User(props) {
+  const p = props || {};
+  return React.createElement("svg", {
+    width: p.size || 24, height: p.size || 24, viewBox:"0 0 24 24",
+    fill:"none", stroke:p.color || "currentColor", strokeWidth:p.strokeWidth || 2,
+    strokeLinecap:"round", strokeLinejoin:"round", style:p.style, className:p.className,
+    "aria-hidden":"true", dangerouslySetInnerHTML: {__html: "<circle cx=\"12\" cy=\"7\" r=\"4\"/><path d=\"M4 21a8 8 0 0 1 16 0\"/>"}
+  });
+}
+
+/* ============================================================
+   DESIGN TOKENS — mengikuti screenshot referensi (WhatsApp Web
+   pattern): background terang, border tipis, aksen biru, compact.
+   ============================================================ */
+const LIGHT_C = {
+  bgApp:"#f0f2f5", bgPanel:"#ffffff", bgPanelAlt:"#f7f9fa", border:"#dfe3e7", borderStrong:"#cfd5da",
+  text:"#111b21", textSoft:"#54656f", textFaint:"#8696a0", accent:"#008f69", accentSoft:"#e7f7f2", accentSoftBorder:"#b9e5d8",
+  success:"#22a35e", successSoft:"#e6f7ee", warning:"#d98a1f", warningSoft:"#fdf3e3", danger:"#e5484d", dangerSoft:"#fdecec",
+  sidebarBg:"#202c33", sidebarBgSoft:"#2a3942", chatBg:"#efeae2", chatPlaceholder:"#e2e6ec",
+  chatPattern:"url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3MiIgaGVpZ2h0PSI3MiIgdmlld0JveD0iMCAwIDcyIDcyIj48ZyBmaWxsPSJub25lIiBzdHJva2U9IiNkNmQwYzciIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC41NSI+PHBhdGggZD0iTTEyIDE1bDUgNS01IDUtNS01ek01MiA3bDQgNC00IDQtNC00ek0zNSA0Mmw2IDYtNiA2LTYtNnpNNjEgNTVsNCA0LTQgNC00LTR6Ii8+PGNpcmNsZSBjeD0iMjAiIGN5PSI1MiIgcj0iMyIvPjxwYXRoIGQ9Ik00NSAyNWM0LTQgOC00IDEyIDBNNiAzOGMzLTMgNi0zIDkgMCIvPjwvZz48L3N2Zz4=)"
+};
+const DARK_C = {
+  bgApp:"#111b21", bgPanel:"#202c33", bgPanelAlt:"#2a3942", border:"#34454f", borderStrong:"#42545e",
+  text:"#e9edef", textSoft:"#b9c4ca", textFaint:"#8696a0", accent:"#00a884", accentSoft:"#123d34", accentSoftBorder:"#1d5b4e",
+  success:"#3fc779", successSoft:"#173b29", warning:"#e3a044", warningSoft:"#3b2e18", danger:"#f06b70", dangerSoft:"#402226",
+  sidebarBg:"#111b21", sidebarBgSoft:"#202c33", chatBg:"#0b141a", chatPlaceholder:"#26343d",
+  chatPattern:"url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3MiIgaGVpZ2h0PSI3MiIgdmlld0JveD0iMCAwIDcyIDcyIj48ZyBmaWxsPSJub25lIiBzdHJva2U9IiMzNjQzNTAiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC40OCI+PHBhdGggZD0iTTEyIDE1bDUgNS01IDUtNS01ek01MiA3bDQgNC00IDQtNC00ek0zNSA0Mmw2IDYtNiA2LTYtNnpNNjEgNTVsNCA0LTQgNC00LTR6Ii8+PGNpcmNsZSBjeD0iMjAiIGN5PSI1MiIgcj0iMyIvPjxwYXRoIGQ9Ik00NSAyNWM0LTQgOC00IDEyIDBNNiAzOGMzLTMgNi0zIDkgMCIvPjwvZz48L3N2Zz4=)"
+};
+let C = LIGHT_C;
+
+const FONT = "'Inter','Segoe UI',ui-sans-serif,system-ui,-apple-system,sans-serif";
+
+// Rupiah helpers — Service discount is stored as a nominal numeric string.
+const parseRupiah = (value) => String(value ?? "").replace(/\D/g, "");
+const formatRupiah = (value) => {
+  const digits = parseRupiah(value);
+  if (!digits) return "Rp 0";
+  return "Rp " + digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+
+/* ============================================================
+   MOCK DATA — konsisten dengan ERD Phase 1
+   ============================================================ */
+
+const USERS0 = [
+  { userId: "USR-001", nik: "3512011205900012", nama: "Yusuf Ananta", ttl: "Malang, 12 Mei 1990", provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Lowokwaru", kelurahan: "Tulusrejo", alamat: "Jl. Soekarno Hatta No. 12", status: "Active" },
+  { userId: "USR-002", nik: "3578022308880004", nama: "Budi Santoso", ttl: "Surabaya, 23 Agustus 1988", provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Klojen", kelurahan: "Kiduldalem", alamat: "Jl. Basuki Rahmat No. 45", status: "Active" },
+  { userId: "USR-003", nik: "3573030107950009", nama: "Dedi Kurniawan", ttl: "Malang, 1 Juli 1995", provinsi: "Jawa Timur", kotaKab: "Kabupaten Malang", kecamatan: "Dau", kelurahan: "Landungsari", alamat: "Jl. Raya Landungsari No. 8", status: "Active" },
+  { userId: "USR-004", nik: "3578041504870021", nama: "Rudi Hartono", ttl: "Surabaya, 15 April 1987", provinsi: "Jawa Timur", kotaKab: "Kota Surabaya", kecamatan: "Gubeng", kelurahan: "Airlangga", alamat: "Jl. Airlangga No. 21", status: "Non Active" },
+];
+
+const SERVICES0 = [
+  { pppoe: "G11042622719", userId: "USR-001", paket: "50 Mbps", branch: "Malang", status: "Active", subStart: "2023-01-10", subExpired: "2026-01-10", peruntukan: "Rumah Tangga", prospect: "Website", salesNip: "SLS-0012", salesHead: "SLS-HEAD-01", salesPhone: "0812-3000-1122", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Budi Santoso", surveySalesName: "Andi Pratama", coverage: "MLG-COV-01", splitter: "SPL-12", port: 4, snModem: "SNM-88231", onu: 2, oltRx: -18.4, onuRx: -19.1, provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Lowokwaru", kelurahan: "Tulusrejo", rw: "03", rt: "05", alamat: "Jl. Soekarno Hatta No. 12", lat: -7.9492, lng: 112.6122, va: "88123456701", cashback: "-", typeCustomer: "Residential", role: "Home User", resourcename: "res-mlg-001", pppoeVlan: "100", hotspotVlan: "-" },
+  { pppoe: "G09042622717", userId: "USR-001", paket: "100 Mbps", branch: "Malang", status: "Active", subStart: "2024-03-02", subExpired: "2026-03-02", peruntukan: "Rumah Tangga", prospect: "Referral", salesNip: "SLS-0012", salesHead: "SLS-HEAD-01", salesPhone: "0812-3000-1122", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Budi Santoso", surveySalesName: "Andi Pratama", coverage: "MLG-COV-02", splitter: "SPL-14", port: 1, snModem: "SNM-88540", onu: 5, oltRx: -17.9, onuRx: -18.6, provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Lowokwaru", kelurahan: "Tulusrejo", rw: "03", rt: "05", alamat: "Jl. Soekarno Hatta No. 12 (Ruko Belakang)", lat: -7.9490, lng: 112.6118, va: "88123456702", cashback: "-", typeCustomer: "Residential", role: "Home User", resourcename: "res-mlg-002", pppoeVlan: "100", hotspotVlan: "-" },
+  { pppoe: "BJ23032622700", userId: "USR-002", paket: "20 Mbps", branch: "Malang", status: "Isolir", subStart: "2022-06-15", subExpired: "2026-06-15", peruntukan: "Bisnis / Kios", prospect: "Canvassing", salesNip: "SLS-0031", salesHead: "SLS-HEAD-02", salesPhone: "0812-4000-3344", salesSurvey: "Sudah Survey", salesType: "admin", salesName: "Budi Admin", surveySalesName: "Andi Pratama", coverage: "MLG-COV-05", splitter: "SPL-03", port: 8, snModem: "SNM-77021", onu: 1, oltRx: -21.2, onuRx: -22.4, provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Klojen", kelurahan: "Kiduldalem", rw: "01", rt: "02", alamat: "Jl. Basuki Rahmat No. 45", lat: -7.9775, lng: 112.6304, va: "88123456703", cashback: "Budi Santoso", typeCustomer: "Business", role: "KiosNet Partner", resourcename: "res-mlg-005", pppoeVlan: "200", hotspotVlan: "210" },
+  { pppoe: "KK23032622695", userId: "USR-003", paket: "30 Mbps", branch: "Malang", status: "Active", subStart: "2023-11-20", subExpired: "2026-11-20", peruntukan: "Rumah Tangga", prospect: "Website", salesNip: "SLS-0018", salesHead: "SLS-HEAD-01", salesPhone: "0812-3000-1122", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Budi Santoso", surveySalesName: "Andi Pratama", coverage: "MLG-COV-03", splitter: "SPL-09", port: 2, snModem: "SNM-90112", onu: 3, oltRx: -19.0, onuRx: -19.8, provinsi: "Jawa Timur", kotaKab: "Kabupaten Malang", kecamatan: "Dau", kelurahan: "Landungsari", rw: "02", rt: "01", alamat: "Jl. Raya Landungsari No. 8", lat: -7.9145, lng: 112.5845, va: "88123456704", cashback: "-", typeCustomer: "Residential", role: "Home User", resourcename: "res-mlg-003", pppoeVlan: "100", hotspotVlan: "-" },
+  { pppoe: "BL23032622687", userId: "USR-004", paket: "50 Mbps", branch: "Surabaya", status: "Terminated", subStart: "2021-09-05", subExpired: "2026-09-05", peruntukan: "Rumah Tangga", prospect: "Referral", salesNip: "SLS-0044", salesHead: "SLS-HEAD-03", salesPhone: "0812-5000-7788", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Budi Santoso", surveySalesName: "Andi Pratama", coverage: "SBY-COV-01", splitter: "SPL-21", port: 6, snModem: "SNM-65210", onu: 4, oltRx: -18.9, onuRx: -19.5, provinsi: "Jawa Timur", kotaKab: "Kota Surabaya", kecamatan: "Gubeng", kelurahan: "Airlangga", rw: "04", rt: "03", alamat: "Jl. Airlangga No. 21", lat: -7.2685, lng: 112.7521, va: "88123456705", cashback: "-", typeCustomer: "Residential", role: "Home User", resourcename: "res-sby-001", pppoeVlan: "100", hotspotVlan: "-" },
+];
+
+const CONTACTS0 = [
+  { contactId: "C1", nomorHp: "628123456789", nama: "Yusuf Ananta", prospectId: "-", status: "Active", verification: "Identified" },
+  { contactId: "C2", nomorHp: "628223456789", nama: "Ani", prospectId: "-", status: "Active", verification: "Identified" },
+  { contactId: "C12", nomorHp: "628123456790", nama: "Yusuf Ananta (Ruko)", prospectId: "-", status: "Active", verification: "Identified" },
+  { contactId: "C6", nomorHp: "628123000111", nama: "Dedi Kurniawan", prospectId: "-", status: "Active", verification: "Identified" },
+  { contactId: "C8", nomorHp: "628123555666", nama: "Rudi Hartono", prospectId: "-", status: "Non Active", verification: "Identified" },
+  { contactId: "C7", nomorHp: "6288131021758", nama: "Sari Wulandari", prospectId: "PRSP-0091", status: "Active", verification: "Identified" },
+  { contactId: "C9", nomorHp: "6285731308712", nama: "", prospectId: "-", status: "Active", verification: "Unknown" },
+  { contactId: "C10", nomorHp: "6281249194476", nama: "", prospectId: "-", status: "Active", verification: "Unknown" },
+  { contactId: "C11", nomorHp: "6289900011122", nama: "", prospectId: "-", status: "Active", verification: "Unknown" },
+];
+
+// RULE BARU (4): satu nomor primary hanya bisa digunakan di satu layanan.
+// → satu contactId maksimal punya satu link primary:true lintas semua service.
+// → tiap service tetap wajib Tepat satu primary (rule 3).
+// Contoh patuh: C1 primary di G11042622719 + non-primary di G09042622717 (boleh),
+// C12 primary di G09042622717.
+const SERVICE_CONTACTS0 = [
+  { id: "SC1", pppoe: "G11042622719", contactId: "C1", hubungan: "Pemilik", primary: true },
+  { id: "SC2", pppoe: "G09042622717", contactId: "C1", hubungan: "Pemilik", primary: false },
+  { id: "SC8", pppoe: "G09042622717", contactId: "C12", hubungan: "Pemilik", primary: true },
+  { id: "SC3", pppoe: "G11042622719", contactId: "C2", hubungan: "Istri", primary: false },
+  { id: "SC4", pppoe: "BJ23032622700", contactId: "C2", hubungan: "PIC", primary: true },
+  { id: "SC5", pppoe: "KK23032622695", contactId: "C6", hubungan: "Pemilik", primary: true },
+  { id: "SC6", pppoe: "BL23032622687", contactId: "C8", hubungan: "Pemilik", primary: true },
+  { id: "SC7", pppoe: "BJ23032622700", contactId: "C7", hubungan: "Adik", primary: false },
+];
+
+const TAGS0 = [
+  { id: "T1", nama: "Gangguan", color: "#e5484d" },
+  { id: "T2", nama: "Tagihan", color: "#d98a1f" },
+  { id: "T3", nama: "Sales", color: "#3b6fe6" },
+  { id: "T4", nama: "Follow Up", color: "#8a5cf6" },
+  { id: "T5", nama: "VIP", color: "#22a35e" },
+  { id: "T6", nama: "Eskalasi", color: "#e5484d" },
+];
+
+const TAG_COLOR_OPTIONS = ["#e5484d", "#d98a1f", "#3b6fe6", "#8a5cf6", "#22a35e", "#0d9488", "#c026d3"];
+
+const TEMPLATE_CHATS0 = [
+  { id:"TPL1", nama:"Greeting Customer", isi:"Halo Kak, terima kasih sudah menghubungi Customer Care. Ada yang bisa kami bantu?", status:"Active" },
+  { id:"TPL2", nama:"Konfirmasi Gangguan", isi:"Baik Kak, kami bantu cek gangguan pada layanan Kakak terlebih dahulu.", status:"Active" },
+  { id:"TPL3", nama:"Follow Up Gangguan", isi:"Halo Kak, kami melakukan follow up terkait laporan gangguan sebelumnya. Apakah layanan sudah kembali normal?", status:"Active" },
+  { id:"TPL4", nama:"Informasi Pembayaran", isi:"Untuk informasi pembayaran layanan, kami dapat membantu mengecek tagihan dan status pembayaran Kakak.", status:"Active" },
+  { id:"TPL5", nama:"Konfirmasi Service", isi:"Baik Kak, kami konfirmasi terlebih dahulu detail layanan yang akan kami bantu.", status:"Non Active" },
+  { id:"TPL6", nama:"Penutupan Chat", isi:"Terima kasih sudah menghubungi Customer Care. Semoga layanan Kakak kembali nyaman digunakan.", status:"Active" },
+];
+
+// Chat records. contactId null => Unknown Contact (identitas sementara = nomor HP).
+const CHATS0 = [
+  {
+    id: "CH1", brand: "KiosNet", contactId: "C6", context: "service", tagIds: ["T1"],
+    unread: 0, pinned: false, time: "10:26",
+    messages: [
+      { from: "customer", text: "Halo kak, internet saya lambat sekali dari tadi pagi", time: "10:20" },
+      { from: "cc", text: "Baik kak, mohon ditunggu sebentar saya cek ya", time: "10:22" },
+      { from: "customer", text: "Internet saya lambat sekali kak", time: "10:26" },
+    ],
+  },
+  {
+    id: "CH2", brand: "KiosNet", contactId: "C1", context: "service", tagIds: ["T1", "T6"],
+    unread: 2, pinned: true, time: "09:12",
+    messages: [
+      { from: "customer", text: "Kak internet saya mati, yang di rumah bukan yang di ruko", time: "09:05" },
+      { from: "customer", text: "PPPoE saya yang mana ya kak, saya ada 2 nomor internet di sini", time: "09:12" },
+    ],
+  },
+  {
+    id: "CH3", brand: "KiosNet", contactId: null, nomorHp: "6285731308712", context: "service", tagIds: ["T1"],
+    unread: 1, pinned: false, time: "08:40",
+    matchStep: "matched", // matched -> asked -> replied -> acc
+    candidatePppoe: "G11042622719", candidateHubungan: "", candidatePrimary: false, candidateNama: "",
+    messages: [
+      { from: "customer", text: "Internet rumah saya mati dari tadi kak, PPPoE-nya G11042622719", time: "08:38" },
+      { from: "customer", text: "Internet rumah saya mati dari tadi", time: "08:40" },
+    ],
+  },
+  {
+    id: "CH4", brand: "KiosNet", contactId: null, nomorHp: "6281249194476", context: "service", tagIds: [],
+    unread: 0, pinned: false, time: "07:55",
+    matchStep: "no-match",
+    messages: [
+      { from: "customer", text: "PPPoE saya 08123999abc kak, kok gabisa connect", time: "07:50" },
+      { from: "customer", text: "PPPoE nya 08123999 kak", time: "07:55" },
+    ],
+  },
+  {
+    id: "CH5", brand: "GriyaNet", contactId: "C2", context: "general", tagIds: ["T2"],
+    unread: 0, pinned: false, time: "14:57",
+    messages: [
+      { from: "customer", text: "Halo kak mau tanya", time: "14:55" },
+      { from: "customer", text: "Kak jam operasional kantor sampai jam berapa ya", time: "14:57" },
+    ],
+  },
+  {
+    id: "CH6", brand: "KiosNet", contactId: null, nomorHp: "6289900011122", context: "service", tagIds: ["T3"],
+    unread: 1, pinned: false, time: "13:20",
+    matchStep: "replied",
+    candidatePppoe: "BJ23032622700", candidateHubungan: "Karyawan", candidatePrimary: false, candidateNama: "",
+    messages: [
+      { from: "cc", text: "Baik, boleh diinfokan hubungan Bapak/Ibu dengan pemilik layanan?", time: "13:15" },
+      { from: "customer", text: "Saya karyawan di sini, PPPoE BJ23032622700", time: "13:20" },
+    ],
+  },
+  {
+    id: "CH7", brand: "KiosNet", contactId: "C7", context: "service", tagIds: ["T4"],
+    unread: 0, pinned: false, time: "15:08",
+    messages: [
+      { from: "cc", text: "Baik kak Sari, sudah kami catat sebagai kontak layanan BJ23032622700 ya", time: "15:06" },
+      { from: "customer", text: "Terima kasih kak sudah dibantu", time: "15:08" },
+    ],
+  },
+  {
+    id: "CH8", brand: "GriyaNet", contactId: "C8", context: "service", tagIds: ["T5"],
+    unread: 0, pinned: false, time: "Kmrn",
+    messages: [
+      { from: "customer", text: "Kak mau tanya paket upgrade ada promo ga ya", time: "Kmrn" },
+    ],
+  },
+];
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function maskNik(nik) {
+  if (!nik) return "-";
+  return nik.slice(0, 4) + "••••••••" + nik.slice(-4);
+}
+function formatPhoneDisplay(n) {
+  if (!n) return "-";
+  return n;
+}
+function statusColor(status) {
+  const s = (status || "").toLowerCase();
+  if (s === "active") return { fg: C.success, bg: C.successSoft, label: "Active" };
+  if (s === "isolir") return { fg: C.warning, bg: C.warningSoft, label: "Isolir" };
+  if (s === "terminated") return { fg: C.danger, bg: C.dangerSoft, label: "Terminated" };
+  if (s === "non active" || s === "inactive") return { fg: C.danger, bg: C.dangerSoft, label: "Non Active" };
+  return { fg: C.textSoft, bg: C.bgPanelAlt, label: status || "-" };
+}
+function deriveUserStatus(userId, services) {
+  const owned = services.filter(s => s.userId === userId);
+  if (!owned.length) return "Non-active";
+  return owned.some(s => s.status === "Active" || s.status === "Isolir") ? "Active" : "Non-active";
+}
+
+/* ============================================================
+   SHARED "COCOKKAN LAYANAN" MATCHING LOGIC
+   Dipakai oleh SEMUA tombol Cocokkan Layanan (identified number,
+   unidentified number, Contact Profile, Contact > Detail Contact)
+   supaya validasi & behaviour selalu konsisten.
+   ============================================================ */
+function evaluateServiceMatch(query, allServices, alreadyLinkedPppoeSet) {
+  const excludeSet = alreadyLinkedPppoeSet || new Set();
+  const q = (query || "").trim();
+  if (!q) return { status: "empty", notice: "Masukkan PPoE Secret.", results: [] };
+  const normalized = (v) => String(v || "").trim().toLowerCase();
+  const matchesExact = (svc) => normalized(svc.pppoe) === normalized(q);
+  const alreadyRegistered = allServices.some(svc => excludeSet.has(svc.pppoe) && matchesExact(svc));
+  if (alreadyRegistered) return { status: "already", notice: "PPoE Secret sudah terdaftar.", results: [] };
+  const results = allServices.filter(svc => !excludeSet.has(svc.pppoe) && matchesExact(svc));
+  return results.length ? { status: "found", notice: "", results } : { status: "not_found", notice: "PPoE Secret tidak ditemukan.", results: [] };
+}
+
+/* ============================================================
+   RULE BARU (4): satu nomor primary hanya di satu layanan.
+   Helper global — dipakai semua flow Cocokkan/Edit/ACC.
+   - findPrimaryServiceForContact: pppoe tempat contact jadi primary (atau null)
+   - isPrimaryInOtherService: true jika contact sudah primary di service lain
+   - validatePrimaryRules: pastikan tiap service max 1 primary & tiap
+     contact max 1 primary lintas service. Return string error atau null.
+   ============================================================ */
+function findPrimaryServiceForContact(contactId, allServiceContacts, excludePppoe) {
+  if (!contactId || !Array.isArray(allServiceContacts)) return null;
+  const found = allServiceContacts.find(sc => sc.contactId === contactId && sc.primary && sc.pppoe !== excludePppoe);
+  return found ? found.pppoe : null;
+}
+function isPrimaryInOtherService(contactId, targetPppoe, allServiceContacts) {
+  return !!findPrimaryServiceForContact(contactId, allServiceContacts, targetPppoe);
+}
+function validatePrimaryRules(nextLinks) {
+  if (!Array.isArray(nextLinks)) return null;
+  const byService = {};
+  const byContact = {};
+  for (const sc of nextLinks) {
+    if (sc && sc.primary) {
+      byService[sc.pppoe] = (byService[sc.pppoe] || 0) + 1;
+      byContact[sc.contactId] = (byContact[sc.contactId] || 0) + 1;
+    }
+  }
+  const dupSvc = Object.keys(byService).find(k => byService[k] > 1);
+  if (dupSvc) return "Service " + dupSvc + " memiliki lebih dari satu Primary Contact.";
+  const dupContact = Object.keys(byContact).find(k => byContact[k] > 1);
+  if (dupContact) return "Nomor ini sudah menjadi Primary di layanan " + findPrimaryServiceForContact(dupContact, nextLinks, null) + ". Satu nomor primary hanya bisa digunakan di satu layanan.";
+  return null;
+}
+
+/* ============================================================
+   SMALL UI PRIMITIVES
+   ============================================================ */
+function Avatar({ size = 40, active }) {
+  return (
+    <div
+      style={{
+        width: size, height: size, borderRadius: "50%",
+        background: active ? C.accentSoft : "#e7e9ee",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        flexShrink: 0, border: `1px solid ${active ? C.accentSoftBorder : C.border}`,
+      }}
+    >
+      <User size={size * 0.52} color={active ? C.accent : C.textFaint} />
+    </div>
+  );
+}
+
+function StatusDot({ status }) {
+  const sc = statusColor(status);
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12.5, color: sc.fg, fontWeight: 600 }}>
+      <span style={{ width: 7, height: 7, borderRadius: "50%", background: sc.fg, display: "inline-block" }} />
+      {sc.label}
+    </span>
+  );
+}
+
+function Badge({ children, bg, fg, border }) {
+  return (
+    <span style={{
+      fontSize: 11.5, fontWeight: 600, padding: "2px 8px", borderRadius: 999,
+      background: bg, color: fg, border: border ? `1px solid ${border}` : "none",
+      whiteSpace: "nowrap",
+    }}>
+      {children}
+    </span>
+  );
+}
+
+function Pill({ active, onClick, children }) {
+  return (
+    <button
+      onClick={onClick}
+      className="px-2.5 py-1.5 text-[12px] font-medium rounded-full cc-filter-pill"
+      style={{
+        background: active ? C.accent : C.bgPanel,
+        color: active ? "#fff" : C.textSoft,
+        border: `1px solid ${active ? C.accent : C.border}`,
+        cursor: "pointer",
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function InfoRow({ label, value }) {
+  return (
+    <div className="flex items-start justify-between py-1.5" style={{ borderBottom: `1px solid ${C.border}` }}>
+      <span style={{ color: C.textFaint, fontSize: 12.5 }}>{label}</span>
+      <span style={{ color: C.text, fontSize: 12.5, fontWeight: 500, textAlign: "right", maxWidth: "60%" }}>{value ?? "-"}</span>
+    </div>
+  );
+}
+
+function SectionCard({ title, children, right }) {
+  return (
+    <div style={{ background: C.bgPanel, border: `1px solid ${C.border}`, borderRadius: 10, padding: 16, marginBottom: 14 }}>
+      <div className="flex items-center justify-between mb-2.5">
+        <h3 style={{ fontSize: 12.5, fontWeight: 700, color: C.textSoft, letterSpacing: 0.4, textTransform: "uppercase" }}>{title}</h3>
+        {right}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function DataTable({ columns, rows, onRowClick, emptyLabel = "Tidak ada data." }) {
+  return (
+    <div style={{ border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden", background: C.bgPanel }}>
+      <table className="w-full" style={{ borderCollapse: "collapse", fontSize: 13 }}>
+        <thead>
+          <tr style={{ background: C.bgPanelAlt, borderBottom: `1px solid ${C.border}` }}>
+            {columns.map((c) => (
+              <th key={c.key} className="text-left px-4 py-2.5" style={{ color: C.textFaint, fontWeight: 600, fontSize: 11.5, textTransform: "uppercase", letterSpacing: 0.3 }}>
+                {c.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.length === 0 && (
+            <tr><td colSpan={columns.length} className="px-4 py-8 text-center" style={{ color: C.textFaint, fontSize: 13 }}>{emptyLabel}</td></tr>
+          )}
+          {rows.map((row, i) => (
+            <tr
+              key={i}
+              onClick={() => onRowClick && onRowClick(row)}
+              style={{ borderBottom: i === rows.length - 1 ? "none" : `1px solid ${C.border}`, cursor: onRowClick ? "pointer" : "default" }}
+              onMouseEnter={(e) => onRowClick && (e.currentTarget.style.background = C.bgPanelAlt)}
+              onMouseLeave={(e) => onRowClick && (e.currentTarget.style.background = "transparent")}
+            >
+              {columns.map((c) => (
+                <td key={c.key} className="px-4 py-2.5" style={{ color: C.text }}>
+                  {c.render ? c.render(row) : row[c.key]}
+                </td>
+              ))}
+              {onRowClick && <td className="px-2 text-right"><ChevronRight size={15} color={C.textFaint} /></td>}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function ListPageHeader({ icon, title, subtitle, action }) {
+  return (
+    <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: `1px solid ${C.border}`, background: C.bgPanel }}>
+      <div className="flex items-center gap-3">
+        <div style={{ width: 34, height: 34, borderRadius: 8, background: C.accentSoft, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          {icon}
+        </div>
+        <div>
+          <h1 style={{ fontSize: 15, fontWeight: 700, color: C.text }}>{title}</h1>
+          {subtitle && <p style={{ fontSize: 12, color: C.textFaint, marginTop: 1 }}>{subtitle}</p>}
+        </div>
+      </div>
+      {action}
+    </div>
+  );
+}
+
+function DetailHeader({ onBack, title, subtitle, statusBadge }) {
+  return (
+    <div className="flex items-center gap-3 px-6 py-4" style={{ borderBottom: `1px solid ${C.border}`, background: C.bgPanel }}>
+      <button onClick={onBack} style={{ border: `1px solid ${C.border}`, background: C.bgPanel, borderRadius: 8, width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+        <ArrowLeft size={16} color={C.textSoft} />
+      </button>
+      <div className="flex-1">
+        <div className="flex items-center gap-2">
+          <h1 style={{ fontSize: 15, fontWeight: 700, color: C.text }}>{title}</h1>
+          {statusBadge}
+        </div>
+        {subtitle && <p style={{ fontSize: 12, color: C.textFaint, marginTop: 1 }}>{subtitle}</p>}
+      </div>
+    </div>
+  );
+}
+
+function MainMenu({ active, onChange, activeAccount, onLogoutClick, theme, onThemeToggle }) {
+  const items = [
+    { key: "chat", label: "Chat", icon: MessageCircle },
+    { key: "tag", label: "Tag", icon: TagIcon },
+    { key: "template", label: "Template Chat", icon: MessageCircle },
+    { key: "user", label: "User", icon: Users },
+    { key: "service", label: "Service", icon: Wifi },
+    { key: "contact", label: "Contact", icon: Phone },
+  ];
+  return (
+    <div style={{ width: 84, background: C.sidebarBg, display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 18, gap: 6, flexShrink: 0 }}>
+      <div style={{ width: 36, height: 36, borderRadius: 9, background: C.accent, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14, fontWeight: 800, color: "#fff", fontSize: 14 }}>
+        CC
+      </div>
+      {items.map((it) => {
+        const Icon = it.icon;
+        const isActive = active === it.key;
+        return (
+          <button
+            key={it.key}
+            onClick={() => onChange(it.key)}
+            style={{
+              width: 62, display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
+              padding: "9px 4px", borderRadius: 10, border: "none", cursor: "pointer",
+              background: isActive ? C.sidebarBgSoft : "transparent",
+            }}
+          >
+            <Icon size={19} color={isActive ? "#fff" : "#8b93a7"} />
+            <span style={{ fontSize: 10.5, color: isActive ? "#fff" : "#8b93a7", fontWeight: 600 }}>{it.label}</span>
+          </button>
+        );
+      })}
+      <div style={{ marginTop:"auto", width:"100%", padding:"10px 10px 12px" }}>
+        <button onClick={onThemeToggle} title={theme === "light" ? "Dark Mode" : "Light Mode"} style={{ width:"100%", border:`1px solid ${C.sidebarBgSoft}`, background:C.sidebarBgSoft, color:"#fff", cursor:"pointer", padding:"7px 4px", borderRadius:8, display:"flex", alignItems:"center", justifyContent:"center", gap:6, marginBottom:5 }}>
+          {theme === "light" ? <Sun size={14} color="#fff" /> : <Moon size={14} color="#fff" />}
+          <span style={{fontSize:9.5,fontWeight:700}}>{theme === "light" ? "Light" : "Dark"}</span>
+        </button>
+        <button onClick={onLogoutClick} title="Logout" style={{ width:"100%", border:"none", background:"transparent", color:"#fff", cursor:"pointer", padding:"8px 4px", borderRadius:10 }}>
+          <div style={{ width:34, height:34, margin:"0 auto 5px", borderRadius:"50%", background:C.accentSoft, color:C.accent, display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:800 }}>{activeAccount.name.charAt(0)}</div>
+          <div style={{ fontSize:9.5, color:"#c8cfda", fontWeight:700, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>Logout</div>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+   CHAT MODULE
+   ============================================================ *//* ============================================================
+   CHAT MODULE
+   ============================================================ */
+function ChatModule({ state, actions }) {
+  const { chats, contacts, users, services, serviceContacts, tags, templates, selectedChatId, filter, labelFilter, profileOpen, selectionMode, selectedChatIds } = state;
+
+  const getContact = (id) => contacts.find((c) => c.contactId === id);
+  const getUser = (id) => users.find((u) => u.userId === id);
+  const getService = (pppoe) => services.find((s) => s.pppoe === pppoe);
+  const servicesForContact = (contactId) => serviceContacts.filter((sc) => sc.contactId === contactId);
+
+  const chatDisplayName = (chat) => {
+    if (chat.contactId) {
+      const c = getContact(chat.contactId);
+      return c ? c.nama : chat.nomorHp;
+    }
+    return chat.nomorHp;
+  };
+
+  const [chatSearch, setChatSearch] = useState("");
+  const activeFilters = Array.isArray(filter) ? filter : [filter || "semua"];
+  const filteredChats = useMemo(() => {
+    const q = chatSearch.trim().toLowerCase();
+    return chats.filter((c) => {
+      if (activeFilters.includes("unread") && !(c.unread > 0)) return false;
+      if (activeFilters.includes("kiosnet") && c.brand !== "KiosNet") return false;
+      if (activeFilters.includes("griyanet") && c.brand !== "GriyaNet") return false;
+      if (labelFilter && !c.tagIds.includes(labelFilter)) return false;
+      if (q) {
+        const contact = c.contactId ? getContact(c.contactId) : null;
+        const haystack = [
+          c.nomorHp, c.phone, c.message, c.lastMessage,
+          contact?.nama, contact?.nomorHp,
+          ...(c.messages || []).flatMap(m => [m.text, m.content])
+        ].filter(Boolean).join(" ").toLowerCase();
+        if (!haystack.includes(q)) return false;
+      }
+      return true;
+    }).sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+  }, [chats, activeFilters.join("|"), labelFilter, chatSearch, contacts]);
+
+  const [contextMenu, setContextMenu] = useState(null);
+  const [removeTagChatId, setRemoveTagChatId] = useState(null);
+  const [addTagChatId, setAddTagChatId] = useState(null);
+  const [tagSelectorSearch, setTagSelectorSearch] = useState("");
+  const [tagSelectorSelection, setTagSelectorSelection] = useState([]);
+  const [newTagModal, setNewTagModal] = useState(null);
+  const longPressTimer = useRef(null);
+  const longPressTriggered = useRef(false);
+  const startLongPress = (id) => {
+    longPressTriggered.current = false;
+    clearTimeout(longPressTimer.current);
+    longPressTimer.current = setTimeout(() => {
+      longPressTriggered.current = true;
+      actions.enterSelectionMode(id);
+    }, 600);
+  };
+  const endLongPress = () => clearTimeout(longPressTimer.current);
+  useEffect(() => {
+    const close = () => setContextMenu(null);
+    window.addEventListener("click", close);
+    window.addEventListener("scroll", close, true);
+    return () => { window.removeEventListener("click", close); window.removeEventListener("scroll", close, true); };
+  }, []);
+  const selectedChat = chats.find((c) => c.id === selectedChatId);
+  const closeContext = () => setContextMenu(null);
+  const targetChat = contextMenu ? chats.find(c => c.id === contextMenu.chatId) : null;
+
+  return (
+    <div className="flex flex-1 min-w-0" style={{ background: C.bgApp }}>
+      {/* KOLOM: CHAT LIST */}
+      <div style={{ width: 320, background: C.bgPanel, borderRight: `1px solid ${C.border}`, display: "flex", flexDirection: "column", flexShrink: 0 }}>
+        <div className="px-3 pt-3 pb-2">
+          <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: C.bgPanelAlt, border: `1px solid ${C.border}` }}>
+            <Search size={15} color={C.textFaint} />
+            <input value={chatSearch} onChange={e=>setChatSearch(e.target.value)} placeholder="Cari chat..." style={{ border: "none", outline: "none", background: "transparent", fontSize: 13, width: "100%", color: C.text }} />
+          </div>
+        </div>
+        <div className="cc-chat-filters" style={{ overflowX:"hidden", overflowY:"hidden", whiteSpace:"nowrap", display:"flex", flexWrap:"nowrap", gap:4, paddingLeft:6, paddingRight:6, paddingBottom:8 }}>
+          <Pill active={activeFilters.includes("semua")} onClick={() => actions.setFilter("semua")}>Semua</Pill>
+          <Pill active={activeFilters.includes("unread")} onClick={() => actions.setFilter("unread")}>Belum Dibaca</Pill>
+          <Pill active={activeFilters.includes("kiosnet")} onClick={() => actions.setFilter("kiosnet")}>KiosNet</Pill>
+          <Pill active={activeFilters.includes("griyanet")} onClick={() => actions.setFilter("griyanet")}>GriyaNet</Pill>
+        </div>
+        <div className="px-3 pb-2">
+          <LabelFilterSelect tags={tags} value={labelFilter} onChange={actions.setLabelFilter} />
+        </div>
+
+        {selectionMode && (
+          <div className="flex items-center justify-between px-3 py-2" style={{ borderTop:`1px solid ${C.border}`, borderBottom:`1px solid ${C.border}`, background:C.bgPanelAlt }}>
+            <div className="flex items-center gap-2">
+              <button onClick={actions.exitSelectionMode} title="Keluar dari Selection Mode" style={{width:26,height:26,border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.textSoft,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><X size={14}/></button>
+              <span style={{fontSize:12.5,fontWeight:700,color:C.text}}>{selectedChatIds.length} dipilih</span>
+              <button title="Pilih semua chat" onClick={()=>actions.toggleSelectAllChats(filteredChats.map(c=>c.id))} style={{width:28,height:28,border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.textSoft,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><CheckSquare size={14}/></button>
+            </div>
+            <button disabled={!selectedChatIds.length} onClick={actions.requestDeleteSelected} style={{padding:"5px 10px",border:"none",borderRadius:7,background:selectedChatIds.length?C.danger:"#b9c0ca",color:"#fff",fontSize:11.5,fontWeight:700,cursor:selectedChatIds.length?"pointer":"not-allowed"}}>Hapus</button>
+          </div>
+        )}
+
+        <div style={{ overflowY: "auto", flex: 1, borderTop: selectionMode ? "none" : `1px solid ${C.border}` }}>
+          {filteredChats.length === 0 && (
+            <div className="text-center py-10" style={{ color: C.textFaint, fontSize: 13 }}>Tidak ada chat pada filter ini.</div>
+          )}
+          {filteredChats.map((chat) => {
+            const isSelected = chat.id === selectedChatId;
+            const isSelectionChecked = selectedChatIds.includes(chat.id);
+            const name = chatDisplayName(chat);
+            const isKnown = !!chat.contactId;
+            const lastMsg = chat.messages[chat.messages.length - 1];
+            return (
+              <div
+                key={chat.id}
+                onMouseDown={() => startLongPress(chat.id)}
+                onMouseUp={endLongPress}
+                onMouseLeave={endLongPress}
+                onClick={(e) => {
+                  if (longPressTriggered.current) { longPressTriggered.current = false; return; }
+                  if (selectionMode) actions.toggleChatSelection(chat.id);
+                  else actions.selectChat(chat.id);
+                }}
+                onContextMenu={(e) => { e.preventDefault(); e.stopPropagation(); setContextMenu({ chatId:chat.id, x:e.clientX, y:e.clientY }); }}
+                className="flex items-start gap-3 px-3 py-3 cursor-pointer"
+                style={{
+                  background: isSelected ? C.accentSoft : C.bgPanel,
+                  borderLeft: isSelected ? `3px solid ${C.accent}` : "3px solid transparent",
+                  borderBottom: `1px solid ${C.border}`,
+                }}
+              >
+                {selectionMode && <input type="checkbox" checked={isSelectionChecked} onChange={() => actions.toggleChatSelection(chat.id)} onClick={e=>e.stopPropagation()} style={{marginTop:8,accentColor:C.accent}} />}
+                <Avatar active={isSelected || isSelectionChecked} />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <span style={{ fontSize: 13.5, fontWeight: isKnown ? 600 : 500, color: C.text, fontFamily: isKnown ? undefined : "monospace", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {name}
+                    </span>
+                    <span style={{ fontSize: 11, color: chat.unread ? C.accent : C.textFaint, fontWeight: chat.unread ? 700 : 400, flexShrink: 0 }}>{chat.time}</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-2 mt-0.5">
+                    <div style={{ minWidth:0, overflow:"hidden", display:"flex", alignItems:"center", gap:6 }}>
+                      <span style={{ fontSize:12, color:C.textFaint, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
+                        {lastMsg.from === "cc" ? "Anda: " : ""}{lastMsg.text}
+                      </span>
+                      {chat.tagIds?.length > 0 && <div className="cc-tag-icons" title={chat.tagIds.map(id=>tags.find(t=>t.id===id)?.nama).filter(Boolean).join(", ")}>{chat.tagIds.map(id=>{const tag=tags.find(t=>t.id===id);return tag?<span key={id} className="cc-tag-icon" style={{color:tag.color,border:`1px solid ${tag.color}`,background:C.bgPanelAlt}}><TagIcon size={10} color={tag.color}/></span>:null;})}</div>}
+                    </div>
+                    <div className="flex items-center gap-1 flex-shrink-0">
+                      {chat.pinned && <Pin size={11} color={C.textFaint} />}
+                      {chat.unread > 0 && (
+                        <span style={{ background: C.accent, color: "#fff", fontSize: 10, fontWeight: 700, borderRadius: 999, minWidth: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 4px" }}>
+                          {chat.unread}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {targetChat && contextMenu && (() => {
+        const menuWidth = 210;
+        const left = Math.min(contextMenu.x, window.innerWidth - menuWidth - 10);
+        const top = Math.min(contextMenu.y, window.innerHeight - 150);
+        return <div onClick={e => e.stopPropagation()} style={{ position:"fixed", left, top, width:menuWidth, background:C.bgPanel, border:`1px solid ${C.border}`, borderRadius:9, boxShadow:"0 10px 28px rgba(0,0,0,.16)", padding:5, zIndex:100 }}>
+          <button className="cc-context-item" style={{color:C.text}} onClick={() => { setTagSelectorSelection([...(targetChat.tagIds||[])]); setTagSelectorSearch(""); setAddTagChatId(targetChat.id); closeContext(); }}><TagIcon size={14} color={C.textSoft}/><span>Add Label</span></button>
+          {targetChat.tagIds?.length > 0 && <button className="cc-context-item" style={{color:C.text}} onClick={() => { setRemoveTagChatId(targetChat.id); closeContext(); }}><TagIcon size={14} color={C.textSoft}/><span>Remove Label</span></button>}
+          <button className="cc-context-item" style={{color:C.text}} onClick={() => { actions.setPinned(targetChat.id, !targetChat.pinned); closeContext(); }}><Pin size={14} color={C.textSoft}/><span>{targetChat.pinned ? "Unpin Chat" : "Pin Chat"}</span></button>
+          <button className="cc-context-item" style={{color:C.text}} onClick={() => { actions.setUnread(targetChat.id, targetChat.unread > 0 ? 0 : 1); closeContext(); }}><MessageCircle size={14} color={C.textSoft}/><span>{targetChat.unread > 0 ? "Tandai sudah dibaca" : "Tandai belum dibaca"}</span></button>
+        </div>;
+      })()}
+
+{addTagChatId && (()=>{const ac=chats.find(c=>c.id===addTagChatId);const selectedIds=tagSelectorSelection;const visibleTags=tags.filter(t=>!tagSelectorSearch||t.nama.toLowerCase().includes(tagSelectorSearch.toLowerCase()));return <Modal title="Tambahkan Label" onClose={()=>{setAddTagChatId(null);setTagSelectorSearch("")}}>
+  <div style={{display:"flex",alignItems:"center",gap:7,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 9px",background:C.bgPanel,marginBottom:10}}><Search size={13} color={C.textFaint}/><input value={tagSelectorSearch} onChange={e=>setTagSelectorSearch(e.target.value)} placeholder="Cari label..." style={{border:"none",outline:"none",background:"transparent",color:C.text,width:"100%",fontSize:12.5}}/></div>
+  <div className="flex flex-col gap-1.5" style={{maxHeight:220,overflowY:"auto"}}>{visibleTags.map(tag=>{const selected=selectedIds.includes(tag.id);return <button key={tag.id} onClick={()=>setTagSelectorSelection(prev=>prev.includes(tag.id)?prev.filter(x=>x!==tag.id):[...prev,tag.id])} style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,padding:"8px 9px",border:`1px solid ${selected?tag.color:C.border}`,borderRadius:8,background:selected?C.accentSoft:C.bgPanelAlt,color:C.text,cursor:"pointer",textAlign:"left"}}><span style={{display:"flex",alignItems:"center",gap:8}}><TagIcon size={14} color={tag.color}/>{tag.nama}</span>{selected&&<Check size={14} color={tag.color}/>}</button>})}</div>
+  {visibleTags.length===0&&<div style={{fontSize:12,color:C.textFaint,textAlign:"center",padding:"12px 4px"}}>Label tidak ditemukan.</div>}
+  <button onClick={()=>{setNewTagModal({name:"",color:"#3b6fe6",chatId:ac?.id||null});}} style={{marginTop:10,width:"100%",display:"flex",alignItems:"center",gap:7,padding:"8px 9px",border:`1px dashed ${C.border}`,borderRadius:8,background:"transparent",color:C.textSoft,cursor:"pointer",fontSize:12.5}}><Plus size={14}/> Buat Label Baru</button>
+  <div className="flex justify-end gap-2" style={{marginTop:10}}><button onClick={()=>{setAddTagChatId(null);setTagSelectorSearch("")}} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12.5,cursor:"pointer"}}>Batal</button><button onClick={()=>{if(ac) actions.setTagsForChat(ac.id,selectedIds);setAddTagChatId(null);setTagSelectorSearch("")}} style={{padding:"7px 12px",border:"none",borderRadius:7,background:C.accent,color:"#fff",fontSize:12.5,fontWeight:600,cursor:"pointer"}}>Simpan</button></div>
+</Modal>})()}
+{newTagModal && <Modal title="Buat Label Baru" onClose={()=>setNewTagModal(null)}><label style={{fontSize:12,fontWeight:600,color:C.textSoft}}>Nama Label</label><input autoFocus value={newTagModal.name} onChange={e=>setNewTagModal({...newTagModal,name:e.target.value})} style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:8,padding:"8px 10px",fontSize:13,margin:"6px 0 14px",background:C.bgPanel,color:C.text}}/><label style={{fontSize:12,fontWeight:600,color:C.textSoft}}>Warna</label><div style={{display:"flex",alignItems:"center",gap:10,marginTop:6,marginBottom:18}}><input type="color" value={newTagModal.color} onChange={e=>setNewTagModal({...newTagModal,color:e.target.value})} style={{width:42,height:34,padding:2,border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel}}/><span style={{fontSize:11.5,color:C.textFaint}}>{newTagModal.color}</span></div><div className="flex justify-end gap-2"><button onClick={()=>setNewTagModal(null)} style={{padding:"8px 14px",borderRadius:8,border:`1px solid ${C.border}`,background:C.bgPanel,color:C.text,fontSize:13,cursor:"pointer"}}>Batal</button><button disabled={!newTagModal.name.trim()} onClick={()=>{const id="T"+Date.now();actions.createTag({id,nama:newTagModal.name.trim(),color:newTagModal.color});setTagSelectorSelection(prev=>prev.includes(id)?prev:[...prev,id]);setNewTagModal(null);setAddTagChatId(newTagModal.chatId);}} style={{padding:"8px 14px",borderRadius:8,border:"none",background:newTagModal.name.trim()?C.accent:"#9aa3b2",color:"#fff",fontSize:13,fontWeight:600,cursor:newTagModal.name.trim()?"pointer":"not-allowed"}}>Simpan</button></div></Modal>}
+
+{removeTagChatId && (()=>{const rc=chats.find(c=>c.id===removeTagChatId);const assigned=(rc?.tagIds||[]);const [selectedRemove,setSelectedRemove]=[null,null];return <RemoveTagsModal chat={rc} tags={tags} onClose={()=>setRemoveTagChatId(null)} onRemove={(ids)=>{actions.removeLabels(rc.id,ids);setRemoveTagChatId(null);}} />})()}
+
+      {state.deleteConfirmOpen && (
+        <Modal title="Hapus Chat" onClose={actions.cancelDeleteSelected}>
+          <div style={{fontSize:12.5,color:C.textSoft,lineHeight:1.5,marginBottom:14}}>Hapus chat yang dipilih?<br/>Chat yang dipilih akan dihapus.</div>
+          <div className="flex justify-end gap-2">
+            <button onClick={actions.cancelDeleteSelected} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.textSoft,cursor:"pointer"}}>Batal</button>
+            <button onClick={actions.confirmDeleteSelected} style={{padding:"7px 12px",border:"none",borderRadius:7,background:C.danger,color:"white",cursor:"pointer",fontWeight:600}}>Hapus</button>
+          </div>
+        </Modal>
+      )}
+
+      {/* KOLOM: CONVERSATION */}
+      {!selectedChat ? (
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <div style={{ width: 220, height: 160, background: C.chatPlaceholder, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", color: C.textFaint, fontSize: 13, marginBottom: 20 }}>
+            Chat Illustration
+          </div>
+          <h2 style={{ fontSize: 18, fontWeight: 700, color: C.text }}>Hai, Tachta</h2>
+          <p style={{ fontSize: 13, color: C.textFaint, marginTop: 4 }}>Pilih percakapan untuk mulai chat</p>
+        </div>
+      ) : (
+        <ConversationView
+          chat={selectedChat}
+          displayName={chatDisplayName(selectedChat)}
+          contactPhone={selectedChat.contactId ? getContact(selectedChat.contactId)?.nomorHp : selectedChat.nomorHp}
+          isKnown={!!selectedChat.contactId}
+          profileOpen={profileOpen}
+          tags={tags}
+          templates={templates}
+          onToggleProfile={() => actions.setProfileOpen(!profileOpen)}
+          onUnread={()=>actions.setUnread(selectedChat.id, selectedChat.unread > 0 ? selectedChat.unread : 1)}
+          onSendMessage={(text)=>actions.sendMessage(selectedChat.id,text)}
+        />
+      )}
+
+      {/* DRAWER: CONTACT PROFILE / MATCH PANEL */}
+      {selectedChat && profileOpen && (
+        <ContactProfileDrawer
+          chat={selectedChat}
+          contact={selectedChat.contactId ? getContact(selectedChat.contactId) : null}
+          getUser={getUser}
+          getService={getService}
+          servicesForContact={servicesForContact}
+          onClose={() => actions.setProfileOpen(false)}
+          actions={actions}
+          openUserDetail={actions.openUserDetail}
+          openServiceDetail={actions.openServiceDetail}
+        />
+      )}
+    </div>
+  );
+}
+
+
+function LabelFilterSelect({ tags, value, onChange }) {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    const close = () => setOpen(false);
+    window.addEventListener("click", close);
+    return () => window.removeEventListener("click", close);
+  }, []);
+  const selected = tags.find(t => t.id === value);
+  return (
+    <div style={{position:"relative"}} onClick={e=>e.stopPropagation()}>
+      <button onClick={()=>setOpen(v=>!v)} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",gap:7,border:`1px solid ${C.border}`,borderRadius:8,padding:"6px 9px",background:C.bgPanel,color:C.textSoft,fontSize:12.5,cursor:"pointer"}}>
+        <span style={{display:"flex",alignItems:"center",gap:7}}>
+          {selected && <span style={{width:8,height:8,borderRadius:"50%",background:selected.color,display:"inline-block"}} />}
+          {selected ? selected.nama : "Semua Label"}
+        </span>
+        <ChevronDown size={14} color={C.textFaint}/>
+      </button>
+      {open && <div style={{position:"absolute",left:0,right:0,top:"calc(100% + 4px)",background:C.bgPanel,border:`1px solid ${C.border}`,borderRadius:8,boxShadow:"0 10px 24px rgba(0,0,0,.14)",padding:4,zIndex:50}}>
+        <button className="cc-filter-option" onClick={()=>{onChange(null);setOpen(false);}}>Semua Label</button>
+        {tags.map(t=><button key={t.id} className="cc-filter-option" onClick={()=>{onChange(t.id);setOpen(false);}} style={{display:"flex",alignItems:"center",gap:8,background:value===t.id?C.accentSoft:"transparent",fontWeight:value===t.id?700:500}}>
+          <span style={{width:8,height:8,borderRadius:"50%",background:t.color,display:"inline-block",flexShrink:0}} />{t.nama}
+        </button>)}
+      </div>}
+    </div>
+  );
+}
+
+function RemoveTagsModal({ chat, tags, onClose, onRemove }) {
+  const [selected, setSelected] = useState([]);
+  const assigned = (chat?.tagIds || []).map(id=>tags.find(t=>t.id===id)).filter(Boolean);
+  return (
+    <Modal title="Remove Label" onClose={onClose}>
+      <div style={{fontSize:12.5,color:C.textSoft,marginBottom:10}}>Pilih satu atau beberapa label yang ingin dihapus.</div>
+      <div className="flex flex-col gap-1.5" style={{maxHeight:240,overflowY:"auto"}}>
+        {assigned.map(tag=>{
+          const checked=selected.includes(tag.id);
+          return <button key={tag.id} onClick={()=>setSelected(prev=>checked?prev.filter(x=>x!==tag.id):[...prev,tag.id])}
+            style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,padding:"8px 9px",border:`1px solid ${checked?tag.color:C.border}`,borderRadius:8,background:checked?C.accentSoft:C.bgPanelAlt,color:C.text,cursor:"pointer",textAlign:"left"}}>
+            <span style={{display:"flex",alignItems:"center",gap:8}}><TagIcon size={14} color={tag.color}/>{tag.nama}</span>
+            {checked && <Check size={14} color={tag.color}/>}
+          </button>;
+        })}
+      </div>
+      <div className="flex justify-end gap-2" style={{marginTop:12}}>
+        <button onClick={onClose} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,cursor:"pointer"}}>Batal</button>
+        <button disabled={!selected.length} onClick={()=>onRemove(selected)} style={{padding:"7px 12px",border:"none",borderRadius:7,background:selected.length?C.accent:"#aeb7c5",color:"#fff",cursor:selected.length?"pointer":"not-allowed",fontWeight:600}}>Hapus Tag</button>
+      </div>
+    </Modal>
+  );
+}
+
+function ConversationView({ chat, displayName, contactPhone, isKnown, tags, templates, onToggleProfile, onUnread, onSendMessage }) {
+  const [message,setMessage] = useState("");
+  const [templateOpen,setTemplateOpen] = useState(false);
+  const activeTemplates = (templates || []).filter(t=>t.status==="Active");
+  const chatTags = (chat.tagIds || []).map(id=>tags.find(t=>t.id===id)).filter(Boolean);
+  const send = () => { const text=message.trim(); if(!text) return; onSendMessage(text); setMessage(""); };
+  return (
+    <div className="flex-1 flex flex-col min-w-0" style={{ background: C.chatBg }}>
+      <div className="flex items-center justify-between px-4 py-3" style={{ background: C.bgPanel, borderBottom: `1px solid ${C.border}` }}>
+        <div className="flex items-center gap-3 min-w-0 cursor-pointer" onClick={onToggleProfile}>
+          <Avatar size={36} />
+          <div className="min-w-0">
+            <div style={{display:"flex",alignItems:"center",gap:8,minWidth:0,flexWrap:"nowrap",overflow:"hidden"}}>
+              <div style={{fontSize:13.5,fontWeight:600,color:C.text,fontFamily:isKnown?undefined:"monospace"}}>{displayName}</div>
+              <div style={{display:"flex",alignItems:"center",gap:5,overflow:"hidden"}}>{chatTags.map(t=><Badge key={t.id} bg={C.bgPanelAlt} fg={t.color} border={t.color}>{t.nama}</Badge>)}</div>
+            </div>
+            {isKnown && contactPhone && <div style={{fontSize:11.5,color:C.textFaint}}>{contactPhone}</div>}
+            {!isKnown && <div style={{fontSize:11,color:C.warning,fontWeight:600}}>Nomor belum teridentifikasi</div>}
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <button onClick={onUnread} title="Tandai unread" style={{border:`1px solid ${chat.unread?C.accent:C.border}`,background:chat.unread?C.accentSoft:C.bgPanel,borderRadius:7,padding:"5px 9px",color:chat.unread?C.accent:C.textSoft,fontSize:11.5,fontWeight:700,cursor:"pointer"}}>Unread</button>
+          <MoreVertical size={17} color={C.textFaint} />
+        </div>
+      </div>
+      <div className="cc-conversation-context" style={{flex:1,overflowY:"auto",padding:"18px 22px",display:"flex",flexDirection:"column",gap:10,backgroundColor:C.chatBg,backgroundImage:C.chatPattern,backgroundRepeat:"repeat"}}>
+        <div style={{display:"flex",justifyContent:"center",margin:"2px 0 4px"}}><span style={{background:C.bgPanelAlt,color:C.textFaint,border:`1px solid ${C.border}`,borderRadius:999,padding:"3px 9px",fontSize:10.5,fontWeight:700}}>{chat.id === "CH1" ? "KEMARIN" : "11 AGUSTUS 2026"}</span></div>
+        {chat.messages.map((m,i)=><div key={i} style={{display:"flex",justifyContent:m.from==="cc"?"flex-end":"flex-start"}}><div style={{maxWidth:"62%",padding:"8px 12px",borderRadius:10,fontSize:13,lineHeight:1.45,background:m.from==="cc"?C.accentSoft:C.bgPanelAlt,border:`1px solid ${m.from==="cc"?C.accentSoftBorder:C.border}`,color:C.text}}>{m.text}<div style={{fontSize:10,color:C.textFaint,marginTop:4,textAlign:"right"}}>{m.time}</div></div></div>)}
+      </div>
+      <div className="px-4 py-3" style={{background:C.bgPanel,borderTop:`1px solid ${C.border}`}}>
+        <div className="flex items-center gap-2">
+          <div style={{position:"relative",flexShrink:0}}>
+            <button onClick={()=>setTemplateOpen(v=>!v)} style={{border:`1px solid ${C.border}`,background:C.bgPanelAlt,color:C.textSoft,borderRadius:8,padding:"8px 10px",fontSize:11.5,fontWeight:700,cursor:"pointer"}}>Template Chat</button>
+            {templateOpen && <div style={{position:"absolute",left:0,bottom:"calc(100% + 6px)",width:280,maxHeight:280,overflowY:"auto",background:C.bgPanel,border:`1px solid ${C.border}`,borderRadius:9,boxShadow:"0 10px 24px rgba(0,0,0,.16)",padding:5,zIndex:80}}>
+              {activeTemplates.map(t=><button key={t.id} onClick={()=>{setMessage(t.isi);setTemplateOpen(false)}} style={{display:"block",width:"100%",textAlign:"left",padding:"8px 9px",border:"none",borderRadius:7,background:"transparent",color:C.text,cursor:"pointer"}}><div style={{fontSize:12,fontWeight:700}}>{t.nama}</div><div style={{fontSize:11,color:C.textFaint,marginTop:2,lineHeight:1.35}}>{t.isi}</div></button>)}
+              {!activeTemplates.length && <div style={{padding:10,fontSize:12,color:C.textFaint,textAlign:"center"}}>Belum ada template Active.</div>}
+            </div>}
+          </div>
+          <input value={message} onChange={e=>setMessage(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"){e.preventDefault();send()}}} placeholder="Type a message..." style={{flex:1,border:`1px solid ${C.border}`,borderRadius:20,padding:"9px 14px",fontSize:13,outline:"none",background:C.bgPanel,color:C.text}} />
+          <button onClick={send} disabled={!message.trim()} style={{background:message.trim()?C.accent:"#aeb7c5",border:"none",borderRadius:"50%",width:36,height:36,display:"flex",alignItems:"center",justifyContent:"center",cursor:message.trim()?"pointer":"not-allowed",flexShrink:0}}><Send size={15} color="#fff"/></button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ContactProfileDrawer({ chat, contact, getUser, getService, servicesForContact, onClose, actions, openUserDetail, openServiceDetail }) {
+  const [fullscreen, setFullscreen] = useState(false);
+  const isUnknown = !chat.contactId;
+
+  return (
+    <div style={fullscreen ? { position:"fixed", inset:0, zIndex:200, width:"100vw", height:"100vh", background:C.bgPanel, display:"flex", flexDirection:"column" } : { width: 340, background: C.bgPanel, borderLeft: `1px solid ${C.border}`, display: "flex", flexDirection: "column", flexShrink: 0 }}>
+      <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: `1px solid ${C.border}` }}>
+        <span style={{ fontSize: 12.5, fontWeight: 700, color: C.textSoft, textTransform: "uppercase", letterSpacing: 0.4 }}>Contact Profile</span>
+        <div className="flex items-center gap-1">
+          <button title={fullscreen ? "Minimize" : "Fullscreen"} onClick={()=>setFullscreen(v=>!v)} style={{ border:"none", background:"transparent", cursor:"pointer", padding:4 }}>{fullscreen ? <Minimize2 size={16} color={C.textFaint}/> : <Maximize2 size={16} color={C.textFaint}/>}</button>
+        <button onClick={onClose} style={{ border: "none", background: "transparent", cursor: "pointer" }}>
+          <X size={16} color={C.textFaint} />
+        </button></div>
+      </div>
+
+      <div style={{ overflowY: "auto", flex: 1, padding: 16 }}>
+        {/* Identitas utama */}
+        <div className="flex flex-col items-center text-center pb-4" style={{ borderBottom: `1px solid ${C.border}`, marginBottom: 14 }}>
+          <Avatar size={64} />
+          <div style={{ fontSize: 15, fontWeight: 700, color: C.text, marginTop: 10, fontFamily: isUnknown ? "monospace" : undefined }}>
+            {contact ? contact.nama : chat.nomorHp}
+          </div>
+          <div style={{ fontSize: 12, color: C.textFaint, marginTop: 2 }}>{contact ? contact.nomorHp : chat.nomorHp}</div>
+          <div className="mt-2"><StatusDot status={contact ? contact.status : "Belum Teridentifikasi"} /></div>
+        </div>
+
+        {!isUnknown && (
+          <KnownContactBody
+            contact={contact}
+            getUser={getUser}
+            getService={getService}
+            servicesForContact={servicesForContact}
+            openUserDetail={openUserDetail}
+            openServiceDetail={openServiceDetail}
+            actions={actions}
+          />
+        )}
+
+        {isUnknown && (
+          <MatchPanel chat={chat} getUser={getUser} getService={getService} actions={actions} />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function KnownContactBody({ contact, getUser, getService, servicesForContact, openUserDetail, openServiceDetail, actions }) {
+  const links = servicesForContact(contact.contactId);
+  const ownerUserIds = [...new Set(links.map((l) => getService(l.pppoe)?.userId).filter(Boolean))];
+  const [matchOpen, setMatchOpen] = useState(false);
+  const [matchSearch, setMatchSearch] = useState("");
+  const [matchExecuted, setMatchExecuted] = useState(false);
+  const [candidate, setCandidate] = useState(null);
+  const [hubungan, setHubungan] = useState("");
+  const [matchNotice, setMatchNotice] = useState("");
+  const [matchFeedback, setMatchFeedback] = useState(null);
+
+  const relatedPppoe = new Set(links.map(l => l.pppoe));
+  const allServices = actions.getServices ? actions.getServices() : [];
+  const allServiceContacts = actions.getServiceContacts ? actions.getServiceContacts() : links;
+  const myPrimaryPppoe = (allServiceContacts.filter(sc => sc.contactId === contact.contactId && sc.primary)[0] || {}).pppoe || null;
+  const allServicesForStatus = () => allServices;
+  const searchPool = matchExecuted && matchSearch.trim()
+    ? evaluateServiceMatch(matchSearch, allServices, relatedPppoe).results
+    : [];
+
+  const closeMatch = () => {
+    setMatchOpen(false); setMatchSearch(""); setMatchExecuted(false); setCandidate(null); setHubungan(""); setMatchNotice("");
+  };
+  const confirmMatch = () => {
+    if (!candidate || !hubungan) { setMatchFeedback({type:"error",message:"Konfirmasi gagal, data belum lengkap."}); return; }
+    // Fitur "jadikan primary" dihapus dari card: link baru selalu Non-Primary
+    // (kecuali service belum punya primary → otomatis jadi Primary via action).
+    const ok = actions.confirmExistingServiceMatch(contact.contactId, candidate.pppoe, hubungan, false);
+    if (!ok) {
+      setMatchFeedback({type:"error",message:"Gagal menghubungkan service. Service sudah memiliki Primary Contact."});
+      return;
+    }
+    closeMatch();
+    setMatchFeedback({type:"success",message:"Service berhasil dihubungkan ke Contact ini."});
+  };
+
+  return (
+    <>
+      <button onClick={() => { setMatchOpen(true); setMatchSearch(""); setMatchExecuted(false); setCandidate(null); setHubungan(""); }}
+        className="mb-3 w-full py-2 rounded-md text-sm font-semibold flex items-center justify-center gap-1.5"
+        style={{background:C.accentSoft,color:C.accent,border:`1px solid ${C.accentSoftBorder}`,cursor:"pointer"}}>
+        <Search size={14}/> Cocokkan Layanan
+      </button>
+
+      <div style={{ fontSize: 12.5, fontWeight: 700, color: C.textSoft, textTransform: "uppercase", letterSpacing: 0.4, marginBottom: 8, marginTop: 2 }}>
+        User{ownerUserIds.length > 1 ? ` (${ownerUserIds.length})` : ""}
+      </div>
+      <div className="flex flex-col gap-2.5" style={{marginBottom:14}}>
+        {ownerUserIds.map((uid) => {
+          const u = getUser(uid);
+          if (!u) return null;
+          const userStatus = deriveUserStatus(u.userId, allServices);
+          return (
+            <div key={uid} style={{ border:`1px solid ${C.border}`, borderRadius:8, padding:"8px 10px", background:C.bgPanel }}>
+              <div className="flex items-start justify-between gap-2">
+                <div style={{minWidth:0, fontSize: 13, fontWeight: 700, color: C.text }}>{u.nama}</div>
+                <div style={{flexShrink:0}}><StatusDot status={userStatus} /></div>
+              </div>
+              <div style={{ fontSize: 11, color: C.textFaint, marginTop: 2 }}>{u.userId} • NIK {maskNik(u.nik)}</div>
+              <button onClick={() => openUserDetail(u.userId)} className="mt-1.5 w-full py-1 rounded-md text-sm font-semibold" style={{ background: C.accentSoft, color: C.accent, border: `1px solid ${C.accentSoftBorder}`, cursor: "pointer" }}>Detail</button>
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={{ fontSize: 12.5, fontWeight: 700, color: C.textSoft, textTransform: "uppercase", letterSpacing: 0.4, marginBottom: 8, marginTop: 4 }}>
+        Service ({links.length}){myPrimaryPppoe ? ` • Primary di ${myPrimaryPppoe}` : ""}
+      </div>
+      {links.length === 0 && <p style={{ fontSize: 12.5, color: C.textFaint }}>Belum ada Service yang terhubung ke Contact ini.</p>}
+      <div className="flex flex-col gap-2.5">
+        {links.map((l) => {
+          const svc = getService(l.pppoe);
+          if (!svc) return null;
+          const sc = statusColor(svc.status);
+          return (
+            <div key={l.id} style={{ border: `1px solid ${C.border}`, borderRadius: 8, padding: 9 }}>
+              <div className="flex items-center justify-between">
+                <span style={{ fontSize: 13.5, fontWeight: 700, color: C.text }}>{svc.pppoe}</span>
+                <Badge bg={sc.bg} fg={sc.fg}>{sc.label}</Badge>
+              </div>
+              <div style={{ fontSize: 12, color: C.textFaint, marginTop: 2 }}>{svc.paket} • {svc.branch}</div>
+              <div className="flex items-center gap-2 mt-2">
+                <Badge bg={C.bgPanelAlt} fg={C.textSoft} border={C.border}>Hubungan: {l.hubungan}</Badge>
+                {l.primary ? <Badge bg={C.successSoft} fg={C.success}>Primary</Badge> : <Badge bg={C.bgPanelAlt} fg={C.textFaint} border={C.border}>Non Primary</Badge>}
+              </div>
+              <button onClick={() => openServiceDetail(svc.pppoe)} className="mt-2.5 w-full py-1.5 rounded-md text-sm font-semibold" style={{ background: C.bgPanel, color: C.accent, border: `1px solid ${C.accentSoftBorder}`, cursor: "pointer" }}>Detail Service</button>
+            </div>
+          );
+        })}
+      </div>
+
+      {matchOpen && (
+        <Modal title="Cocokkan Layanan" onClose={closeMatch}>
+          <div style={{display:"flex",alignItems:"center",gap:7,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 9px",background:C.bgPanelAlt,marginBottom:8}}>
+            <Search size={14} color={C.textFaint}/>
+            <input autoFocus value={matchSearch} onChange={e=>{setMatchSearch(e.target.value);setMatchExecuted(false);setCandidate(null);setMatchNotice("");}} placeholder="PPoE Secret..." style={{border:"none",outline:"none",background:"transparent",color:C.text,width:"100%",fontSize:12.5}}/>
+          </div>
+          <button onClick={()=>{
+              setCandidate(null); setHubungan("");
+              const evalResult = evaluateServiceMatch(matchSearch, allServices, relatedPppoe);
+              if (evalResult.status === "empty" || evalResult.status === "already") {
+                setMatchExecuted(false); setMatchNotice(evalResult.notice); return;
+              }
+              setMatchNotice(""); setMatchExecuted(true);
+            }}
+            style={{width:"100%",background:C.accent,color:"#fff",border:"none",borderRadius:8,padding:"8px 0",fontSize:12.5,fontWeight:600,cursor:"pointer",marginBottom:10}}>
+            Cari Layanan
+          </button>
+
+          {matchNotice && <div style={{background:C.warningSoft,border:`1px solid ${C.warningSoftBorder || C.border}`,color:C.warning,padding:"8px 9px",borderRadius:8,fontSize:12,marginBottom:8}}>⚠ {matchNotice}</div>}
+          {!matchExecuted && !matchNotice && <div style={{fontSize:12,color:C.textFaint,textAlign:"center",padding:"10px 4px"}}>Masukkan PPoE Secret atau alamat, lalu klik Cari Layanan.</div>}
+          {matchExecuted && !candidate && (
+            <div className="flex flex-col gap-1.5" style={{maxHeight:250,overflowY:"auto"}}>
+              {searchPool.map(svc => {
+                const owner = getUser(svc.userId);
+                return <button key={svc.pppoe} onClick={()=>setCandidate(svc)}
+                  style={{textAlign:"left",padding:9,border:`1px solid ${C.border}`,borderRadius:8,background:C.bgPanel,color:C.text,cursor:"pointer"}}>
+                  <div style={{fontSize:12.5,fontWeight:700}}>{svc.pppoe}</div>
+                  <div style={{fontSize:11.5,color:C.textFaint}}>{owner?.nama || "-"} • {svc.alamat || "-"} • {svc.status}</div>
+                  <div style={{marginTop:5,fontSize:11.5,color:C.accent,fontWeight:600}}>Pilih Layanan</div>
+                </button>;
+              })}
+              {!searchPool.length && <div style={{fontSize:12,color:C.warning,padding:10,textAlign:"center"}}>⚠ PPoE Secret tidak ditemukan</div>}
+            </div>
+          )}
+          {candidate && (
+            <SectionCard title="Kandidat Service">
+              <div style={{fontSize:13.5,fontWeight:700,color:C.text}}>{candidate.pppoe}</div>
+              <div style={{fontSize:12,color:C.textFaint,marginTop:2}}>{candidate.status} • {candidate.paket} • {candidate.branch}</div>
+              <div style={{fontSize:12,color:C.textSoft,marginTop:5}}>User: <b>{getUser(candidate.userId)?.nama || "-"}</b> ({candidate.userId})</div>
+              <div style={{fontSize:12,color:C.textSoft,marginTop:2}}>Alamat: {candidate.alamat || "-"}</div>
+              <SectionCard title="Konfirmasi Data Contact">
+                <div className="flex flex-col gap-2.5">
+                  <InfoRow label="Nomor HP" value={contact.nomorHp}/>
+                  <InfoRow label="Nama" value={contact.nama}/>
+                  <div>
+                    <label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Hubungan dengan pemilik layanan</label>
+                    <select value={hubungan} onChange={e=>setHubungan(e.target.value)} style={{width:"100%",marginTop:3,fontSize:12.5,border:`1px solid ${C.border}`,borderRadius:7,padding:"7px 8px",background:C.bgPanel,color:C.text}}>
+                      <option value="">Pilih hubungan</option>
+                      {["Pemilik","Keluarga","Pasangan","Anak","Orang Tua","PIC","Karyawan","Lainnya"].map(x=><option key={x}>{x}</option>)}
+                    </select>
+                  </div>
+                  <div style={{fontSize:11,color:C.textFaint,lineHeight:1.45}}>Nomor baru akan ditambahkan sebagai Non-Primary.</div>
+                </div>
+                <div className="flex justify-end gap-2 mt-3">
+                  <button onClick={()=>{setCandidate(null);setHubungan("");}} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.textSoft,cursor:"pointer"}}>Batal</button>
+                  <button disabled={!hubungan} onClick={()=>{confirmMatch();}} style={{padding:"7px 12px",border:"none",borderRadius:7,background:hubungan?C.accent:"#aeb7c5",color:"#fff",cursor:hubungan?"pointer":"not-allowed"}}>Konfirmasi</button>
+                </div>
+              </SectionCard>
+            </SectionCard>
+          )}
+        </Modal>
+      )}
+      {matchFeedback && <CR12Toast message={matchFeedback.message} type={matchFeedback.type} onClose={()=>setMatchFeedback(null)}/>}
+    </>
+  );
+}
+
+function MatchPanel({ chat, getUser, getService, actions }) {
+  const [search, setSearch] = useState("");
+  const [searched, setSearched] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [notice, setNotice] = useState("");
+  const allServices = actions.getServices ? actions.getServices() : [];
+  const results = searched && search.trim() ? evaluateServiceMatch(search, allServices, new Set()).results : [];
+
+  if (chat.matchStep === "acc") {
+    return <div style={{ background: C.successSoft, border: `1px solid #b9e6cb`, borderRadius: 8, padding: 9, textAlign: "center" }}>
+      <Check size={18} color={C.success} style={{ margin: "0 auto 6px" }} />
+      <p style={{ fontSize: 12.5, color: C.success, fontWeight: 600 }}>Contact berhasil dibuat &amp; disimpan.</p>
+    </div>;
+  }
+
+  const selectedService = selected || (chat.matchStep === "matched" ? getService(chat.candidatePppoe) : null);
+  const owner = selectedService ? getUser(selectedService.userId) : null;
+
+  return (
+    <div>
+      {!selectedService && (
+        <SectionCard title="Cocokkan Layanan">
+          <p style={{fontSize:11.5,color:C.textFaint,lineHeight:1.5,marginBottom:9}}>Masukkan PPoE Secret untuk mencari kandidat Service.</p>
+          <div style={{display:"flex",alignItems:"center",gap:7,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 9px",background:C.bgPanelAlt,marginBottom:8}}>
+            <Search size={14} color={C.textFaint}/>
+            <input value={search} onChange={e=>{setSearch(e.target.value);setSearched(false);setSelected(null);setNotice("")}} placeholder="PPoE Secret..." style={{border:"none",outline:"none",background:"transparent",color:C.text,width:"100%",fontSize:12.5}}/>
+          </div>
+          <button onClick={()=>{
+              setSelected(null);
+              const evalResult = evaluateServiceMatch(search, allServices, new Set());
+              if (evalResult.status === "empty") { setSearched(false); setNotice(evalResult.notice); return; }
+              setNotice(""); setSearched(true);
+            }} style={{width:"100%",background:C.accent,color:"#fff",border:"none",borderRadius:8,padding:"8px 0",fontSize:12.5,fontWeight:600,cursor:"pointer"}}>Cari Layanan</button>
+          {notice && <div style={{background:C.warningSoft,border:`1px solid ${C.warningSoftBorder || C.border}`,color:C.warning,padding:"8px 9px",borderRadius:8,fontSize:12,marginTop:8}}>⚠ {notice}</div>}
+          {!searched && !notice && <div style={{fontSize:11.5,color:C.textFaint,textAlign:"center",padding:"10px 2px 2px"}}>Hasil layanan akan muncul setelah pencarian dikonfirmasi.</div>}
+          {searched && !results.length && <div style={{fontSize:12,color:C.warning,textAlign:"center",padding:"12px 2px 2px"}}>⚠ PPoE Secret tidak ditemukan</div>}
+          {searched && results.length > 0 && <div className="flex flex-col gap-1.5" style={{marginTop:10,maxHeight:220,overflowY:"auto"}}>
+            {results.map(svc=>{
+              const owner=getUser(svc.userId);
+              return <button key={svc.pppoe} onClick={()=>{setSelected(svc);setNotice("");actions.selectUnknownService(chat.id,svc.pppoe);}}
+                style={{textAlign:"left",padding:9,border:`1px solid ${C.border}`,borderRadius:8,background:C.bgPanel,color:C.text,cursor:"pointer"}}>
+                <div style={{fontSize:12.5,fontWeight:700}}>{svc.pppoe}</div>
+                <div style={{fontSize:11.5,color:C.textFaint}}>{owner?.nama || "-"} • {svc.alamat || "-"} • {svc.status}</div>
+                <div style={{marginTop:5,fontSize:11.5,color:C.accent,fontWeight:600}}>Pilih Layanan</div>
+              </button>;
+            })}
+          </div>}
+        </SectionCard>
+      )}
+
+      {selectedService && (
+        <>
+          <div style={{background:C.warningSoft,border:`1px solid #f0dcb4`,borderRadius:10,padding:12,marginBottom:12}}>
+            <div className="flex items-center gap-2 mb-1"><Info size={14} color={C.warning}/><span style={{fontSize:12.5,fontWeight:700,color:C.warning}}>Kandidat Match — Belum Jadi Contact</span></div>
+            <p style={{fontSize:12,color:"#7a5416",lineHeight:1.5}}>Match hanya menghasilkan kandidat. Contact resmi baru dibuat setelah Customer Care mengonfirmasi data.</p>
+          </div>
+          <SectionCard title="Kandidat Service">
+            <div style={{fontSize:13.5,fontWeight:700,color:C.text}}>{selectedService.pppoe}</div>
+            <div style={{fontSize:12,color:C.textFaint,marginTop:2}}>{selectedService.status} • {selectedService.paket} • {selectedService.branch}</div>
+            <div style={{fontSize:12,color:C.textSoft,marginTop:6}}>Nama User: <b>{owner?.nama || "-"}</b></div>
+            <div style={{fontSize:12,color:C.textSoft,marginTop:2}}>Alamat: {selectedService.alamat || "-"}</div>
+          </SectionCard>
+          {chat.matchStep === "matched" && (
+            <button onClick={()=>actions.matchAskRelation(chat.id)} style={{width:"100%",background:C.accent,color:"#fff",border:"none",borderRadius:8,padding:"9px 0",fontSize:13,fontWeight:600,cursor:"pointer"}}>
+              Tanyakan Hubungan ke Customer
+            </button>
+          )}
+          {chat.matchStep === "asked" && <div style={{textAlign:"center",padding:"14px 0"}}>
+            <p style={{fontSize:12.5,color:C.textFaint,marginBottom:10}}>Menunggu balasan customer mengenai hubungannya dengan pemilik layanan...</p>
+            <button onClick={()=>actions.matchSimulateReply(chat.id)} style={{width:"100%",background:C.bgPanel,color:C.accent,border:`1px solid ${C.accentSoftBorder}`,borderRadius:8,padding:"9px 0",fontSize:13,fontWeight:600,cursor:"pointer"}}>(Simulasi) Customer Membalas</button>
+          </div>}
+          {chat.matchStep === "replied" && <ConfirmContactForm chat={chat} actions={actions} />}
+        </>
+      )}
+    </div>
+  );
+}
+
+function ConfirmContactForm({ chat, actions }) {
+  const [nama, setNama] = useState(chat.candidateNama || "");
+  const [hubungan, setHubungan] = useState(chat.candidateHubungan || "");
+  const [accError, setAccError] = useState("");
+  const relationshipOptions = ["Pemilik","Keluarga","Pasangan","Anak","Orang Tua","PIC","Karyawan","Lainnya"];
+
+  const doAcc = () => {
+    // Fitur "jadikan primary" dihapus dari card: contact baru selalu Non-Primary
+    // (kecuali service belum punya primary → otomatis jadi Primary via action).
+    const ok = actions.matchConfirmAcc(chat.id, { nama:nama.trim(), hubungan, primary: false });
+    if (!ok) {
+      setAccError("Gagal membuat contact. Service sudah memiliki Primary Contact.");
+      return;
+    }
+    setAccError("");
+  };
+
+  return (
+    <SectionCard title="Konfirmasi Data Contact">
+      <p style={{ fontSize: 11.5, color: C.textFaint, marginBottom: 10, lineHeight: 1.5 }}>
+        Customer sudah membalas hubungannya. Lengkapi &amp; setujui data berikut sebelum Contact resmi dibuat.
+      </p>
+      <div className="flex flex-col gap-2.5">
+        <div>
+          <label style={{ fontSize: 11, color: C.textFaint, fontWeight: 600 }}>Nomor HP</label>
+          <div style={{ fontSize: 13, fontWeight: 600, color: C.text, fontFamily: "monospace" }}>{chat.nomorHp}</div>
+        </div>
+        <div>
+          <label style={{ fontSize: 11, color: C.textFaint, fontWeight: 600 }}>Nama</label>
+          <input value={nama} onChange={(e) => setNama(e.target.value)} placeholder="Nama customer..." style={{ width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "7px 10px", fontSize: 12.5, marginTop: 2, background:C.bgPanel, color:C.text }} />
+        </div>
+        <div>
+          <label style={{ fontSize: 11, color: C.textFaint, fontWeight: 600 }}>Hubungan dengan pemilik layanan</label>
+          <select value={hubungan} onChange={(e) => setHubungan(e.target.value)} style={{ width:"100%", marginTop:3, fontSize:12.5, border:`1px solid ${C.border}`, borderRadius:7, padding:"7px 8px", background:C.bgPanel, color:C.text }}>
+            <option value="">Pilih hubungan</option>
+            {relationshipOptions.map(x => <option key={x} value={x}>{x}</option>)}
+          </select>
+        </div>
+        <div style={{fontSize:11,color:C.textFaint,lineHeight:1.45}}>Nomor baru akan ditambahkan sebagai Non-Primary.</div>
+      </div>
+      {accError && <div style={{marginTop:8,background:C.dangerSoft,border:`1px solid ${C.danger}`,color:C.danger,padding:"8px 9px",borderRadius:8,fontSize:11.5,lineHeight:1.45}}>{accError}</div>}
+      <button
+        disabled={!nama.trim() || !hubungan}
+        onClick={() => {
+          setAccError("");
+          doAcc();
+        }}
+        className="mt-3 w-full py-2 rounded-md text-sm font-semibold"
+        style={{
+          background: !nama.trim() || !hubungan ? "#c7cedb" : C.success, color: "#fff", border: "none",
+          cursor: !nama.trim() || !hubungan ? "not-allowed" : "pointer",
+        }}
+      >
+        Konfirmasi (ACC) &amp; Buat Contact
+      </button>
+    </SectionCard>
+  );
+}
+
+/* ============================================================
+   TAG MODULE
+   ============================================================ */
+function TagModule({ tags, setTags }) {
+  const [modal, setModal] = useState(null); // {mode:'add'|'edit', id, name, color}
+  const [deleteId, setDeleteId] = useState(null);
+
+  const openAdd = () => setModal({ mode: "add", name: "", color: "#3b6fe6" });
+  const openEdit = (t) => setModal({ mode: "edit", id: t.id, name: t.nama, color: t.color });
+
+  const save = () => {
+    if (!modal.name.trim()) return;
+    if (modal.mode === "add") {
+      setTags([...tags, { id: "T" + Date.now(), nama: modal.name.trim(), color: modal.color }]);
+    } else {
+      setTags(tags.map((t) => (t.id === modal.id ? { ...t, nama: modal.name.trim(), color: modal.color } : t)));
+    }
+    setModal(null);
+  };
+
+  const confirmDelete = () => {
+    setTags(tags.filter((t) => t.id !== deleteId));
+    setDeleteId(null);
+  };
+
+  return (
+    <div className="flex-1 flex flex-col min-w-0" style={{ background: C.bgApp }}>
+      <ListPageHeader
+        icon={<TagIcon size={17} color={C.accent} />}
+        title="Tag"
+        subtitle="Kelola label operasional untuk Chat Customer Care"
+        action={
+          <button onClick={openAdd} className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold" style={{ background: C.accent, color: "#fff", border: "none", cursor: "pointer" }}>
+            <Plus size={15} /> Tambah Tag
+          </button>
+        }
+      />
+      <div className="p-6" style={{ maxWidth: 640 }}>
+        {tags.length === 0 && (
+          <div className="text-center py-16" style={{ color: C.textFaint, fontSize: 13 }}>
+            Belum ada Tag. Klik "Tambah Tag" untuk membuat yang pertama.
+          </div>
+        )}
+        <div className="flex flex-col gap-2">
+          {tags.map((t) => (
+            <div key={t.id} className="flex items-center justify-between px-4 py-3" style={{ background: C.bgPanel, border: `1px solid ${C.border}`, borderRadius: 10 }}>
+              <div className="flex items-center gap-2.5">
+                <span style={{ width: 10, height: 10, borderRadius: "50%", background: t.color, display: "inline-block" }} />
+                <span style={{ fontSize: 13.5, fontWeight: 600, color: C.text }}>{t.nama}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <button onClick={() => openEdit(t)} style={{ border: "none", background: "transparent", cursor: "pointer", padding: 6 }}>
+                  <Pencil size={15} color={C.textFaint} />
+                </button>
+                <button onClick={() => setDeleteId(t.id)} style={{ border: "none", background: "transparent", cursor: "pointer", padding: 6 }}>
+                  <Trash2 size={15} color={C.danger} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {modal && (
+        <Modal onClose={() => setModal(null)} title={modal.mode === "add" ? "Tambah Tag" : "Edit Tag"}>
+          <label style={{ fontSize: 12, fontWeight: 600, color: C.textSoft }}>Nama Tag</label>
+          <input
+            autoFocus value={modal.name} onChange={(e) => setModal({ ...modal, name: e.target.value })}
+            style={{ width: "100%", border: `1px solid ${C.border}`, borderRadius: 8, padding: "8px 10px", fontSize: 13, margin: "6px 0 14px" }}
+          />
+          <label style={{ fontSize: 12, fontWeight: 600, color: C.textSoft }}>Warna</label>
+          <div className="flex items-center gap-2 mb-5"><input type="color" value={modal.color} onChange={e=>setModal({...modal,color:e.target.value})} style={{width:42,height:34,padding:2,border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel}}/><span style={{fontSize:11.5,color:C.textFaint}}>Pilih warna bebas</span><span style={{fontSize:11.5,color:C.textSoft,fontFamily:"monospace"}}>{modal.color}</span></div>
+          <div className="flex justify-end gap-2">
+            <button onClick={() => setModal(null)} style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${C.border}`, background: C.bgPanel, fontSize: 13, cursor: "pointer" }}>Batal</button>
+            <button onClick={save} style={{ padding: "8px 14px", borderRadius: 8, border: "none", background: C.accent, color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer" }}>Simpan</button>
+          </div>
+        </Modal>
+      )}
+
+      {deleteId && (
+        <Modal onClose={() => setDeleteId(null)} title="Hapus Tag">
+          <p style={{ fontSize: 13, color: C.textSoft, marginBottom: 18 }}>
+            Yakin ingin menghapus tag <b>{tags.find((t) => t.id === deleteId)?.nama}</b>? Tindakan ini tidak dapat dibatalkan.
+          </p>
+          <div className="flex justify-end gap-2">
+            <button onClick={() => setDeleteId(null)} style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${C.border}`, background: C.bgPanel, fontSize: 13, cursor: "pointer" }}>Batal</button>
+            <button onClick={confirmDelete} style={{ padding: "8px 14px", borderRadius: 8, border: "none", background: C.danger, color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer" }}>Hapus</button>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+function Modal({ title, children, onClose, width = 340 }) {
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "rgba(20,24,32,0.4)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 50, padding: 16 }} onClick={onClose}>
+      <div onClick={(e) => e.stopPropagation()} style={{ background: C.bgPanel, borderRadius: 12, padding: 20, width: `min(${width}px, calc(100vw - 32px))`, maxHeight: "calc(100vh - 32px)", overflowY: "auto", boxShadow: "0 12px 32px rgba(0,0,0,0.18)" }}>
+        <div className="flex items-center justify-between mb-4">
+          <h3 style={{ fontSize: 14.5, fontWeight: 700, color: C.text }}>{title}</h3>
+          <button onClick={onClose} style={{ border: "none", background: "transparent", cursor: "pointer" }}><X size={16} color={C.textFaint} /></button>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function FilterSelect({ label, value, options, onChange }) {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    const close = () => setOpen(false);
+    window.addEventListener("click", close);
+    return () => window.removeEventListener("click", close);
+  }, []);
+  const display = value ? `${label}: ${value}` : label;
+  return (
+    <div className="cc-filter-menu" onClick={e => e.stopPropagation()}>
+      <button className="cc-filter-button" onClick={() => setOpen(v => !v)}>{display}<ChevronDown size={13} color={C.textFaint}/></button>
+      {open && <div style={{position:"absolute",top:"calc(100% + 4px)",right:0,minWidth:150,maxHeight:220,overflowY:"auto",background:C.bgPanel,border:`1px solid ${C.border}`,borderRadius:8,boxShadow:"0 10px 24px rgba(0,0,0,.14)",padding:4,zIndex:30}}>
+        {options.map(opt => <button key={opt.value} className="cc-filter-option" style={{background:value===opt.value?C.accentSoft:"transparent",fontWeight:value===opt.value?700:500}} onClick={() => {onChange(opt.value);setOpen(false);}}>{opt.label}</button>)}
+      </div>}
+    </div>
+  );
+}
+
+/* ============================================================
+   USER MODULE
+   ============================================================ */
+
+function TemplateChatModule({ templates, actions }) {
+  const [search,setSearch]=useState("");
+  const [statusFilter,setStatusFilter]=useState("");
+  const [modal,setModal]=useState(null);
+  const [deleteId,setDeleteId]=useState(null);
+  const rows=(templates||[]).filter(t=>!statusFilter||t.status===statusFilter).filter(t=>{
+    const q=search.toLowerCase();
+    return !q || t.nama.toLowerCase().includes(q) || t.isi.toLowerCase().includes(q);
+  });
+  const save=()=>{
+    if(!modal?.nama?.trim() || !modal?.isi?.trim()) return;
+    if(modal.mode==="add") actions.createTemplate({id:"TPL"+Date.now(),nama:modal.nama.trim(),isi:modal.isi.trim(),status:modal.status});
+    else actions.updateTemplate(modal.id,{nama:modal.nama.trim(),isi:modal.isi.trim(),status:modal.status});
+    setModal(null);
+  };
+  return <div className="flex-1 flex flex-col min-w-0" style={{background:C.bgApp,overflowY:"auto"}}>
+    <ListPageHeader icon={<MessageCircle size={17} color={C.accent}/>} title="Template Chat" subtitle={`${templates.length} template terdaftar`} action={<button onClick={()=>setModal({mode:"add",nama:"",isi:"",status:"Active"})} className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold" style={{background:C.accent,color:"#fff",border:"none",cursor:"pointer"}}><Plus size={15}/> Tambah Template</button>}/>
+    <div className="px-6 pt-4 flex gap-2">
+      <div style={{display:"flex",alignItems:"center",gap:7,flex:1,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 10px",background:C.bgPanel}}><Search size={14} color={C.textFaint}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Cari nama atau isi template" style={{border:"none",outline:"none",background:"transparent",color:C.text,width:"100%",fontSize:12.5}}/></div>
+      <FilterSelect label="Status" value={statusFilter} onChange={setStatusFilter} options={[{value:"",label:"All"},{value:"Active",label:"Active"},{value:"Non Active",label:"Non Active"}]}/>
+    </div>
+    <div className="p-6"><DataTable columns={[
+      {key:"nama",label:"Nama Template"},
+      {key:"isi",label:"Isi Template"},
+      {key:"status",label:"Status",render:r=><StatusDot status={r.status}/>},
+      {key:"action",label:"Action",render:r=><div className="flex gap-1.5"><button onClick={e=>{e.stopPropagation();setModal({mode:"edit",...r})}} style={{padding:"4px 8px",border:`1px solid ${C.border}`,borderRadius:6,background:C.bgPanel,color:C.accent,fontSize:11,cursor:"pointer"}}>Edit</button><button onClick={e=>{e.stopPropagation();setDeleteId(r.id)}} style={{padding:"4px 8px",border:`1px solid ${C.danger}`,borderRadius:6,background:C.dangerSoft,color:C.danger,fontSize:11,cursor:"pointer"}}>Delete</button></div>}
+    ]} rows={rows}/>
+    </div>
+    {modal && <Modal title={modal.mode==="add"?"Tambah Template":"Edit Template"} onClose={()=>setModal(null)}>
+      <div className="flex flex-col gap-3">
+        <div><label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Nama Template</label><input autoFocus value={modal.nama} onChange={e=>setModal({...modal,nama:e.target.value})} style={{width:"100%",marginTop:4,padding:"8px 9px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12.5}}/></div>
+        <div><label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Isi Template</label><textarea value={modal.isi} onChange={e=>setModal({...modal,isi:e.target.value})} style={{width:"100%",minHeight:110,marginTop:4,padding:"8px 9px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12.5}}/></div>
+        <div><label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Status</label><select value={modal.status} onChange={e=>setModal({...modal,status:e.target.value})} style={{width:"100%",marginTop:4,padding:"8px 9px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12.5}}><option>Active</option><option>Non Active</option></select></div>
+        <div className="flex justify-end gap-2"><button onClick={()=>setModal(null)} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,cursor:"pointer"}}>Batal</button><button disabled={!modal.nama.trim()||!modal.isi.trim()} onClick={save} style={{padding:"7px 12px",border:"none",borderRadius:7,background:modal.nama.trim()&&modal.isi.trim()?C.accent:"#aeb7c5",color:"#fff",fontWeight:600,cursor:modal.nama.trim()&&modal.isi.trim()?"pointer":"not-allowed"}}>Simpan</button></div>
+      </div>
+    </Modal>}
+    {deleteId && <Modal title="Hapus Template" onClose={()=>setDeleteId(null)}><div style={{fontSize:12.5,color:C.text,lineHeight:1.5,marginBottom:14}}>Apakah Anda yakin ingin menghapus template ini?</div><div className="flex justify-end gap-2"><button onClick={()=>setDeleteId(null)} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,cursor:"pointer"}}>Batal</button><button onClick={()=>{actions.deleteTemplate(deleteId);setDeleteId(null)}} style={{padding:"7px 12px",border:"none",borderRadius:7,background:C.danger,color:"#fff",fontWeight:600,cursor:"pointer"}}>Hapus</button></div></Modal>}
+  </div>;
+}
+
+function UserModule({ users, services, contacts, serviceContacts, selectedUserId, openUserDetail, back, openServiceDetail }) {
+  const user = users.find((u) => u.userId === selectedUserId);
+  const [search,setSearch]=useState(""); const [statusFilter,setStatusFilter]=useState("");
+
+  if (!user) {
+    const rows = users.filter(u=>!search||[u.userId,u.nik,u.nama].some(v=>String(v).toLowerCase().includes(search.toLowerCase()))).filter(u=>!statusFilter||deriveUserStatus(u.userId, services)===statusFilter).map((u) => ({ ...u, status: deriveUserStatus(u.userId, services), serviceCount: services.filter((s) => s.userId === u.userId).length }));
+    return (
+      <div className="flex-1 flex flex-col min-w-0" style={{ background: C.bgApp }}>
+        <ListPageHeader icon={<Users size={17} color={C.accent} />} title="User" subtitle={`${users.length} user terdaftar`} />
+        <div className="px-6 pt-4 flex gap-2"><div style={{display:"flex",alignItems:"center",gap:7,flex:1,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 10px",background:C.bgPanel}}><Search size={14} color={C.textFaint}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Cari User ID, NIK, atau Nama" style={{border:"none",outline:"none",background:"transparent",color:C.text,width:"100%",fontSize:12.5}}/></div><FilterSelect label="Status" value={statusFilter} onChange={setStatusFilter} options={[{value:"",label:"All"},{value:"Active",label:"Active"},{value:"Non Active",label:"Non Active"}]}/></div>
+        <div className="p-6">
+          <DataTable
+            columns={[
+              { key: "userId", label: "User ID" },
+              { key: "nik", label: "NIK", render: (r) => maskNik(r.nik) },
+              { key: "nama", label: "Nama Lengkap" },
+              { key: "serviceCount", label: "Jumlah Service" },
+              { key: "status", label: "Status", render: (r) => <StatusDot status={r.status} /> },
+            ]}
+            rows={rows}
+            onRowClick={(r) => openUserDetail(r.userId)}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  const userServices = services.filter((s) => s.userId === user.userId);
+  const contactRows = Array.from(new Map(
+    userServices.flatMap(s => serviceContacts.filter(sc => sc.pppoe === s.pppoe).map(sc => contacts.find(c => c.contactId === sc.contactId)))
+      .filter(Boolean).map(c => [c.nomorHp, {nomorHp:c.nomorHp, nama:c.nama || "-", status:c.status}])
+  ).values());
+
+  return (
+    <div className="flex-1 flex flex-col min-w-0" style={{ background: C.bgApp, overflowY: "auto" }}>
+      <DetailHeader onBack={back} title={user.nama} subtitle={user.userId} statusBadge={<StatusDot status={deriveUserStatus(user.userId, services)} />} />
+      <div className="p-6" style={{ maxWidth: 780 }}>
+        <SectionCard title="Overview">
+          <InfoRow label="User ID" value={user.userId} />
+          <InfoRow label="NIK" value={maskNik(user.nik)} />
+          <InfoRow label="Nama Lengkap" value={user.nama} />
+          <InfoRow label="TTL" value={user.ttl} />
+          <InfoRow label="Provinsi" value={user.provinsi} />
+          <InfoRow label="Kota/Kabupaten" value={user.kotaKab} />
+          <InfoRow label="Kecamatan" value={user.kecamatan} />
+          <InfoRow label="Kelurahan" value={user.kelurahan} />
+          <InfoRow label="Alamat" value={user.alamat} />
+          <InfoRow label="Status User" value={<StatusDot status={deriveUserStatus(user.userId, services)} />} />
+        </SectionCard>
+
+        <SectionCard title={`Service Cards (${userServices.length})`}>
+          {userServices.length === 0 && <p style={{ fontSize: 12.5, color: C.textFaint }}>User ini belum memiliki Service.</p>}
+          <div className="flex flex-col gap-2.5">
+            {userServices.map((s) => {
+              const sc = statusColor(s.status);
+              return (
+                <div key={s.pppoe} style={{ border: `1px solid ${C.border}`, borderRadius: 10, padding: 12 }}>
+                  <div className="flex items-center justify-between">
+                    <span style={{ fontSize: 13.5, fontWeight: 700 }}>{s.pppoe}</span>
+                    <Badge bg={sc.bg} fg={sc.fg}>{sc.label}</Badge>
+                  </div>
+                  <div style={{ fontSize: 12, color: C.textFaint, marginTop: 2 }}>{s.paket} • Subscribe s.d. {s.subExpired}</div>
+                  <button onClick={() => openServiceDetail(s.pppoe)} className="mt-2.5 py-1.5 px-3 rounded-md text-sm font-semibold" style={{ background: C.bgPanel, color: C.accent, border: `1px solid ${C.accentSoftBorder}`, cursor: "pointer" }}>
+                    Detail Service
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </SectionCard>
+
+        <SectionCard title="Contact Table">
+          <DataTable
+            columns={[
+              { key: "nomorHp", label: "Nomor HP" },
+              { key: "nama", label: "Nama" },
+              { key: "status", label: "Status", render:r=><StatusDot status={r.status}/> },
+            ]}
+            rows={contactRows}
+            emptyLabel="Belum ada Contact yang terhubung."
+          />
+        </SectionCard>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+   SERVICE MODULE
+   ============================================================ */
+function ServiceModule({ services, users, contacts, serviceContacts, selectedPppoe, openServiceDetail, back, openUserDetail, onChangePrimary, actions }) {
+  const service = services.find((s) => s.pppoe === selectedPppoe);
+  const [search,setSearch]=useState("");
+  const [statusFilter,setStatusFilter]=useState("");
+  const [branchFilter,setBranchFilter]=useState("");
+  const [paketFilter,setPaketFilter]=useState("");
+  const [editServiceContact, setEditServiceContact] = useState(null);
+  const [editServiceRelationship, setEditServiceRelationship] = useState("");
+  const [editServicePrimary, setEditServicePrimary] = useState(false);
+  const [pendingPrimary, setPendingPrimary] = useState(null);
+  const [feedback, setFeedback] = useState(null);
+  const [editServiceOpen, setEditServiceOpen] = useState(false);
+  const [editPaket, setEditPaket] = useState(service?.paket || "10 Mbps");
+  const [editDiscount, setEditDiscount] = useState(service?.discountValue || "");
+  const [editDiscountType, setEditDiscountType] = useState(service?.discountType || "Permanent");
+  const [terminationOpen, setTerminationOpen] = useState(false);
+  const [terminationCategory, setTerminationCategory] = useState("");
+  const [terminationApprovalFile, setTerminationApprovalFile] = useState(null);
+  const [terminationDate, setTerminationDate] = useState("");
+  const [terminationTime, setTerminationTime] = useState("");
+  const [terminationNote, setTerminationNote] = useState("");
+  const [terminationConfirm, setTerminationConfirm] = useState(false);
+
+  const closeFeedback = () => setTimeout(() => setFeedback(null), 1800);
+
+  if (!service) {
+    const rows = services
+      .filter(s=>!search||[s.pppoe,s.userId,users.find(u=>u.userId===s.userId)?.nama].some(v=>String(v||"").toLowerCase().includes(search.toLowerCase())))
+      .filter(s=>!statusFilter||s.status===statusFilter)
+      .filter(s=>!branchFilter||s.branch===branchFilter)
+      .filter(s=>!paketFilter||s.paket===paketFilter)
+      .map((s) => ({ ...s, userNama: users.find((u) => u.userId === s.userId)?.nama }));
+    return (
+      <div className="flex-1 flex flex-col min-w-0" style={{ background: C.bgApp }}>
+        <ListPageHeader icon={<Wifi size={17} color={C.accent} />} title="Service" subtitle={`${services.length} layanan terdaftar`} />
+        <div className="px-6 pt-4 flex gap-2">
+          <div style={{display:"flex",alignItems:"center",gap:7,flex:1,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 10px",background:C.bgPanel}}>
+            <Search size={14} color={C.textFaint}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Cari PPPoE, User, atau data service" style={{border:"none",outline:"none",background:"transparent",color:C.text,width:"100%",fontSize:12.5}}/>
+          </div>
+          <FilterSelect label="Status Service" value={statusFilter} onChange={setStatusFilter} options={[{value:"",label:"All"},{value:"Active",label:"Active"},{value:"Isolir",label:"Isolir"},{value:"Terminated",label:"Terminated"}]}/>
+          <FilterSelect label="Branch" value={branchFilter} onChange={setBranchFilter} options={[{value:"",label:"All"}, ...[...new Set(services.map(s=>s.branch))].map(x=>({value:x,label:x}))]}/>
+          <FilterSelect label="Paket" value={paketFilter} onChange={setPaketFilter} options={[{value:"",label:"All"}, ...[...new Set(services.map(s=>s.paket))].map(x=>({value:x,label:x}))]}/>
+        </div>
+        <div className="p-6">
+          <DataTable columns={[
+            { key: "pppoe", label: "PPPoE Secret" },
+            { key: "userId", label: "User ID" },
+            { key: "userNama", label: "User" },
+            { key: "paket", label: "Paket" },
+            { key: "branch", label: "Branch" },
+            { key: "status", label: "Status", render: (r) => <StatusDot status={r.status} /> },
+          ]} rows={rows} onRowClick={(r) => openServiceDetail(r.pppoe)} />
+        </div>
+      </div>
+    );
+  }
+
+  const owner = users.find((u) => u.userId === service.userId);
+  const links = serviceContacts.filter((sc) => sc.pppoe === service.pppoe);
+
+  const openEdit = (r) => {
+    setEditServiceContact(r);
+    setEditServiceRelationship(r.hubungan || "Pemilik");
+    setEditServicePrimary(!!r.primary);
+  };
+
+  const saveRelationshipOnly = () => {
+    if (!editServiceContact) return;
+    const current = editServiceContact;
+    const next = serviceContacts.map(sc => sc.id === current.id ? {...sc,hubungan:editServiceRelationship} : sc);
+    if (actions?.replaceServiceContacts) actions.replaceServiceContacts(next);
+    setEditServiceContact(null);
+    setFeedback({type:"success",message:"Perubahan berhasil disimpan."}); closeFeedback();
+  };
+
+  const requestPrimaryChange = () => {
+    if (!editServiceContact) return;
+    if (editServiceContact.primary && !editServicePrimary) {
+      setFeedback({type:"error",message:"Perubahan gagal disimpan. Service harus memiliki satu Primary Contact."}); closeFeedback();
+      return;
+    }
+    // RULE BARU: nomor yang sudah primary di layanan lain tidak bisa dipromosikan di sini.
+    if (!editServiceContact.primary && editServicePrimary && isPrimaryInOtherService(editServiceContact.contactId, service.pppoe, serviceContacts)) {
+      const elsewhere = findPrimaryServiceForContact(editServiceContact.contactId, serviceContacts, service.pppoe);
+      setFeedback({type:"error",message:"Gagal: nomor ini sudah menjadi Primary di layanan " + elsewhere + ". Satu nomor primary hanya bisa di satu layanan."}); closeFeedback();
+      return;
+    }
+    if (!editServiceContact.primary && editServicePrimary) {
+      setPendingPrimary({ ...editServiceContact, hubungan: editServiceRelationship });
+      return;
+    }
+    saveRelationshipOnly();
+  };
+
+  const confirmPrimaryChange = () => {
+    if (!pendingPrimary) return;
+    const current = pendingPrimary;
+    // RULE BARU: double-check lintas service sebelum apply.
+    const elsewhere = findPrimaryServiceForContact(current.contactId, serviceContacts, service.pppoe);
+    if (elsewhere) {
+      setPendingPrimary(null);
+      setFeedback({type:"error",message:"Gagal: nomor ini sudah menjadi Primary di layanan " + elsewhere + "."}); closeFeedback();
+      return;
+    }
+    const next = serviceContacts.map(sc => {
+      if (sc.pppoe !== service.pppoe) return sc;
+      if (sc.contactId === current.contactId) return {...sc,hubungan:current.hubungan,primary:true};
+      return {...sc,primary:false};
+    });
+    const primaryCount = next.filter(sc=>sc.pppoe===service.pppoe && sc.primary).length;
+    if (primaryCount !== 1) {
+      setFeedback({type:"error",message:"Perubahan gagal disimpan. Service harus memiliki satu Primary Contact."}); closeFeedback();
+      return;
+    }
+    if (actions?.replaceServiceContacts) {
+      const ok = actions.replaceServiceContacts(next);
+      if (!ok) {
+        setPendingPrimary(null);
+        setFeedback({type:"error",message:"Gagal: melanggar aturan primary (satu service satu primary, satu nomor primary satu layanan)."}); closeFeedback();
+        return;
+      }
+    }
+    setPendingPrimary(null);
+    setEditServiceContact(null);
+    setFeedback({type:"success",message:"Perubahan berhasil disimpan."}); closeFeedback();
+  };
+
+  return (
+    <div className="flex-1 flex flex-col min-w-0" style={{ background: C.bgApp, overflowY: "auto" }}>
+      <DetailHeader onBack={back} title={service.pppoe} subtitle={`${service.paket} • ${service.branch}`} statusBadge={<StatusDot status={service.status} />} />
+      <div className="p-6" style={{ maxWidth: 780 }}>
+        <SectionCard title="Informasi Service" right={<button onClick={()=>{setEditPaket(service.paket);setEditDiscount(service.discountValue||"");setEditDiscountType(service.discountType||"Permanent");setEditServiceOpen(true);setTerminationOpen(false);}} style={{padding:"5px 10px",border:`1px solid ${C.accentSoftBorder}`,borderRadius:7,background:C.accentSoft,color:C.accent,fontSize:11.5,fontWeight:700,cursor:"pointer"}}>Edit</button>}>
+          <InfoRow label="PPPoE Secret" value={service.pppoe} />
+          <InfoRow label="Status" value={<StatusDot status={service.status} />} />
+          <InfoRow label="Paket" value={service.paket} />
+          <InfoRow label="Diskon" value={formatRupiah(service.discountValue)} />
+          <InfoRow label="Subscribe Start" value={service.subStart} />
+          <InfoRow label="Subscribe Expired" value={service.subExpired} />
+          <InfoRow label="Peruntukan Layanan" value={service.peruntukan} />
+        </SectionCard>
+        <SectionCard title="Informasi User">
+          <InfoRow label="User ID" value={owner?.userId} />
+          <InfoRow label="Nama" value={owner?.nama} />
+          <InfoRow label="NIK" value={maskNik(owner?.nik)} />
+          <button onClick={() => openUserDetail(owner?.userId)} className="mt-2 py-1.5 px-3 rounded-md text-sm font-semibold" style={{ background: C.accentSoft, color: C.accent, border: `1px solid ${C.accentSoftBorder}`, cursor: "pointer" }}>Detail User</button>
+        </SectionCard>
+        <SectionCard title="Informasi AE">
+          <InfoRow label="Nama Sales" value={service.salesType === "admin" ? "Admin" : service.salesName} />
+          <InfoRow label="Nama Sales yang Survey" value={service.surveySalesName} />
+        </SectionCard>
+        <SectionCard title="Informasi Infra">
+          <InfoRow label="Coverage Area" value={service.coverage} /><InfoRow label="Splitter" value={service.splitter} /><InfoRow label="Port" value={service.port} /><InfoRow label="SN Modem" value={service.snModem} /><InfoRow label="ONU" value={service.onu} />
+        </SectionCard>
+        <SectionCard title="Informasi Lokasi">
+          <InfoRow label="Branch" value={service.branch} /><InfoRow label="Provinsi" value={service.provinsi} /><InfoRow label="Kota/Kabupaten" value={service.kotaKab} /><InfoRow label="Kecamatan" value={service.kecamatan} /><InfoRow label="Kelurahan" value={service.kelurahan} /><InfoRow label="RW" value={service.rw} /><InfoRow label="RT" value={service.rt} /><InfoRow label="Alamat" value={service.alamat} /><InfoRow label="Latitude" value={service.lat} /><InfoRow label="Longitude" value={service.lng} />
+        </SectionCard>
+        <SectionCard title="Finance"><InfoRow label="VA" value={service.va} /></SectionCard>
+
+        <SectionCard title={`Contact Table (Primary 1:1)`}>
+          <div style={{fontSize:11,color:C.textFaint,marginBottom:8,lineHeight:1.5}}>Satu service wajib satu Primary. Satu nomor Primary hanya bisa di satu layanan.</div>
+          <DataTable
+            columns={[
+              { key:"nomorHp", label:"Nomor HP", render:r=>contacts.find(c=>c.contactId===r.contactId)?.nomorHp },
+              { key:"nama", label:"Nama", render:r=>contacts.find(c=>c.contactId===r.contactId)?.nama },
+              { key:"hubungan", label:"Hubungan" },
+              { key:"primary", label:"Primary", render:r=>{
+                const elsewhere = !r.primary ? findPrimaryServiceForContact(r.contactId, serviceContacts, service.pppoe) : null;
+                if (r.primary) return <Check size={14} color={C.success}/>;
+                if (elsewhere) return <span style={{fontSize:11,color:C.warning,fontWeight:600}} title={"Primary di " + elsewhere}>Primary di {elsewhere}</span>;
+                return <span style={{color:C.textFaint}}>—</span>;
+              } },
+              { key:"action", label:"Action", render:r=><button onClick={e=>{e.stopPropagation();openEdit(r);}} style={{fontSize:11.5,padding:"4px 8px",border:`1px solid ${C.border}`,borderRadius:6,background:C.bgPanel,color:C.accent,cursor:"pointer"}}>Edit</button> },
+              { key:"status", label:"Status", render:r=><StatusDot status={contacts.find(c=>c.contactId===r.contactId)?.status} /> },
+            ]}
+            rows={links}
+            emptyLabel="Belum ada Contact untuk Service ini."
+          />
+        </SectionCard>
+      </div>
+
+      {editServiceContact && <Modal title="Edit Contact" onClose={()=>setEditServiceContact(null)}>
+        <div className="flex flex-col gap-3">
+          <InfoRow label="Nomor HP" value={contacts.find(c=>c.contactId===editServiceContact.contactId)?.nomorHp || "-"}/>
+          <InfoRow label="Nama Contact" value={contacts.find(c=>c.contactId===editServiceContact.contactId)?.nama || "-"}/>
+          <div><label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Hubungan</label>
+            <select value={editServiceRelationship} onChange={e=>setEditServiceRelationship(e.target.value)} style={{width:"100%",marginTop:4,padding:"7px 8px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12}}>
+              {["Pemilik","Keluarga","Pasangan","Anak","Orang Tua","PIC","Karyawan","Lainnya"].map(x=><option key={x}>{x}</option>)}
+            </select>
+          </div>
+          <div><label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Primary Contact</label>
+            <select value={editServicePrimary?"Yes":"No"} onChange={e=>setEditServicePrimary(e.target.value==="Yes")} disabled={!!editServiceContact.primary || !!findPrimaryServiceForContact(editServiceContact.contactId, serviceContacts, service.pppoe)}
+              style={{width:"100%",marginTop:4,padding:"7px 8px",border:`1px solid ${C.border}`,borderRadius:7,background:(editServiceContact.primary || findPrimaryServiceForContact(editServiceContact.contactId, serviceContacts, service.pppoe))?C.bgPanelAlt:C.bgPanel,color:C.text,fontSize:12}}>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+            <div style={{fontSize:10.5,color:C.textFaint,marginTop:4}}>Service harus memiliki satu Primary Contact. Satu nomor Primary hanya bisa di satu layanan.</div>
+            {findPrimaryServiceForContact(editServiceContact.contactId, serviceContacts, service.pppoe) && <div style={{fontSize:11,color:C.warning,marginTop:4,lineHeight:1.45}}>⚠ Nomor ini sudah Primary di {findPrimaryServiceForContact(editServiceContact.contactId, serviceContacts, service.pppoe)}. Tidak bisa dijadikan Primary di sini.</div>}
+          </div>
+          <div className="flex justify-end gap-2">
+            <button onClick={()=>setEditServiceContact(null)} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,cursor:"pointer"}}>Batal</button>
+            <button onClick={requestPrimaryChange} style={{padding:"7px 12px",border:"none",borderRadius:7,background:C.accent,color:"#fff",cursor:"pointer",fontWeight:600}}>Simpan</button>
+          </div>
+        </div>
+      </Modal>}
+
+      {pendingPrimary && <Modal title="Konfirmasi Primary Contact" onClose={()=>setPendingPrimary(null)}>
+        <div style={{fontSize:12.5,color:C.text,lineHeight:1.5,marginBottom:14}}>Jadikan <b>{contacts.find(c=>c.contactId===pendingPrimary.contactId)?.nama || pendingPrimary.nama}</b> sebagai Primary Contact?</div>
+        <div className="flex justify-end gap-2">
+          <button onClick={()=>setPendingPrimary(null)} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,cursor:"pointer"}}>Batal</button>
+          <button onClick={confirmPrimaryChange} style={{padding:"7px 12px",border:"none",borderRadius:7,background:C.accent,color:"#fff",cursor:"pointer",fontWeight:600}}>Konfirmasi</button>
+        </div>
+      </Modal>}
+
+      {editServiceOpen && <Modal title="Edit Service" onClose={()=>setEditServiceOpen(false)} width={terminationOpen ? 620 : 340}>
+        {!terminationOpen ? <div className="flex flex-col gap-3">
+          <InfoRow label="PPPoE Secret" value={service.pppoe}/>
+          <div><label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Paket Layanan</label><select value={editPaket} onChange={e=>setEditPaket(e.target.value)} style={{width:"100%",marginTop:4,padding:"7px 8px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12}}>{["10 Mbps","30 Mbps","50 Mbps","100 Mbps"].map(x=><option key={x}>{x}</option>)}</select></div>
+          <div><label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Diskon</label><div style={{display:"flex",alignItems:"center",marginTop:4,border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,overflow:"hidden"}}><span style={{padding:"7px 0 7px 8px",color:C.textSoft,fontSize:12,fontWeight:600}}>Rp</span><input inputMode="numeric" value={formatRupiah(editDiscount).replace(/^Rp\s?/,"")} onChange={e=>setEditDiscount(parseRupiah(e.target.value))} placeholder="0" style={{width:"100%",border:"none",outline:"none",padding:"7px 8px 7px 4px",background:"transparent",color:C.text,fontSize:12}}/></div></div>
+          <div><label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Tipe Diskon</label><select value={editDiscountType} onChange={e=>setEditDiscountType(e.target.value)} style={{width:"100%",marginTop:4,padding:"7px 8px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12}}><option>Permanent</option><option>Non Permanent</option></select></div>
+          <div className="flex justify-between gap-2">
+            <button disabled={service.status === "Terminated"} onClick={()=>{if(service.status !== "Terminated"){setTerminationApprovalFile(null);setTerminationDate("");setTerminationTime("");setTerminationOpen(true);}}} style={{padding:"7px 11px",border:`1px solid ${service.status === "Terminated" ? C.border : C.danger}`,borderRadius:7,background:service.status === "Terminated" ? C.bgPanelAlt : C.dangerSoft,color:service.status === "Terminated" ? C.textFaint : C.danger,fontSize:11.5,fontWeight:700,cursor:service.status === "Terminated" ? "not-allowed" : "pointer",opacity:service.status === "Terminated" ? 0.8 : 1}}>Terminate</button>
+            <div className="flex gap-2"><button onClick={()=>setEditServiceOpen(false)} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,cursor:"pointer"}}>Batal</button><button onClick={()=>{actions.updateService(service.pppoe,{paket:editPaket,discountValue:editDiscount,discountType:editDiscountType});setEditServiceOpen(false);setFeedback({type:"success",message:"Service berhasil diperbarui."});}} style={{padding:"7px 12px",border:"none",borderRadius:7,background:C.accent,color:"#fff",fontWeight:600,cursor:"pointer"}}>Simpan</button></div>
+          </div>
+        </div> : <div className="flex flex-col gap-3">
+          <div style={{fontSize:12.5,color:C.textSoft}}>Lengkapi data termination sebelum melakukan konfirmasi.</div>
+          <div><label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Kategori Terminated</label><select value={terminationCategory} onChange={e=>setTerminationCategory(e.target.value)} style={{width:"100%",marginTop:4,padding:"7px 8px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12}}><option value="">Pilih kategori</option>{["Tidak puas dengan layanan aftersales (Customer Care)","Tidak puas dengan kualitas internet","Tidak puas dengan layanan umum","Tidak puas dengan layanan sales","Alasan keuangan","Pindah alamat — berhenti berlangganan","Pindah alamat — lanjut berlangganan","Penawaran kompetitor","Customer hilang tanpa kabar","Customer tidak memberikan alasan","Pembatalan berlangganan tiba-tiba","Lainnya"].map(x=><option key={x}>{x}</option>)}</select></div>
+          <div><label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Bukti Persetujuan</label><div style={{marginTop:4,padding:"7px 8px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel}}><input type="file" onChange={e=>setTerminationApprovalFile(e.target.files?.[0] || null)} style={{width:"100%",color:C.text,fontSize:12}}/></div></div>
+          <div style={{display:"grid",gridTemplateColumns:"minmax(0,1fr) minmax(0,1fr)",gap:10}}>
+            <div style={{minWidth:0}}><label style={{fontSize:11,color:C.textFaint,fontWeight:600,whiteSpace:"nowrap"}}>Suggest Tanggal Pengambilan</label><input type="date" value={terminationDate} onChange={e=>{const next=e.target.value;setTerminationDate(next);if(!next)setTerminationTime("");}} style={{width:"100%",marginTop:4,padding:"7px 8px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12}}/></div>
+            <div style={{minWidth:0}}><label style={{fontSize:11,color:C.textFaint,fontWeight:600,whiteSpace:"nowrap"}}>Suggest Jam Pengambilan</label><input type="time" value={terminationTime} onChange={e=>setTerminationTime(e.target.value)} disabled={!terminationDate} style={{width:"100%",marginTop:4,padding:"7px 8px",border:`1px solid ${C.border}`,borderRadius:7,background:!terminationDate?C.bgPanelAlt:C.bgPanel,color:!terminationDate?C.textFaint:C.text,fontSize:12,cursor:!terminationDate?"not-allowed":"text",opacity:!terminationDate?0.8:1}}/></div>
+          </div>
+          <div><label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Keterangan</label><textarea value={terminationNote} onChange={e=>setTerminationNote(e.target.value)} style={{width:"100%",marginTop:4,padding:"7px 8px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12,minHeight:60}}/></div>
+          <div className="flex justify-end gap-2"><button onClick={()=>setTerminationOpen(false)} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,cursor:"pointer"}}>Batal</button><button disabled={!terminationCategory} onClick={()=>setTerminationConfirm(true)} style={{padding:"7px 12px",border:"none",borderRadius:7,background:terminationCategory?C.danger:"#aeb7c5",color:"#fff",fontWeight:600,cursor:terminationCategory?"pointer":"not-allowed"}}>Lanjutkan</button></div>
+        </div>}
+      </Modal>}
+      {terminationConfirm && <Modal title="Konfirmasi Terminate Service" onClose={()=>setTerminationConfirm(false)}>
+        <div style={{fontSize:12.5,color:C.text,lineHeight:1.55,marginBottom:14}}><b>Apakah Anda yakin ingin melakukan Terminate Service?</b><div style={{marginTop:8}}>Service / PPPoE Secret: <b>{service.pppoe}</b></div><div>Paket: <b>{service.paket}</b></div><div>Kategori: <b>{terminationCategory}</b></div><div>Bukti persetujuan: <b>{terminationApprovalFile?.name || "-"}</b></div><div>Suggest tanggal pengambilan: <b>{terminationDate || "-"}</b></div><div>Suggest jam pengambilan: <b>{terminationTime || "-"}</b></div></div>
+        <div className="flex justify-end gap-2"><button onClick={()=>setTerminationConfirm(false)} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,cursor:"pointer"}}>Batal</button><button onClick={()=>{actions.updateService(service.pppoe,{status:"Terminated",termination:{category:terminationCategory,approvalFile:terminationApprovalFile ? {name:terminationApprovalFile.name,type:terminationApprovalFile.type,size:terminationApprovalFile.size,lastModified:terminationApprovalFile.lastModified} : null,date:terminationDate,time:terminationTime,note:terminationNote}});setTerminationConfirm(false);setEditServiceOpen(false);setFeedback({type:"success",message:"Service berhasil menjadi Terminated."});}} style={{padding:"7px 12px",border:"none",borderRadius:7,background:C.danger,color:"#fff",fontWeight:700,cursor:"pointer"}}>Konfirmasi Terminate</button></div>
+      </Modal>}
+      {feedback && <CR12Toast message={feedback.message} type={feedback.type} onClose={()=>setFeedback(null)}/>}
+    </div>
+  );
+}
+
+/* ============================================================
+   CONTACT MODULE
+   ============================================================ */
+function ContactModule({ contacts, users, services, serviceContacts, selectedContactId, openContactDetail, back, openServiceDetail, actions }) {
+  const contact = contacts.find((c) => c.contactId === selectedContactId);
+  // Keep all hooks unconditional so Contact List <-> Contact Detail navigation is stable.
+  const [search,setSearch]=useState("");
+  const [statusFilter,setStatusFilter]=useState("");
+  const [primaryFilter,setPrimaryFilter]=useState("");
+  const [editContact, setEditContact] = useState(null);
+  const [editStatus, setEditStatus] = useState("");
+  const [matchOpen, setMatchOpen] = useState(false);
+  const [matchSearch, setMatchSearch] = useState("");
+  const [matchExecuted, setMatchExecuted] = useState(false);
+  const [candidate, setCandidate] = useState(null);
+  const [hubungan, setHubungan] = useState("");
+  const [matchNotice, setMatchNotice] = useState("");
+  const [matchFeedback, setMatchFeedback] = useState(null);
+  const servicesForContact = (contactId) => serviceContacts.filter((sc) => sc.contactId === contactId);
+
+  if (!contact) {
+    const rows = Array.from(new Map(contacts
+      .filter(c => !search || [c.nomorHp,c.nama].some(v=>String(v||"").toLowerCase().includes(search.toLowerCase())))
+      .filter(c => !statusFilter || c.status === statusFilter)
+      .map(c => [c.nomorHp, c])
+    ).values());
+    return (
+      <div className="flex-1 flex flex-col min-w-0" style={{ background: C.bgApp }}>
+        <ListPageHeader icon={<Phone size={17} color={C.accent} />} title="Contact" subtitle={`${contacts.length} contact terdaftar`} />
+        <div className="px-6 pt-4 flex gap-2"><div style={{display:"flex",alignItems:"center",gap:7,flex:1,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 10px",background:C.bgPanel}}><Search size={14} color={C.textFaint}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Cari Nomor HP atau Nama" style={{border:"none",outline:"none",background:"transparent",color:C.text,width:"100%",fontSize:12.5}}/></div><FilterSelect label="Status Contact" value={statusFilter} onChange={setStatusFilter} options={[{value:"",label:"All"},{value:"Active",label:"Active"},{value:"Non Active",label:"Non Active"}]}/></div>
+        <div className="p-6">
+          <DataTable
+            columns={[
+              { key: "nomorHp", label: "Nomor HP" },
+              { key: "nama", label: "Nama" },
+              { key: "verification", label: "Verifikasi", render:r=><Badge bg={r.verification==="Identified"?C.successSoft:C.warningSoft} fg={r.verification==="Identified"?C.success:C.warning}>{r.verification}</Badge> },
+              { key: "status", label: "Status", render: (r) => <StatusDot status={r.status} /> },
+              { key: "action", label: "Action", render: (r) =>
+                <button onClick={(e)=>{e.stopPropagation();setEditContact(r.contactId);setEditStatus(r.status);}}
+                  style={{fontSize:11,padding:"4px 9px",border:`1px solid ${C.border}`,borderRadius:6,background:C.bgPanel,color:C.accent,cursor:"pointer"}}>Edit</button>
+              },
+            ]}
+            rows={rows}
+            onRowClick={(r) => openContactDetail(r.contactId)}
+          />
+          {editContact && (() => {
+            const editing = contacts.find(c => c.contactId === editContact);
+            if (!editing) return null;
+            return (
+              <Modal title="Edit Status Contact" onClose={()=>{setEditContact(null);setEditStatus("");}}>
+                <div className="flex flex-col gap-3">
+                  <InfoRow label="Nomor HP" value={editing.nomorHp} />
+                  <InfoRow label="Nama" value={editing.nama} />
+                  <div>
+                    <label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Status Contact</label>
+                    <select value={editStatus} onChange={e=>setEditStatus(e.target.value)}
+                      style={{width:"100%",marginTop:4,fontSize:12.5,border:`1px solid ${C.border}`,borderRadius:7,padding:"7px 8px",background:C.bgPanel,color:C.text}}>
+                      <option value="Active">Active</option>
+                      <option value="Non Active">Inactive</option>
+                    </select>
+                  </div>
+                  <div className="flex justify-end gap-2">
+                    <button onClick={()=>{setEditContact(null);setEditStatus("");}}
+                      style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,cursor:"pointer"}}>Batal</button>
+                    <button onClick={()=>{actions.updateContactStatus(editing.contactId,editStatus);setEditContact(null);setEditStatus("");}}
+                      style={{padding:"7px 12px",border:"none",borderRadius:7,background:C.accent,color:"#fff",cursor:"pointer",fontWeight:600}}>Simpan</button>
+                  </div>
+                </div>
+              </Modal>
+            );
+          })()}
+        </div>
+      </div>
+    );
+  }
+
+  const links = servicesForContact(contact.contactId);
+  const ownerUsers = [...new Set(links.map((l) => services.find((s) => s.pppoe === l.pppoe)?.userId).filter(Boolean))].map((id) => users.find((u) => u.userId === id));
+  const relatedPppoe = new Set(links.map(l => l.pppoe));
+  const myPrimaryPppoe = findPrimaryServiceForContact(contact.contactId, serviceContacts, null);
+  const searchPool = matchExecuted && matchSearch.trim()
+    ? evaluateServiceMatch(matchSearch, services, relatedPppoe).results
+    : [];
+  const closeMatch = () => { setMatchOpen(false); setMatchSearch(""); setMatchExecuted(false); setCandidate(null); setHubungan(""); setMatchNotice(""); };
+  const confirmExisting = () => {
+    if (!candidate || !hubungan || (contact.verification==="Unknown" && !contact.nama?.trim())) { setMatchFeedback({type:"error",message:"Konfirmasi gagal, data belum lengkap."}); return; }
+    // Fitur "jadikan primary" dihapus dari card: link baru selalu Non-Primary.
+    const ok = actions.confirmExistingServiceMatch(contact.contactId, candidate.pppoe, hubungan, false);
+    if (!ok) {
+      setMatchFeedback({type:"error",message:"Gagal menghubungkan service. Service sudah memiliki Primary Contact."});
+      return;
+    }
+    closeMatch();
+    setMatchFeedback({type:"success",message:"Service berhasil dihubungkan ke Contact ini."});
+  };
+
+  return (
+    <div className="flex-1 flex flex-col min-w-0" style={{ background: C.bgApp, overflowY: "auto" }}>
+      <DetailHeader onBack={back} title={contact.verification==="Unknown" ? contact.nomorHp : (contact.nama || contact.nomorHp)} subtitle={contact.nomorHp} statusBadge={<StatusDot status={contact.status} />} />
+      <div className="p-6" style={{ maxWidth: 780 }}>
+        <SectionCard title="Contact Information">
+          <InfoRow label="Nomor HP" value={contact.nomorHp} />
+          <InfoRow label="Nama" value={contact.nama} />
+          <InfoRow label="Status Contact" value={<StatusDot status={contact.status} />} />
+          <InfoRow label="Primary di" value={myPrimaryPppoe || "-"} />
+          {myPrimaryPppoe && <div style={{fontSize:11,color:C.textFaint,marginTop:6,lineHeight:1.45}}>Satu nomor primary hanya bisa di satu layanan. Untuk memindahkan, jadikan Non-Primary dulu di {myPrimaryPppoe} via Detail Service.</div>}
+        </SectionCard>
+
+        <SectionCard title={`User Cards (${ownerUsers.length})`}>
+          {ownerUsers.length === 0 && <p style={{ fontSize: 12.5, color: C.textFaint }}>Belum terhubung ke User manapun.</p>}
+          <div className="flex flex-col gap-2">
+            {ownerUsers.map((u) => (
+              <div key={u.userId} style={{ border: `1px solid ${C.border}`, borderRadius: 10, padding: 12 }}>
+                <div style={{ fontSize: 13.5, fontWeight: 700 }}>{u.nama}</div>
+                <div style={{ fontSize: 12, color: C.textFaint }}>{u.userId} • NIK {maskNik(u.nik)}</div>
+              </div>
+            ))}
+          </div>
+        </SectionCard>
+
+        <button onClick={()=>{setMatchOpen(true);setMatchSearch("");setMatchExecuted(false);setCandidate(null);setHubungan("");setMatchNotice("");}} className="mb-3 py-2 px-3 rounded-md text-sm font-semibold flex items-center gap-1.5" style={{background:C.accentSoft,color:C.accent,border:`1px solid ${C.accentSoftBorder}`,cursor:"pointer"}}><Search size={14}/> Cocokkan Layanan</button>
+
+        {matchOpen && <Modal title="Cocokkan Layanan" onClose={closeMatch}>
+          <div style={{display:"flex",alignItems:"center",gap:7,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 9px",background:C.bgPanelAlt,marginBottom:8}}>
+            <Search size={14} color={C.textFaint}/><input autoFocus value={matchSearch} onChange={e=>{setMatchSearch(e.target.value);setMatchExecuted(false);setCandidate(null);setMatchNotice("");}} placeholder="PPoE Secret..." style={{border:"none",outline:"none",background:"transparent",color:C.text,width:"100%",fontSize:12.5}}/>
+          </div>
+          <button onClick={()=>{
+            setCandidate(null);
+            const evalResult = evaluateServiceMatch(matchSearch, services, relatedPppoe);
+            if (evalResult.status === "empty" || evalResult.status === "already") {
+              setMatchExecuted(false); setMatchNotice(evalResult.notice); return;
+            }
+            setMatchNotice(""); setMatchExecuted(true);
+          }} style={{width:"100%",background:C.accent,color:"#fff",border:"none",borderRadius:8,padding:"8px 0",fontSize:12.5,fontWeight:600,cursor:"pointer",marginBottom:9}}>Cari Layanan</button>
+          {matchNotice && <div style={{background:C.warningSoft,border:`1px solid ${C.warningSoftBorder || C.border}`,color:C.warning,padding:"8px 9px",borderRadius:8,fontSize:12,marginBottom:8}}>⚠ {matchNotice}</div>}
+          {!candidate && !matchExecuted && !matchNotice && <div style={{fontSize:12,color:C.textFaint,padding:"10px 4px",textAlign:"center"}}>Masukkan PPoE Secret, lalu klik Cari Layanan.</div>}
+          {!candidate && matchExecuted && <div className="flex flex-col gap-1.5" style={{maxHeight:250,overflowY:"auto"}}>{searchPool.map(svc=>{const owner=users.find(u=>u.userId===svc.userId);return <button key={svc.pppoe} onClick={()=>setCandidate(svc)} style={{textAlign:"left",padding:9,border:`1px solid ${C.border}`,borderRadius:8,background:C.bgPanel,color:C.text,cursor:"pointer"}}><div style={{fontSize:12.5,fontWeight:700}}>{svc.pppoe}</div><div style={{fontSize:11.5,color:C.textFaint}}>{owner?.nama||"-"} • {svc.alamat||"-"} • {svc.status}</div></button>})}</div>}
+          {candidate && <><SectionCard title="Kandidat Service"><div style={{fontSize:13.5,fontWeight:700}}>{candidate.pppoe}</div><div style={{fontSize:12,color:C.textFaint,marginTop:2}}>{candidate.status} • {candidate.paket} • {candidate.branch}</div><div style={{fontSize:12,color:C.textSoft,marginTop:5}}>Nama User: <b>{users.find(u=>u.userId===candidate.userId)?.nama||"-"}</b></div><div style={{fontSize:12,color:C.textSoft,marginTop:2}}>Alamat: {candidate.alamat||"-"}</div></SectionCard><SectionCard title="Lengkapi Informasi Contact">
+  <div className="flex flex-col gap-2.5">
+    <InfoRow label="Nomor HP" value={contact.nomorHp}/>
+    {contact.verification === "Unknown" ? <div>
+      <label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Nama</label>
+      <input value={contact.nama || ""} onChange={e=>actions.updateContactName(contact.contactId,e.target.value)} placeholder="Nama customer..." style={{width:"100%",marginTop:3,fontSize:12.5,border:`1px solid ${C.border}`,borderRadius:7,padding:"7px 8px",background:C.bgPanel,color:C.text}}/>
+    </div> : <InfoRow label="Nama" value={contact.nama}/>}
+    <div><label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Hubungan</label>
+      <select value={hubungan} onChange={e=>setHubungan(e.target.value)} style={{width:"100%",marginTop:3,fontSize:12.5,border:`1px solid ${C.border}`,borderRadius:7,padding:"7px 8px",background:C.bgPanel,color:C.text}}>
+        <option value="">Pilih hubungan</option>{["Pemilik","Keluarga","Pasangan","Anak","Orang Tua","PIC","Karyawan","Lainnya"].map(x=><option key={x}>{x}</option>)}
+      </select>
+    </div>
+    <div style={{fontSize:11,color:C.textFaint,lineHeight:1.45}}>Nomor baru akan ditambahkan sebagai Non-Primary.</div>
+  </div>
+  <div className="flex justify-end gap-2 mt-3">
+    <button onClick={()=>{setCandidate(null);setHubungan("");}} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.textSoft,cursor:"pointer"}}>Batal</button>
+    <button disabled={!hubungan || (contact.verification==="Unknown" && !contact.nama?.trim())} onClick={confirmExisting} style={{padding:"7px 12px",border:"none",borderRadius:7,background:(hubungan && (contact.verification!=="Unknown" || contact.nama?.trim()))?C.accent:"#aeb7c5",color:"#fff",cursor:(hubungan && (contact.verification!=="Unknown" || contact.nama?.trim()))?"pointer":"not-allowed"}}>Konfirmasi</button>
+  </div>
+</SectionCard></>}
+        </Modal>}
+        {matchFeedback && <CR12Toast message={matchFeedback.message} type={matchFeedback.type} onClose={()=>setMatchFeedback(null)}/>}
+
+
+        <SectionCard title={`Service Cards (${links.length})${myPrimaryPppoe ? ` • Primary di ${myPrimaryPppoe}` : ""}`}>
+          <div className="flex flex-col gap-2.5">
+            {links.map((l) => {
+              const svc = services.find((s) => s.pppoe === l.pppoe);
+              const sc = statusColor(svc?.status);
+              const owner = users.find((u) => u.userId === svc?.userId);
+              return (
+                <div key={l.id} style={{ border: `1px solid ${C.border}`, borderRadius: 10, padding: 12 }}>
+                  <div className="flex items-center justify-between">
+                    <span style={{ fontSize: 13.5, fontWeight: 700 }}>{svc.pppoe}</span>
+                    <Badge bg={sc.bg} fg={sc.fg}>{sc.label}</Badge>
+                  </div>
+                  <div style={{ fontSize: 12, color: C.textFaint, marginTop: 2 }}>User: {owner?.nama}</div>
+                  <div className="flex items-center gap-2 mt-2">
+                    <Badge bg={C.bgPanelAlt} fg={C.textSoft} border={C.border}>Hubungan: {l.hubungan}</Badge>
+                    {l.primary ? <Badge bg={C.successSoft} fg={C.success}>Primary</Badge> : <Badge bg="#f1f2f5" fg={C.textFaint}>Non Primary</Badge>}
+                  </div>
+                  <button onClick={() => openServiceDetail(svc.pppoe)} className="mt-2.5 py-1.5 px-3 rounded-md text-sm font-semibold" style={{ background: C.bgPanel, color: C.accent, border: `1px solid ${C.accentSoftBorder}`, cursor: "pointer" }}>
+                    Detail Service
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </SectionCard>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+   ROOT APP
+   ============================================================ */
+
+function CR12Toast({message,type="success",onClose}) {
+  if (!message) return null;
+  return <div style={{position:"fixed",right:20,bottom:20,zIndex:10000,padding:"9px 13px",borderRadius:8,
+    background:type==="success"?"#16834b":"#b42318",color:"#fff",fontSize:12,fontWeight:600,
+    boxShadow:"0 8px 24px rgba(0,0,0,.18)"}}>{message}</div>;
+}
+function App() {
+  const [activeMenu, setActiveMenu] = useState("chat");
+  const [theme, setTheme] = useState("light");
+  const [activeAccountId] = useState("tachta");
+  const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
+  const [loggedOut, setLoggedOut] = useState(false);
+  C = theme === "dark" ? DARK_C : LIGHT_C;
+  const accounts = [
+    { id:"tachta", name:"Tachta", role:"Customer Care" },
+    { id:"andi", name:"Andi", role:"Customer Care" },
+    { id:"sinta", name:"Sinta", role:"Customer Care" },
+  ];
+  const activeAccount = accounts.find(a => a.id === activeAccountId) || accounts[0];
+
+  const [users] = useState(USERS0);
+  const [services, setServices] = useState(SERVICES0);
+  const [contacts, setContacts] = useState(CONTACTS0);
+  const [serviceContacts, setServiceContacts] = useState(SERVICE_CONTACTS0);
+  const [tags, setTags] = useState(TAGS0);
+  const [chats, setChats] = useState(CHATS0);
+  const [templates, setTemplates] = useState(TEMPLATE_CHATS0);
+
+  // Chat state
+  const [selectedChatId, setSelectedChatId] = useState(null);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [selectionMode, setSelectionMode] = useState(false);
+  const [selectedChatIds, setSelectedChatIds] = useState([]);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [filter, setFilter] = useState(["semua"]);
+  const [labelFilter, setLabelFilter] = useState(null);
+
+  // Cross-module detail selection
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [selectedPppoe, setSelectedPppoe] = useState(null);
+  const [selectedContactId, setSelectedContactId] = useState(null);
+
+  const changeMenu = (key) => {
+    setActiveMenu(key);
+    setSelectedUserId(null);
+    setSelectedPppoe(null);
+    setSelectedContactId(null);
+    setSelectionMode(false);
+    setSelectedChatIds([]);
+  };
+
+  const openUserDetail = (id) => { setActiveMenu("user"); setSelectedUserId(id); };
+  const openServiceDetail = (pppoe) => { setActiveMenu("service"); setSelectedPppoe(pppoe); };
+  const openContactDetail = (id) => { setActiveMenu("contact"); setSelectedContactId(id); };
+
+  // ---- Match / ACC flow actions ----
+  const updateChat = (id, patch) => setChats((prev) => prev.map((c) => (c.id === id ? { ...c, ...patch } : c)));
+
+  const matchAskRelation = (chatId) => {
+    updateChat(chatId, {
+      matchStep: "asked",
+      messages: [...chats.find((c) => c.id === chatId).messages, { from: "cc", text: "Baik, boleh diinfokan hubungan Bapak/Ibu dengan pemilik layanan?", time: "Baru saja" }],
+    });
+  };
+
+  const matchSimulateReply = (chatId) => {
+    const chat = chats.find((c) => c.id === chatId);
+    updateChat(chatId, {
+      matchStep: "replied",
+      candidateHubungan: "Anak",
+      messages: [...chat.messages, { from: "customer", text: "Saya anaknya kak", time: "Baru saja" }],
+    });
+  };
+
+  const matchConfirmAcc = (chatId, { nama, hubungan, primary }) => {
+    const chat = chats.find((c) => c.id === chatId);
+    if (!chat || !chat.candidatePppoe) return false;
+    const existing = contacts.find(c => c.nomorHp === chat.nomorHp);
+    const contactId = existing?.contactId || ("C" + Date.now());
+    // RULE BARU: cegah nomor yang sudah primary di layanan lain jadi primary lagi.
+    const primaryElsewhere = findPrimaryServiceForContact(contactId, serviceContacts, chat.candidatePppoe);
+    const sameService = serviceContacts.filter(sc => sc.pppoe === chat.candidatePppoe);
+    const hasPrimary = sameService.some(sc => sc.primary);
+    const wantsPrimary = primary || !hasPrimary;
+    if (wantsPrimary && primaryElsewhere) return false;
+    const newContact = { contactId, nomorHp: chat.nomorHp, nama, prospectId: existing?.prospectId || "-", status: existing?.status || "Active", verification:"Identified" };
+    const newLink = { id: "SC" + Date.now(), pppoe: chat.candidatePppoe, contactId, hubungan, primary: wantsPrimary };
+
+    setContacts(prev => existing ? prev.map(c => c.contactId === contactId ? newContact : c) : [...prev,newContact]);
+    setServiceContacts(prev => {
+      if (prev.some(sc=>sc.contactId===contactId && sc.pppoe===chat.candidatePppoe)) return prev;
+      const err = validatePrimaryRules([...prev.filter(sc => !(sc.pppoe === chat.candidatePppoe && wantsPrimary && sc.primary)), { ...newLink, primary:wantsPrimary }]);
+      if (err) return prev;
+      const normalized = wantsPrimary ? prev.map(sc => sc.pppoe === chat.candidatePppoe ? { ...sc, primary:false } : sc) : prev;
+      return [...normalized, { ...newLink, primary:wantsPrimary }];
+    });
+    updateChat(chatId, {
+      matchStep: "acc",
+      contactId,
+      messages: [...chat.messages, { from: "cc", text: `Terima kasih, sudah kami catat sebagai kontak layanan ${chat.candidatePppoe} ya`, time: "Baru saja" }],
+    });
+    return true;
+  };
+
+  const updateContactStatus = (contactId, status) => setContacts(prev => prev.map(c => c.contactId === contactId ? { ...c, status } : c));
+  const updateContactName = (contactId, nama) => setContacts(prev => prev.map(c => c.contactId === contactId ? { ...c, nama } : c));
+  const updateService = (pppoe, patch) => setServices(prev => prev.map(s => s.pppoe === pppoe ? { ...s, ...patch } : s));
+  const updateServiceContactRelationship = (relationId, hubungan) => setServiceContacts(prev => prev.map(sc => sc.id === relationId ? { ...sc, hubungan } : sc));
+  const confirmExistingServiceMatch = (contactId, pppoe, hubungan, requestedPrimary=false) => {
+    if (serviceContacts.some(sc => sc.contactId === contactId && sc.pppoe === pppoe)) return false;
+    const sameService = serviceContacts.filter(sc => sc.pppoe === pppoe);
+    const shouldPrimary = requestedPrimary || !sameService.some(sc => sc.primary);
+    // RULE BARU: satu nomor primary hanya di satu layanan.
+    if (shouldPrimary && isPrimaryInOtherService(contactId, pppoe, serviceContacts)) return false;
+    const nextPreview = [
+      ...(shouldPrimary ? serviceContacts.map(sc => sc.pppoe === pppoe ? { ...sc, primary:false } : sc) : serviceContacts),
+      { id: "SC" + Date.now(), pppoe, contactId, hubungan, primary: shouldPrimary }
+    ];
+    if (validatePrimaryRules(nextPreview)) return false;
+    setServiceContacts(prev => {
+      if (prev.some(sc => sc.contactId === contactId && sc.pppoe === pppoe)) return prev;
+      if (shouldPrimary && isPrimaryInOtherService(contactId, pppoe, prev)) return prev;
+      const normalized = shouldPrimary ? prev.map(sc => sc.pppoe === pppoe ? { ...sc, primary:false } : sc) : prev;
+      const newLink = { id: "SC" + Date.now(), pppoe, contactId, hubungan, primary: shouldPrimary };
+      return [...normalized, newLink];
+    });
+    setContacts(prev => prev.map(c => c.contactId === contactId ? {...c, verification:"Identified", nama:c.nama || "-"} : c));
+    return true;
+  };
+  const changePrimary = (contactId, pppoe) => {
+    // RULE BARU: jangan pindahkan primary ke nomor yang sudah primary di layanan lain.
+    if (isPrimaryInOtherService(contactId, pppoe, serviceContacts)) return false;
+    setServiceContacts(prev => {
+      if (isPrimaryInOtherService(contactId, pppoe, prev)) return prev;
+      return prev.map(sc => sc.pppoe === pppoe ? { ...sc, primary: sc.contactId === contactId } : sc);
+    });
+    return true;
+  };
+  const toggleChatFilter = (key) => setFilter(prev => {
+    const current = Array.isArray(prev) ? prev : [prev || "semua"];
+    let next = [...current];
+    const incompatible = { semua:"unread", unread:"semua", kiosnet:"griyanet", griyanet:"kiosnet" };
+    if (next.includes(key)) {
+      next = next.filter(x => x !== key);
+    } else {
+      next = [...next.filter(x => x !== incompatible[key]), key];
+    }
+    return next.length ? next : ["semua"];
+  });
+
+  const enterSelectionMode = (id) => {
+    setSelectionMode(true);
+    setSelectedChatIds(prev => prev.includes(id) ? prev : [...prev, id]);
+  };
+  const toggleChatSelection = (id) => setSelectedChatIds(prev => prev.includes(id) ? prev.filter(x=>x!==id) : [...prev, id]);
+  const toggleSelectAllChats = (chatIds = []) => {
+    const ids = [...new Set((chatIds || []).filter(Boolean))];
+    setSelectedChatIds(prev => {
+      if (!ids.length) return prev;
+      const allSelected = ids.every(id => prev.includes(id));
+      if (allSelected) return prev.filter(id => !ids.includes(id));
+      return [...new Set([...prev, ...ids])];
+    });
+  };
+  const exitSelectionMode = () => { setSelectionMode(false); setSelectedChatIds([]); setDeleteConfirmOpen(false); };
+  const requestDeleteSelected = () => { if (selectedChatIds.length) setDeleteConfirmOpen(true); };
+  const cancelDeleteSelected = () => setDeleteConfirmOpen(false);
+  const confirmDeleteSelected = () => {
+    const ids = new Set(selectedChatIds);
+    setChats(prev => prev.filter(c => !ids.has(c.id)));
+    setSelectedChatIds([]);
+    setSelectionMode(false);
+    setDeleteConfirmOpen(false);
+    if (selectedChatId && ids.has(selectedChatId)) { setSelectedChatId(null); setProfileOpen(false); }
+  };
+
+  const chatActions = {
+    selectChat: (id) => { setSelectedChatId(id); setProfileOpen(true); setChats((prev) => prev.map((c) => (c.id === id ? { ...c, unread: 0 } : c))); },
+    enterSelectionMode,
+    toggleChatSelection,
+    toggleSelectAllChats,
+    exitSelectionMode,
+    requestDeleteSelected,
+    cancelDeleteSelected,
+    confirmDeleteSelected,
+    setProfileOpen,
+    setFilter: toggleChatFilter,
+    setLabelFilter,
+    replaceServiceContacts: (next) => {
+      const err = validatePrimaryRules(next);
+      if (err) return false;
+      setServiceContacts(next);
+      return true;
+    },
+    selectUnknownService: (chatId, pppoe) => updateChat(chatId, { matchStep:"matched", candidatePppoe:pppoe, candidateHubungan:"", candidatePrimary:false }),
+
+    createTag: (tag) => setTags((prev) => [...prev, tag]),
+    setTagsForChat: (id, tagIds) => updateChat(id, { tagIds: [...new Set(tagIds)] }),
+    addLabel: (id,tagId) => updateChat(id,{tagIds:(()=>{const c=chats.find(x=>x.id===id);const a=tagId||tags[0]?.id;return a?[...new Set([...(c?.tagIds||[]),a])]:c?.tagIds||[]})()}),
+    removeLabel: (id,tagId) => setChats(prev => prev.map(c => c.id === id ? {...c,tagIds:(c.tagIds||[]).filter(t=>t!==tagId)} : c)),
+    removeLabels: (id,tagIds) => setChats(prev => prev.map(c => c.id === id ? {...c,tagIds:(c.tagIds||[]).filter(t=>!tagIds.includes(t))} : c)),
+    setPinned: (id, value) => updateChat(id, { pinned:value }),
+    setUnread: (id, value) => updateChat(id, { unread:value }),
+    matchAskRelation,
+    matchSimulateReply,
+    matchConfirmAcc,
+    openUserDetail,
+    openServiceDetail,
+    getServices: () => services,
+    getServiceContacts: () => serviceContacts,
+    getContacts: () => contacts,
+    confirmExistingServiceMatch,
+    updateContactStatus,
+    updateServiceContactRelationship,
+  };
+
+  if (loggedOut) {
+    return (
+      <div data-cc-theme={theme} style={{ display:"flex", height:"100%", minHeight:640, width:"100%", fontFamily:FONT, background:C.bgApp, alignItems:"center", justifyContent:"center", borderRadius:12, border:`1px solid ${C.border}`, "--cc-text": C.text, "--cc-text-soft": C.textSoft, "--cc-bg-panel": C.bgPanel, "--cc-bg-panel-alt": C.bgPanelAlt, "--cc-border": C.border }}>
+        <div style={{ textAlign:"center", padding:32 }}>
+          <div style={{ width:56, height:56, borderRadius:"50%", background:C.accentSoft, display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px" }}>
+            <User size={26} color={C.accent} />
+          </div>
+          <h2 style={{ fontSize:16, fontWeight:700, color:C.text }}>Anda telah logout</h2>
+          <p style={{ fontSize:12.5, color:C.textFaint, marginTop:6, maxWidth:280 }}>Sesi Customer Care Anda telah diakhiri. Silakan login kembali untuk melanjutkan.</p>
+          <button onClick={() => setLoggedOut(false)} style={{ marginTop:18, padding:"9px 18px", border:"none", borderRadius:8, background:C.accent, color:"#fff", fontSize:13, fontWeight:600, cursor:"pointer" }}>Login Kembali</button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div data-cc-theme={theme} style={{ display: "flex", height: "100%", minHeight: 640, width: "100%", fontFamily: FONT, background: C.bgApp, overflow: "hidden", borderRadius: 12, border: `1px solid ${C.border}`, "--cc-text": C.text, "--cc-text-soft": C.textSoft, "--cc-bg-panel": C.bgPanel, "--cc-bg-panel-alt": C.bgPanelAlt, "--cc-border": C.border }}>
+      <MainMenu active={activeMenu} onChange={changeMenu} activeAccount={activeAccount} onLogoutClick={() => setLogoutConfirmOpen(true)} theme={theme} onThemeToggle={() => setTheme(theme === "light" ? "dark" : "light")} />
+
+      {logoutConfirmOpen && (
+        <Modal title="Logout" onClose={() => setLogoutConfirmOpen(false)}>
+          <div style={{fontSize:12.5,color:C.textSoft,lineHeight:1.5,marginBottom:14}}>Yakin ingin logout dari akun <b>{activeAccount.name}</b>?</div>
+          <div className="flex justify-end gap-2">
+            <button onClick={() => setLogoutConfirmOpen(false)} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.textSoft,cursor:"pointer"}}>Batal</button>
+            <button onClick={() => { setLogoutConfirmOpen(false); setLoggedOut(true); }} style={{padding:"7px 12px",border:"none",borderRadius:7,background:C.danger,color:"#fff",cursor:"pointer",fontWeight:600}}>Logout</button>
+          </div>
+        </Modal>
+      )}
+
+      {activeMenu === "chat" && (
+        <ChatModule
+          state={{ chats, contacts, users, services, serviceContacts, tags, templates, selectedChatId, filter, labelFilter, profileOpen, selectionMode, selectedChatIds, deleteConfirmOpen }}
+          actions={chatActions}
+        />
+      )}
+
+      {activeMenu === "tag" && <TagModule tags={tags} setTags={setTags} />}
+
+      {activeMenu === "template" && <TemplateChatModule templates={templates} actions={chatActions} />}
+
+      {activeMenu === "user" && (
+        <UserModule
+          users={users} services={services} contacts={contacts} serviceContacts={serviceContacts}
+          selectedUserId={selectedUserId} openUserDetail={openUserDetail}
+          back={() => setSelectedUserId(null)} openServiceDetail={openServiceDetail}
+        />
+      )}
+
+      {activeMenu === "service" && (
+        <ServiceModule
+          services={services} users={users} contacts={contacts} serviceContacts={serviceContacts}
+          selectedPppoe={selectedPppoe} openServiceDetail={openServiceDetail}
+          back={() => setSelectedPppoe(null)} openUserDetail={openUserDetail} onChangePrimary={changePrimary} actions={chatActions}
+        />
+      )}
+
+      {activeMenu === "contact" && (
+        <ContactModule
+          contacts={contacts} users={users} services={services} serviceContacts={serviceContacts}
+          selectedContactId={selectedContactId} openContactDetail={openContactDetail}
+          back={() => setSelectedContactId(null)} openServiceDetail={openServiceDetail} actions={chatActions}
+        />
+      )}
+    </div>
+  );
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(React.createElement(App));
+</script>
+</body>
+</html>
