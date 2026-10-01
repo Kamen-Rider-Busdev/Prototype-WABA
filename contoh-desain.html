@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dasaria - Instalasi Baru</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', 'Poppins', sans-serif; margin: 0; padding: 0; overflow: hidden; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .table-scroll::-webkit-scrollbar { height: 8px; }
+        .table-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
+        .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        .table-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .table-scroll { scrollbar-color: #cbd5e1 #f1f5f9; scrollbar-width: thin; }
+    </style>
+</head>
+<body class="h-screen flex bg-white text-gray-800">
+    <div class="w-64 bg-white border-r border-gray-200 flex flex-col flex-shrink-0 z-10 h-full overflow-y-auto no-scrollbar">
+        <div class="h-16 flex items-center px-4 border-b border-gray-100 flex-shrink-0">
+            <button class="text-gray-500 hover:text-gray-700 mr-4"><i class="fa-solid fa-bars text-lg"></i></button>
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded bg-orange-500 flex items-center justify-center text-white font-bold relative overflow-hidden">
+                    <div class="w-4 h-4 border-2 border-white rounded-sm"></div>
+                    <div class="absolute w-2 h-2 bg-white rounded-sm top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                </div>
+                <div class="h-6 w-px bg-gray-300 mx-2"></div>
+                <span class="font-medium text-gray-800">Frontline Lead</span>
+            </div>
+        </div>
+
+        <div class="flex-grow py-4 px-3 space-y-6">
+            <div>
+                <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Umum</p>
+                <div class="space-y-1">
+                    <a href="#" class="flex items-center px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg group"><i class="fa-solid fa-border-all w-6 text-gray-500 group-hover:text-gray-700 text-center mr-2"></i><span class="text-sm font-medium">Dashboard</span></a>
+                    <a href="chat.html" class="flex items-center justify-between px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg group"><div class="flex items-center"><i class="fa-regular fa-comment-dots w-6 text-gray-500 group-hover:text-gray-700 text-center mr-2"></i><span class="text-sm font-medium">Chats</span></div></a>
+                    <div class="space-y-1">
+                        <button class="w-full flex items-center justify-between px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg group focus:outline-none"><div class="flex items-center"><i class="fa-solid fa-ticket w-6 text-gray-500 group-hover:text-gray-700 text-center mr-2"></i><span class="text-sm font-medium">Tiket</span></div><i class="fa-solid fa-chevron-down text-xs text-gray-400 transition-transform duration-200"></i></button>
+                        <div class="pl-11 pr-3 space-y-1 relative">
+                            <div class="absolute left-6 top-0 bottom-0 w-px bg-gray-200"></div>
+                            <a href="tickets-active.html" class="block px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg relative z-10">Aktif</a>
+                            <a href="tickets-history.html" class="block px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg relative z-10">Riwayat</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Data Pelanggan</p>
+                <div class="space-y-1">
+                    <a href="new-instalation.html" class="flex items-center px-3 py-2 text-orange-700 bg-orange-50 rounded-lg group"><i class="fa-solid fa-cubes w-6 text-orange-600 text-center mr-2"></i><span class="text-sm font-semibold">Instalasi Baru</span></a>
+                    <button class="w-full flex items-center justify-between px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg group focus:outline-none"><div class="flex items-center"><i class="fa-regular fa-comments w-6 text-gray-500 group-hover:text-gray-700 text-center mr-2"></i><span class="text-sm font-medium">Pelanggan</span></div><i class="fa-solid fa-chevron-right text-xs text-gray-400"></i></button>
+                </div>
+            </div>
+
+            <div>
+                <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Operasional</p>
+                <div class="space-y-1">
+                    <a href="#" class="flex items-center px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg group"><i class="fa-solid fa-satellite-dish w-6 text-gray-500 group-hover:text-gray-700 text-center mr-2"></i><span class="text-sm font-medium">Monitor OLT</span></a>
+                    <a href="#" class="flex items-center px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg group"><i class="fa-solid fa-network-wired w-6 text-gray-500 group-hover:text-gray-700 text-center mr-2"></i><span class="text-sm font-medium">Distribusi</span></a>
+                    <button class="w-full flex items-center justify-between px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg group focus:outline-none"><div class="flex items-center"><i class="fa-solid fa-plug-circle-xmark w-6 text-gray-500 group-hover:text-gray-700 text-center mr-2"></i><span class="text-sm font-medium">Dismantle</span></div><i class="fa-solid fa-chevron-right text-xs text-gray-400"></i></button>
+                    <a href="#" class="flex items-center px-3 py-2 text-gray-700 hover:bg-gray-50 rounded-lg group"><i class="fa-solid fa-map w-6 text-gray-500 group-hover:text-gray-700 text-center mr-2"></i><span class="text-sm font-medium">Akses Peta</span></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profil Pengguna & Logout -->
+        <div class="border-t border-gray-200 p-3">
+            <div class="flex items-center gap-3 rounded-lg bg-gray-50 p-2">
+                <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold border border-blue-200 flex-shrink-0">A</div>
+                <div class="min-w-0 flex-1">
+                    <div class="text-sm font-medium text-gray-900 truncate">Agnes</div>
+                    <div class="text-xs text-gray-500 truncate">Frontline Lead</div>
+                </div>
+            </div>
+            <button class="mt-2 w-full flex items-center gap-3 rounded-lg px-2 py-2 text-sm text-red-600 hover:bg-red-50" title="Logout">
+                <i class="fa-solid fa-right-from-bracket w-6 text-center"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Wrapper Utama (Navbar atas, konten di bawah) -->
+    <div class="flex-grow flex flex-col h-full min-w-0 bg-white">
+        <!-- Navbar -->
+        <header class="h-16 border-b border-gray-200 flex items-center px-4 sm:px-6 gap-3">
+            <button class="w-9 h-9 rounded hover:bg-gray-100 text-gray-600 flex items-center justify-center">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="h-6 w-px bg-gray-200"></div>
+            <div class="text-sm font-medium text-gray-800">Instalasi Baru</div>
+            <div class="ml-auto inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 border border-emerald-100">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                Terhubung ke Realtime Service
+            </div>
+        </header>
+
+        <main class="flex-1 min-w-0 h-full overflow-y-auto bg-white">
+        <section class="px-4 sm:px-6 pb-6">
+            <div class="mt-7">
+                <h1 class="text-[18px] font-semibold text-gray-900">All Pemasangan Baru</h1>
+                <p class="mt-1 text-sm text-gray-500">Monitoring pemasangan pelanggan baru berdasarkan branch dan PPPOE</p>
+            </div>
+
+            <div class="mt-6 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                <div class="relative w-full lg:w-[320px]">
+                    <input id="pppoeSearch" class="h-9 w-full rounded border border-gray-200 bg-white pl-9 pr-3 text-sm text-gray-700 outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-400" placeholder="Cari PPPOE / kode tiket">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <div class="relative w-full sm:w-[270px]">
+                        <select id="branchSelect" class="h-9 w-full appearance-none rounded border border-gray-200 bg-white px-4 pr-10 text-sm text-gray-700 outline-none">
+                            <option>All Branches</option>
+                            <option>Kota Loma</option>
+                            <option>Wendit</option>
+                            <option>Kedungkandang</option>
+                            <option>Pasuruan Selatan</option>
+                            <option>Dau</option>
+                            <option>Karangploso</option>
+                            <option>Temas</option>
+                            <option>Lawang</option>
+                            <option>Pakis</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400"></i>
+                    </div>
+                    <button class="h-9 w-9 rounded border border-gray-200 bg-white text-gray-600 hover:bg-gray-50" title="Filter">
+                        <i class="fa-solid fa-filter"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-6 overflow-x-auto table-scroll" id="tableWrap">
+                <table class="w-full min-w-[1240px] table-fixed text-left text-sm text-slate-800 rounded-xl border border-slate-200 overflow-hidden">
+                    <colgroup>
+                        <col class="w-[45px]"><col class="w-[200px]"><col class="w-[210px]"><col class="w-[200px]"><col class="w-[105px]"><col class="w-[80px]"><col class="w-[95px]"><col class="w-[125px]"><col class="w-[150px]"><col class="w-[55px]"><col class="w-[50px]">
+                    </colgroup>
+                    <thead class="bg-slate-100 sticky top-0 z-10 shadow-sm">
+                        <tr class="h-12 border-b border-slate-200 text-slate-800">
+                            <th class="px-2 text-center text-[15px] font-semibold">No</th>
+                            <th class="px-2 text-[15px] font-semibold">Branch</th>
+                            <th class="px-2 text-[15px] font-semibold">PPPOE</th>
+                            <th class="px-2 text-[15px] font-semibold">Nama</th>
+                            <th class="px-2 text-[15px] font-semibold">Team</th>
+                            <th class="px-2 text-[15px] font-semibold">Katim</th>
+                            <th class="px-2 text-[15px] font-semibold">Access</th>
+                            <th class="px-2 text-[15px] font-semibold">SN</th>
+                            <th class="px-2 text-[15px] font-semibold">Status</th>
+                            <th class="px-2 text-center text-[15px] font-semibold">Action</th>
+                            <th class="px-2 text-center text-[15px] font-semibold">Print</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    </div>
+
+    <script>
+        const phaseOrder = ['Phase 1','Phase 2','Phase 3'];
+        const dataAll = [
+            { branch:'Kota Loma', phase:'Phase 1', code:'KL03082632715', name:'Muhammad Choiri', team:'Engineer - 1', katim:'Ariel', access:'WETA', accessVer:'1.2.6', sn:'ZTEGDD299F3E', status:'Proses Instalasi' },
+            { branch:'Kota Loma', phase:'Phase 1', code:'KL03082632716', name:'Fina Indriani', team:'Engineer - 1', katim:'Ariel', access:'MAKA', accessVer:'1.2.3', sn:'ZTEGDC5F20A5', status:'Proses Speed Test' },
+            { branch:'Kota Loma', phase:'Phase 2', code:'KL03082632717', name:'IKA KURNIAWATI', team:'Engineer - 2', katim:'Dika', access:'GENI', accessVer:'1.1.3', sn:'ZTEG0251CBE', status:'Menunggu Validasi' },
+            { branch:'Kota Loma', phase:'Phase 2', code:'KL03082632718', name:'Wivin Indari', team:'Engineer - 2', katim:'Dika', access:'MOCA', accessVer:'2.1.2', sn:'ZTEGAB11CD44', status:'Proses Penarikan' },
+            { branch:'Kota Loma', phase:'Phase 2', code:'KL03082632719', name:'Raka Saputro', team:'Engineer - 3', katim:'Farrell', access:'DUTA', accessVer:'2.2.5', sn:'ZTEGBB22EF55', status:'Menunggu Validasi' },
+            { branch:'Wendit', phase:'Phase 1', code:'WD04082632864', name:'Budi Santoso', team:'Engineer', katim:'Dirga', access:'JUNO', accessVer:'1.0.1', sn:'ZTEGCC33FA66', status:'Proses Instalasi' },
+            { branch:'Wendit', phase:'Phase 2', code:'WD04082632865', name:'Siti Rahayu', team:'Rusa', katim:'Angga', access:'UMAN', accessVer:'1.3.0', sn:'ZTEGDD44AB77', status:'Proses Speed Test' },
+            { branch:'Wendit', phase:'Phase 2', code:'WD04082632866', name:'Agus Salim', team:'Rusa', katim:'Angga', access:'DRES', accessVer:'2.0.0', sn:'ZTEGEE55BC88', status:'Menunggu Revisi Jalur' },
+            { branch:'Wendit', phase:'Phase 3', code:'WD04082632867', name:'Nina Kurnia', team:'Rusa', katim:'Fachry', access:'SESA', accessVer:'1.0.5', sn:'ZTEGFF66CD99', status:'Menunggu Validasi' },
+            { branch:'Wendit', phase:'Phase 3', code:'WD04082632868', name:'Toni Pratama', team:'Rusa', katim:'Fachry', access:'MADA', accessVer:'1.1.1', sn:'ZTEGAA77DE00', status:'Proses Instalasi' },
+            { branch:'Wendit', phase:'Phase 3', code:'WD04082632869', name:'Dewi Lestari', team:'Rusa', katim:'Wempi', access:'HAMA', accessVer:'1.0.2', sn:'ZTEGBB88EF11', status:'Proses Penarikan' },
+            { branch:'Kedungkandang', phase:'Phase 1', code:'KK03082632676', name:'Heri Kurniawan', team:'Engineer - 1', katim:'Damar', access:'WETA', accessVer:'1.2.6', sn:'ZTEGCC99FA22', status:'Proses Instalasi' },
+            { branch:'Kedungkandang', phase:'Phase 2', code:'KK03082632677', name:'Mega Sari', team:'Engineer - 3', katim:'Ragil', access:'GENI', accessVer:'1.1.3', sn:'ZTEGDD00AB33', status:'Menunggu Validasi' },
+            { branch:'Kedungkandang', phase:'Phase 2', code:'KK03082632678', name:'Andi Wijaya', team:'Engineer - 3', katim:'Ragil', access:'MOCA', accessVer:'2.1.2', sn:'ZTEGEE11BC44', status:'Selesai' },
+            { branch:'Pasuruan Selatan', phase:'Phase 1', code:'PS03082632550', name:'Indah Pertiwi', team:'Engineer', katim:'Amirul Faizin', access:'JUNO', accessVer:'1.3.1', sn:'ZTEGFA22CD55', status:'Proses Speed Test' },
+            { branch:'Pasuruan Selatan', phase:'Phase 2', code:'PS03082632551', name:'Rizky Pratama', team:'Engineer', katim:'Alfan', access:'UMAN', accessVer:'1.0.7', sn:'ZTEGBA33DE66', status:'Menunggu Revisi Jalur' },
+            { branch:'Dau', phase:'Phase 1', code:'DA03082632440', name:'Fitra Ramadhani', team:'Engineer - 2', katim:'Dirga', access:'WETA', accessVer:'1.2.6', sn:'ZTEGBB44EF77', status:'Proses Instalasi' },
+            { branch:'Karangploso', phase:'Phase 1', code:'KP03082632330', name:'Yudi Setiawan', team:'Engineer - 3', katim:'Farrell', access:'SESA', accessVer:'1.0.5', sn:'ZTEGCC55FA88', status:'Menunggu Validasi' },
+            { branch:'Karangploso', phase:'Phase 2', code:'KP03082632331', name:'Sinta Dewi', team:'Engineer - 1', katim:'Ariel', access:'DUTA', accessVer:'2.2.5', sn:'ZTEGDD66AB99', status:'Proses Penarikan' },
+            { branch:'Temas', phase:'Phase 3', code:'TM03082632220', name:'Budi Hartono', team:'Rusa', katim:'Wempi', access:'HAMA', accessVer:'1.0.2', sn:'ZTEGEE77BC00', status:'Selesai' },
+            { branch:'Lawang', phase:'Phase 1', code:'LW03082632110', name:'Rina Marlina', team:'Engineer - 2', katim:'Dika', access:'MAKA', accessVer:'1.2.3', sn:'ZTEGFA88CD11', status:'Proses Speed Test' },
+            { branch:'Lawang', phase:'Phase 2', code:'LW03082632111', name:'Suparno', team:'Engineer - 3', katim:'Angga', access:'MADA', accessVer:'1.1.1', sn:'ZTEGBA99DE22', status:'Menunggu Validasi' },
+            { branch:'Pakis', phase:'Phase 1', code:'PK03082632000', name:'Tania Agustina', team:'Engineer', katim:'Fachry', access:'DRES', accessVer:'2.0.0', sn:'ZTEGCC00FA33', status:'Proses Instalasi' },
+            { branch:'Pakis', phase:'Phase 2', code:'PK03082632001', name:'Fajar Nugroho', team:'Engineer', katim:'Ragil', access:'HAMA', accessVer:'1.0.2', sn:'ZTEGDD11AB44', status:'Proses Penarikan' }
+        ];
+
+        function groupByPhase(list) {
+            const g = {};
+            list.forEach(d => { if (!g[d.phase]) g[d.phase] = []; g[d.phase].push(d); });
+            return g;
+        }
+
+        const statusBadge = {
+            'Proses Instalasi':     'bg-yellow-200 text-yellow-900',
+            'Proses Speed Test':    'bg-orange-200 text-orange-900',
+            'Proses Penarikan':     'bg-orange-300 text-orange-900',
+            'Menunggu Validasi':    'bg-pink-200 text-pink-900',
+            'Menunggu Revisi Jalur':'bg-red-200 text-red-900',
+            'Selesai':              'bg-emerald-200 text-emerald-900',
+            'Terjeblokir':          'bg-gray-300 text-gray-800'
+        };
+        const phaseColor = { 'Phase 1': 'bg-blue-50', 'Phase 2': 'bg-emerald-50', 'Phase 3': 'bg-purple-50' };
+        function statusCell(status) {
+            const cls = statusBadge[status] || 'bg-gray-200 text-gray-900';
+            return '<span title="' + status + '" class="inline-block ' + cls + ' px-2.5 py-1 rounded-md text-[11px] font-medium whitespace-nowrap align-middle">' + status + '</span>';
+        }
+
+        function render() {
+            const branchSel = document.getElementById('branchSelect').value;
+            const pppoeQ = document.getElementById('pppoeSearch') ? document.getElementById('pppoeSearch').value.toLowerCase() : '';
+            const filtered = (branchSel === 'All Branches' ? dataAll : dataAll.filter(d => d.branch === branchSel)).filter(d => !pppoeQ || d.code.toLowerCase().includes(pppoeQ));
+            const groups = groupByPhase(filtered);
+            let html = '';
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: '2-digit', timeZone: 'UTC' });
+
+            if (filtered.length === 0) {
+                html += '<tr><td colspan="11" class="py-12 text-center text-gray-500"><div class="flex flex-col items-center"><i class="fa-solid fa-box-open text-3xl mb-2 text-gray-300"></i><span>Tidak ada pemasangan ditemukan untuk filter ini</span></div></td></tr>';
+            } else {
+                html += '<tr class="bg-amber-100 text-amber-950 font-bold border-b border-amber-200"><td colspan="11" class="px-3 py-3 text-[21px]">' + dateStr + ' | Total PSB - ' + filtered.length + '</td></tr>';
+                phaseOrder.forEach(phase => {
+                    if (!groups[phase] || !groups[phase].length) return;
+                    html += '<tr class="' + (phaseColor[phase] || 'bg-gray-50') + ' text-gray-800 font-bold border-b border-gray-200"><td colspan="11" class="px-3 py-2"><div class="flex justify-between w-full"><span>' + phase + '</span><span class="text-sm">PSB - ' + groups[phase].length + '</span></div></td></tr>';
+                    groups[phase].forEach((d, idx) => {
+                        const rowClass = (idx % 2 === 0) ? '' : 'bg-gray-50';
+                        html += '<tr class="h-[55px] border-b border-gray-100 hover:bg-gray-100 ' + rowClass + '">' +
+                            '<td class="px-2 text-center text-gray-500 align-middle">' + (idx + 1) + '</td>' +
+                            '<td class="px-2 align-middle whitespace-nowrap">' + d.branch + '</td>' +
+                            '<td class="px-2 align-middle whitespace-nowrap font-mono text-[13px]" title="' + d.code + '">' + d.code + '</td>' +
+                            '<td class="px-2 align-middle whitespace-nowrap" title="' + d.name + '">' + d.name + '</td>' +
+                            '<td class="px-2 align-middle">' + d.team + '</td>' +
+                            '<td class="px-2 align-middle whitespace-nowrap">' + d.katim + '</td>' +
+                            '<td class="px-2 align-middle" title="' + d.access + ' ' + d.accessVer + '"><div class="flex flex-col leading-tight"><span class="font-medium text-[13px]">' + d.access + '</span><span class="inline-block px-1.5 py-0.5 mt-0.5 text-[10px] font-medium bg-gray-100 text-gray-500 rounded">v' + d.accessVer + '</span></div></td>' +
+                            '<td class="px-2 align-middle"><span title="' + d.sn + '" class="block text-[12px] font-mono whitespace-nowrap overflow-hidden text-ellipsis">' + d.sn + '</span></td>' +
+                            '<td class="px-2 align-middle">' + statusCell(d.status) + '</td>' +
+                            '<td class="px-2 text-center align-middle"><button class="h-9 w-9 rounded bg-amber-400 text-gray-900 hover:bg-amber-500" title="Edit Data Pemasangan"><i class="fa-solid fa-pencil-alt"></i></button></td>' +
+                            '<td class="px-2 text-center align-middle"><i class="fa-solid fa-print text-blue-500 text-[21px]" title="Cetak Data Pemasangan"></i></td>' +
+                            '</tr>';
+                    });
+                });
+            }
+            document.getElementById('tableBody').innerHTML = html;
+        }
+
+        document.getElementById('branchSelect').addEventListener('change', render);
+        document.getElementById('pppoeSearch')?.addEventListener('input', render);
+        render();
+    </script>
+</body>
+</html>

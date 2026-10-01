@@ -5,27 +5,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WABA Customer Care Prototype</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 <script>
 tailwind.config = {
   theme: {
     extend: {
-      fontFamily: { sans: ['Inter','Segoe UI','ui-sans-serif','system-ui','-apple-system','sans-serif'] }
+      fontFamily: { sans: ['Inter','Poppins','Segoe UI','ui-sans-serif','system-ui','-apple-system','sans-serif'] }
     }
   }
 }
 </script>
 <style>
-html,body,#root { width:100%; height:100%; margin:0; }
-body { font-family:Inter,'Segoe UI',ui-sans-serif,system-ui,-apple-system,sans-serif; background:#eef1f4; }
+html,body,#root { width:100%; height:100%; margin:0; padding:0; overflow:hidden; }
+body { font-family:'Inter','Poppins',sans-serif; background:#ffffff; color:#1e293b; }
 * { box-sizing:border-box; }
 button,input,select,textarea { font:inherit; }
-button:focus-visible,input:focus-visible,select:focus-visible { outline:2px solid #008f69; outline-offset:1px; }
+button:focus-visible,input:focus-visible,select:focus-visible { outline:2px solid #ea580c; outline-offset:1px; }
 .cc-context-item { width:100%; display:flex; align-items:center; gap:9px; border:none; background:transparent; color:var(--cc-text); padding:8px 9px; border-radius:7px; font-size:12.5px; text-align:left; cursor:pointer; }
 .cc-context-item:hover { background:var(--cc-bg-panel-alt); }
-::-webkit-scrollbar { width:7px; height:7px; }
-::-webkit-scrollbar-thumb { background:#cfd4dc; border-radius:99px; }
+.no-scrollbar::-webkit-scrollbar { display:none; }
+.no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+.table-scroll::-webkit-scrollbar { height:8px; width:7px; }
+.table-scroll::-webkit-scrollbar-track { background:#f1f5f9; }
+.table-scroll::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:9999px; }
+.table-scroll::-webkit-scrollbar-thumb:hover { background:#94a3b8; }
+.table-scroll { scrollbar-color:#cbd5e1 #f1f5f9; scrollbar-width:thin; }
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:99px; }
 ::-webkit-scrollbar-track { background:transparent; }
-[data-cc-theme="dark"] input::placeholder{color:#788493}.cc-tag-icons{display:flex;align-items:center;gap:3px;flex-shrink:0}.cc-tag-icon{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:5px}.cc-filter-pill{flex:0 0 auto;white-space:nowrap}.cc-filter-menu{position:relative;display:inline-block}.cc-filter-button{display:flex;align-items:center;gap:6px;border:1px solid var(--cc-border);background:var(--cc-bg-panel);color:var(--cc-text-soft);border-radius:8px;padding:7px 9px;font-size:12px;cursor:pointer}.cc-filter-option{width:100%;border:none;background:transparent;color:var(--cc-text);padding:7px 9px;text-align:left;border-radius:6px;font-size:12px;cursor:pointer}.cc-filter-option:hover{background:var(--cc-bg-panel-alt)}
+[data-cc-theme="dark"] input::placeholder{color:#64748b}.cc-tag-icons{display:flex;align-items:center;gap:3px;flex-shrink:0}.cc-tag-icon{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:5px}.cc-filter-pill{flex:0 0 auto;white-space:nowrap}.cc-filter-menu{position:relative;display:inline-block}.cc-filter-button{display:flex;align-items:center;gap:6px;border:1px solid var(--cc-border);background:var(--cc-bg-panel);color:var(--cc-text-soft);border-radius:8px;padding:7px 9px;font-size:12px;cursor:pointer}.cc-filter-option{width:100%;border:none;background:transparent;color:var(--cc-text);padding:7px 9px;text-align:left;border-radius:6px;font-size:12px;cursor:pointer}.cc-filter-option:hover{background:var(--cc-bg-panel-alt)}
 </style>
 <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -410,26 +421,27 @@ function User(props) {
 }
 
 /* ============================================================
-   DESIGN TOKENS — mengikuti screenshot referensi (WhatsApp Web
-   pattern): background terang, border tipis, aksen biru, compact.
+   DESIGN TOKENS — Dasaria Clean Modern (Ref: contoh-desain.html)
    ============================================================ */
 const LIGHT_C = {
-  bgApp:"#f0f2f5", bgPanel:"#ffffff", bgPanelAlt:"#f7f9fa", border:"#dfe3e7", borderStrong:"#cfd5da",
-  text:"#111b21", textSoft:"#54656f", textFaint:"#8696a0", accent:"#008f69", accentSoft:"#e7f7f2", accentSoftBorder:"#b9e5d8",
-  success:"#22a35e", successSoft:"#e6f7ee", warning:"#d98a1f", warningSoft:"#fdf3e3", danger:"#e5484d", dangerSoft:"#fdecec",
-  sidebarBg:"#202c33", sidebarBgSoft:"#2a3942", chatBg:"#efeae2", chatPlaceholder:"#e2e6ec",
+  bgApp:"#f8fafc", bgPanel:"#ffffff", bgPanelAlt:"#f1f5f9", border:"#e2e8f0", borderStrong:"#cbd5e1",
+  text:"#0f172a", textSoft:"#475569", textFaint:"#94a3b8", accent:"#ea580c", accentHover:"#c2410c", accentSoft:"#fff7ed", accentSoftBorder:"#fed7aa",
+  success:"#10b981", successSoft:"#ecfdf5", warning:"#f59e0b", warningSoft:"#fef3c7", danger:"#dc2626", dangerSoft:"#fef2f2",
+  sidebarBg:"#ffffff", sidebarBgSoft:"#f8fafc", sidebarBorder:"#e2e8f0", sidebarActiveBg:"#fff7ed", sidebarActiveText:"#c2410c", sidebarActiveIcon:"#ea580c",
+  chatBg:"#efeae2", chatPlaceholder:"#e2e8f0",
   chatPattern:"url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3MiIgaGVpZ2h0PSI3MiIgdmlld0JveD0iMCAwIDcyIDcyIj48ZyBmaWxsPSJub25lIiBzdHJva2U9IiNkNmQwYzciIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC41NSI+PHBhdGggZD0iTTEyIDE1bDUgNS01IDUtNS01ek01MiA3bDQgNC00IDQtNC00ek0zNSA0Mmw2IDYtNiA2LTYtNnpNNjEgNTVsNCA0LTQgNC00LTR6Ii8+PGNpcmNsZSBjeD0iMjAiIGN5PSI1MiIgcj0iMyIvPjxwYXRoIGQ9Ik00NSAyNWM0LTQgOC00IDEyIDBNNiAzOGMzLTMgNi0zIDkgMCIvPjwvZz48L3N2Zz4=)"
 };
 const DARK_C = {
-  bgApp:"#111b21", bgPanel:"#202c33", bgPanelAlt:"#2a3942", border:"#34454f", borderStrong:"#42545e",
-  text:"#e9edef", textSoft:"#b9c4ca", textFaint:"#8696a0", accent:"#00a884", accentSoft:"#123d34", accentSoftBorder:"#1d5b4e",
-  success:"#3fc779", successSoft:"#173b29", warning:"#e3a044", warningSoft:"#3b2e18", danger:"#f06b70", dangerSoft:"#402226",
-  sidebarBg:"#111b21", sidebarBgSoft:"#202c33", chatBg:"#0b141a", chatPlaceholder:"#26343d",
+  bgApp:"#0f172a", bgPanel:"#1e293b", bgPanelAlt:"#334155", border:"#334155", borderStrong:"#475569",
+  text:"#f8fafc", textSoft:"#cbd5e1", textFaint:"#64748b", accent:"#f97316", accentHover:"#ea580c", accentSoft:"#431407", accentSoftBorder:"#7c2d12",
+  success:"#10b981", successSoft:"#064e3b", warning:"#f59e0b", warningSoft:"#78350f", danger:"#ef4444", dangerSoft:"#450a0a",
+  sidebarBg:"#1e293b", sidebarBgSoft:"#0f172a", sidebarBorder:"#334155", sidebarActiveBg:"rgba(249,115,22,0.15)", sidebarActiveText:"#fb923c", sidebarActiveIcon:"#f97316",
+  chatBg:"#0b141a", chatPlaceholder:"#1e293b",
   chatPattern:"url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3MiIgaGVpZ2h0PSI3MiIgdmlld0JveD0iMCAwIDcyIDcyIj48ZyBmaWxsPSJub25lIiBzdHJva2U9IiMzNjQzNTAiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC40OCI+PHBhdGggZD0iTTEyIDE1bDUgNS01IDUtNS01ek01MiA3bDQgNC00IDQtNC00ek0zNSA0Mmw2IDYtNiA2LTYtNnpNNjEgNTVsNCA0LTQgNC00LTR6Ii8+PGNpcmNsZSBjeD0iMjAiIGN5PSI1MiIgcj0iMyIvPjxwYXRoIGQ9Ik00NSAyNWM0LTQgOC00IDEyIDBNNiAzOGMzLTMgNi0zIDkgMCIvPjwvZz48L3N2Zz4=)"
 };
 let C = LIGHT_C;
 
-const FONT = "'Inter','Segoe UI',ui-sans-serif,system-ui,-apple-system,sans-serif";
+const FONT = "'Inter','Poppins',-apple-system,BlinkMacSystemFont,sans-serif";
 
 // Rupiah helpers — Service discount is stored as a nominal numeric string.
 const parseRupiah = (value) => String(value ?? "").replace(/\D/g, "");
@@ -592,11 +604,13 @@ function formatPhoneDisplay(n) {
 }
 function statusColor(status) {
   const s = (status || "").toLowerCase();
-  if (s === "active") return { fg: C.success, bg: C.successSoft, label: "Active" };
-  if (s === "isolir") return { fg: C.warning, bg: C.warningSoft, label: "Isolir" };
-  if (s === "terminated") return { fg: C.danger, bg: C.dangerSoft, label: "Terminated" };
-  if (s === "non active" || s === "inactive") return { fg: C.danger, bg: C.dangerSoft, label: "Non Active" };
-  return { fg: C.textSoft, bg: C.bgPanelAlt, label: status || "-" };
+  if (s === "active" || s === "selesai") return { fg: "#065f46", bg: "#d1fae5", border: "#a7f3d0", label: "Active" };
+  if (s === "isolir") return { fg: "#9a3412", bg: "#ffedd5", border: "#fed7aa", label: "Isolir" };
+  if (s === "terminated") return { fg: "#991b1b", bg: "#fee2e2", border: "#fecaca", label: "Terminated" };
+  if (s === "non active" || s === "non-active" || s === "inactive") return { fg: "#991b1b", bg: "#fee2e2", border: "#fecaca", label: "Non Active" };
+  if (s === "identified") return { fg: "#1e40af", bg: "#dbeafe", border: "#bfdbfe", label: "Identified" };
+  if (s === "unknown") return { fg: "#374151", bg: "#f3f4f6", border: "#e5e7eb", label: "Unknown" };
+  return { fg: C.textSoft, bg: C.bgPanelAlt, border: C.border, label: status || "-" };
 }
 function deriveUserStatus(userId, services) {
   const owned = services.filter(s => s.userId === userId);
@@ -663,12 +677,12 @@ function Avatar({ size = 40, active }) {
     <div
       style={{
         width: size, height: size, borderRadius: "50%",
-        background: active ? C.accentSoft : "#e7e9ee",
+        background: active ? "#ffedd5" : "#e0f2fe",
         display: "flex", alignItems: "center", justifyContent: "center",
-        flexShrink: 0, border: `1px solid ${active ? C.accentSoftBorder : C.border}`,
+        flexShrink: 0, border: `1px solid ${active ? "#fdba74" : "#bae6fd"}`,
       }}
     >
-      <User size={size * 0.52} color={active ? C.accent : C.textFaint} />
+      <User size={size * 0.52} color={active ? "#ea580c" : "#0284c7"} />
     </div>
   );
 }
@@ -686,7 +700,7 @@ function StatusDot({ status }) {
 function Badge({ children, bg, fg, border }) {
   return (
     <span style={{
-      fontSize: 11.5, fontWeight: 600, padding: "2px 8px", borderRadius: 999,
+      fontSize: 11.5, fontWeight: 600, padding: "2.5px 8px", borderRadius: 6,
       background: bg, color: fg, border: border ? `1px solid ${border}` : "none",
       whiteSpace: "nowrap",
     }}>
@@ -699,12 +713,11 @@ function Pill({ active, onClick, children }) {
   return (
     <button
       onClick={onClick}
-      className="px-2.5 py-1.5 text-[12px] font-medium rounded-full cc-filter-pill"
+      className="px-3 py-1.5 text-[12px] font-medium rounded-full cc-filter-pill transition-colors cursor-pointer"
       style={{
-        background: active ? C.accent : C.bgPanel,
+        background: active ? "#ea580c" : C.bgPanel,
         color: active ? "#fff" : C.textSoft,
-        border: `1px solid ${active ? C.accent : C.border}`,
-        cursor: "pointer",
+        border: `1px solid ${active ? "#ea580c" : C.border}`,
       }}
     >
       {children}
@@ -714,7 +727,7 @@ function Pill({ active, onClick, children }) {
 
 function InfoRow({ label, value }) {
   return (
-    <div className="flex items-start justify-between py-1.5" style={{ borderBottom: `1px solid ${C.border}` }}>
+    <div className="flex items-start justify-between py-2" style={{ borderBottom: `1px solid ${C.border}` }}>
       <span style={{ color: C.textFaint, fontSize: 12.5 }}>{label}</span>
       <span style={{ color: C.text, fontSize: 12.5, fontWeight: 500, textAlign: "right", maxWidth: "60%" }}>{value ?? "-"}</span>
     </div>
@@ -723,9 +736,9 @@ function InfoRow({ label, value }) {
 
 function SectionCard({ title, children, right }) {
   return (
-    <div style={{ background: C.bgPanel, border: `1px solid ${C.border}`, borderRadius: 10, padding: 16, marginBottom: 14 }}>
-      <div className="flex items-center justify-between mb-2.5">
-        <h3 style={{ fontSize: 12.5, fontWeight: 700, color: C.textSoft, letterSpacing: 0.4, textTransform: "uppercase" }}>{title}</h3>
+    <div className="rounded-xl border border-slate-200 p-4 mb-3.5" style={{ background: C.bgPanel }}>
+      <div className="flex items-center justify-between mb-3">
+        <h3 style={{ fontSize: 12, fontWeight: 700, color: C.textSoft, letterSpacing: 0.5, textTransform: "uppercase" }}>{title}</h3>
         {right}
       </div>
       {children}
@@ -735,35 +748,35 @@ function SectionCard({ title, children, right }) {
 
 function DataTable({ columns, rows, onRowClick, emptyLabel = "Tidak ada data." }) {
   return (
-    <div style={{ border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden", background: C.bgPanel }}>
-      <table className="w-full" style={{ borderCollapse: "collapse", fontSize: 13 }}>
-        <thead>
-          <tr style={{ background: C.bgPanelAlt, borderBottom: `1px solid ${C.border}` }}>
+    <div className="table-scroll overflow-x-auto rounded-xl border border-slate-200 overflow-hidden" style={{ background: C.bgPanel }}>
+      <table className="w-full text-left text-sm" style={{ borderCollapse: "collapse" }}>
+        <thead className="bg-slate-100 border-b border-slate-200">
+          <tr className="h-11 text-slate-800">
             {columns.map((c) => (
-              <th key={c.key} className="text-left px-4 py-2.5" style={{ color: C.textFaint, fontWeight: 600, fontSize: 11.5, textTransform: "uppercase", letterSpacing: 0.3 }}>
+              <th key={c.key} className="px-4 py-2.5 font-semibold text-xs text-slate-700 tracking-wide">
                 {c.label}
               </th>
             ))}
+            {onRowClick && <th className="w-10 px-2"></th>}
           </tr>
         </thead>
         <tbody>
           {rows.length === 0 && (
-            <tr><td colSpan={columns.length} className="px-4 py-8 text-center" style={{ color: C.textFaint, fontSize: 13 }}>{emptyLabel}</td></tr>
+            <tr><td colSpan={columns.length + (onRowClick ? 1 : 0)} className="px-4 py-12 text-center text-slate-400 text-sm">{emptyLabel}</td></tr>
           )}
           {rows.map((row, i) => (
             <tr
               key={i}
               onClick={() => onRowClick && onRowClick(row)}
-              style={{ borderBottom: i === rows.length - 1 ? "none" : `1px solid ${C.border}`, cursor: onRowClick ? "pointer" : "default" }}
-              onMouseEnter={(e) => onRowClick && (e.currentTarget.style.background = C.bgPanelAlt)}
-              onMouseLeave={(e) => onRowClick && (e.currentTarget.style.background = "transparent")}
+              className="h-[52px] border-b border-gray-100 transition-colors hover:bg-gray-50"
+              style={{ cursor: onRowClick ? "pointer" : "default", background: i % 2 === 1 ? "rgba(248,250,252,0.6)" : "transparent" }}
             >
               {columns.map((c) => (
-                <td key={c.key} className="px-4 py-2.5" style={{ color: C.text }}>
+                <td key={c.key} className="px-4 py-2.5 text-sm" style={{ color: C.text }}>
                   {c.render ? c.render(row) : row[c.key]}
                 </td>
               ))}
-              {onRowClick && <td className="px-2 text-right"><ChevronRight size={15} color={C.textFaint} /></td>}
+              {onRowClick && <td className="px-3 text-right"><ChevronRight size={15} color={C.textFaint} /></td>}
             </tr>
           ))}
         </tbody>
@@ -774,14 +787,14 @@ function DataTable({ columns, rows, onRowClick, emptyLabel = "Tidak ada data." }
 
 function ListPageHeader({ icon, title, subtitle, action }) {
   return (
-    <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: `1px solid ${C.border}`, background: C.bgPanel }}>
+    <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200" style={{ background: C.bgPanel }}>
       <div className="flex items-center gap-3">
-        <div style={{ width: 34, height: 34, borderRadius: 8, background: C.accentSoft, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: "#fff7ed", color: "#ea580c" }}>
           {icon}
         </div>
         <div>
-          <h1 style={{ fontSize: 15, fontWeight: 700, color: C.text }}>{title}</h1>
-          {subtitle && <p style={{ fontSize: 12, color: C.textFaint, marginTop: 1 }}>{subtitle}</p>}
+          <h1 className="text-base font-semibold text-gray-900" style={{ color: C.text }}>{title}</h1>
+          {subtitle && <p className="text-xs text-gray-500 mt-0.5">{subtitle}</p>}
         </div>
       </div>
       {action}
@@ -791,64 +804,164 @@ function ListPageHeader({ icon, title, subtitle, action }) {
 
 function DetailHeader({ onBack, title, subtitle, statusBadge }) {
   return (
-    <div className="flex items-center gap-3 px-6 py-4" style={{ borderBottom: `1px solid ${C.border}`, background: C.bgPanel }}>
-      <button onClick={onBack} style={{ border: `1px solid ${C.border}`, background: C.bgPanel, borderRadius: 8, width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+    <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-200" style={{ background: C.bgPanel }}>
+      <button onClick={onBack} className="w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 cursor-pointer" style={{ background: C.bgPanel }}>
         <ArrowLeft size={16} color={C.textSoft} />
       </button>
       <div className="flex-1">
         <div className="flex items-center gap-2">
-          <h1 style={{ fontSize: 15, fontWeight: 700, color: C.text }}>{title}</h1>
+          <h1 className="text-base font-semibold" style={{ color: C.text }}>{title}</h1>
           {statusBadge}
         </div>
-        {subtitle && <p style={{ fontSize: 12, color: C.textFaint, marginTop: 1 }}>{subtitle}</p>}
+        {subtitle && <p className="text-xs text-gray-500 mt-0.5">{subtitle}</p>}
       </div>
     </div>
   );
 }
 
-function MainMenu({ active, onChange, activeAccount, onLogoutClick, theme, onThemeToggle }) {
-  const items = [
-    { key: "chat", label: "Chat", icon: MessageCircle },
-    { key: "tag", label: "Tag", icon: TagIcon },
-    { key: "template", label: "Template Chat", icon: MessageCircle },
-    { key: "user", label: "User", icon: Users },
-    { key: "service", label: "Service", icon: Wifi },
-    { key: "contact", label: "Contact", icon: Phone },
+function MainMenu({ active, onChange, activeAccount, onLogoutClick, theme, onThemeToggle, isOpen = true }) {
+  const menuGroups = [
+    {
+      category: "Umum",
+      items: [
+        { key: "chat", label: "Chats", icon: "fa-regular fa-comment-dots", reactIcon: MessageCircle },
+        { key: "tag", label: "Tag & Label", icon: "fa-solid fa-tags", reactIcon: TagIcon },
+        { key: "template", label: "Template Chat", icon: "fa-solid fa-envelope-open-text", reactIcon: MessageCircle },
+      ]
+    },
+    {
+      category: "Data Pelanggan",
+      items: [
+        { key: "user", label: "User", icon: "fa-solid fa-user-group", reactIcon: Users },
+        { key: "service", label: "Service / Layanan", icon: "fa-solid fa-wifi", reactIcon: Wifi },
+        { key: "contact", label: "Contact", icon: "fa-solid fa-address-book", reactIcon: Phone },
+      ]
+    }
   ];
+
   return (
-    <div style={{ width: 84, background: C.sidebarBg, display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 18, gap: 6, flexShrink: 0 }}>
-      <div style={{ width: 36, height: 36, borderRadius: 9, background: C.accent, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14, fontWeight: 800, color: "#fff", fontSize: 14 }}>
-        CC
+    <aside
+      className={`flex flex-col flex-shrink-0 z-10 h-full border-r transition-all duration-200 ${isOpen ? "w-64" : "w-[68px]"}`}
+      style={{
+        background: C.sidebarBg,
+        borderColor: C.sidebarBorder,
+        fontFamily: FONT
+      }}
+    >
+      {/* Brand Header — Sesuai contoh-desain.html */}
+      <div
+        className={`h-16 flex items-center border-b flex-shrink-0 ${isOpen ? "px-4 space-x-2" : "justify-center px-2"}`}
+        style={{ borderColor: C.border }}
+      >
+        <div className="w-8 h-8 rounded bg-orange-500 flex items-center justify-center text-white font-bold relative overflow-hidden shadow-sm flex-shrink-0">
+          <div className="w-4 h-4 border-2 border-white rounded-sm"></div>
+          <div className="absolute w-2 h-2 bg-white rounded-sm top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+        </div>
+        {isOpen && (
+          <React.Fragment>
+            <div className="h-6 w-px bg-gray-300 mx-2"></div>
+            <div className="flex flex-col min-w-0">
+              <span className="font-semibold text-sm leading-tight truncate" style={{ color: C.text }}>
+                Frontline Lead
+              </span>
+              <span className="text-[11px] leading-none truncate" style={{ color: C.textFaint }}>
+                WABA Customer Care
+              </span>
+            </div>
+          </React.Fragment>
+        )}
       </div>
-      {items.map((it) => {
-        const Icon = it.icon;
-        const isActive = active === it.key;
-        return (
-          <button
-            key={it.key}
-            onClick={() => onChange(it.key)}
-            style={{
-              width: 62, display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
-              padding: "9px 4px", borderRadius: 10, border: "none", cursor: "pointer",
-              background: isActive ? C.sidebarBgSoft : "transparent",
-            }}
-          >
-            <Icon size={19} color={isActive ? "#fff" : "#8b93a7"} />
-            <span style={{ fontSize: 10.5, color: isActive ? "#fff" : "#8b93a7", fontWeight: 600 }}>{it.label}</span>
-          </button>
-        );
-      })}
-      <div style={{ marginTop:"auto", width:"100%", padding:"10px 10px 12px" }}>
-        <button onClick={onThemeToggle} title={theme === "light" ? "Dark Mode" : "Light Mode"} style={{ width:"100%", border:`1px solid ${C.sidebarBgSoft}`, background:C.sidebarBgSoft, color:"#fff", cursor:"pointer", padding:"7px 4px", borderRadius:8, display:"flex", alignItems:"center", justifyContent:"center", gap:6, marginBottom:5 }}>
-          {theme === "light" ? <Sun size={14} color="#fff" /> : <Moon size={14} color="#fff" />}
-          <span style={{fontSize:9.5,fontWeight:700}}>{theme === "light" ? "Light" : "Dark"}</span>
+
+      {/* Navigasi Kategori Menu */}
+      <div className={`flex-grow py-4 overflow-y-auto no-scrollbar ${isOpen ? "px-3 space-y-6" : "px-2 space-y-4"}`}>
+        {menuGroups.map((grp) => (
+          <div key={grp.category}>
+            {isOpen && (
+              <p className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+                {grp.category}
+              </p>
+            )}
+            <div className="space-y-1">
+              {grp.items.map((it) => {
+                const isActive = active === it.key;
+                return (
+                  <button
+                    key={it.key}
+                    onClick={() => onChange(it.key)}
+                    title={!isOpen ? it.label : undefined}
+                    className={`w-full flex items-center rounded-lg transition-colors duration-150 border-0 cursor-pointer group ${
+                      isOpen ? "px-3 py-2 text-left" : "justify-center py-2.5 px-0"
+                    }`}
+                    style={{
+                      background: isActive ? C.sidebarActiveBg : "transparent",
+                      color: isActive ? C.sidebarActiveText : C.textSoft
+                    }}
+                  >
+                    <span className={`flex items-center justify-center text-center ${isOpen ? "w-6 mr-2" : "w-8"}`}>
+                      <i className={`${it.icon} text-base ${isActive ? "text-orange-600" : "text-gray-400 group-hover:text-gray-600"}`}></i>
+                    </span>
+                    {isOpen && (
+                      <span className={`text-sm truncate ${isActive ? "font-semibold" : "font-medium"}`}>
+                        {it.label}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Footer Profile & Logout — Sesuai contoh-desain.html */}
+      <div className="border-t p-2 sm:p-3" style={{ borderColor: C.border }}>
+        {/* Toggle Theme */}
+        <button
+          onClick={onThemeToggle}
+          title={theme === "light" ? "Dark Mode" : "Light Mode"}
+          className={`w-full flex items-center justify-center gap-2 mb-2 py-1.5 rounded-lg text-xs font-medium border cursor-pointer ${
+            isOpen ? "px-3" : "px-0"
+          }`}
+          style={{
+            background: C.bgPanelAlt,
+            color: C.textSoft,
+            borderColor: C.border
+          }}
+        >
+          {theme === "light" ? <Sun size={14} color={C.textSoft} /> : <Moon size={14} color={C.textSoft} />}
+          {isOpen && <span>{theme === "light" ? "Mode Terang" : "Mode Gelap"}</span>}
         </button>
-        <button onClick={onLogoutClick} title="Logout" style={{ width:"100%", border:"none", background:"transparent", color:"#fff", cursor:"pointer", padding:"8px 4px", borderRadius:10 }}>
-          <div style={{ width:34, height:34, margin:"0 auto 5px", borderRadius:"50%", background:C.accentSoft, color:C.accent, display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:800 }}>{activeAccount.name.charAt(0)}</div>
-          <div style={{ fontSize:9.5, color:"#c8cfda", fontWeight:700, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>Logout</div>
+
+        {/* Profile Card */}
+        <div className={`flex items-center rounded-lg ${isOpen ? "gap-3 p-2 bg-gray-50" : "justify-center p-1.5"}`} style={{ background: C.bgPanelAlt }}>
+          <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold border border-blue-200 flex-shrink-0 text-xs">
+            {activeAccount?.name ? activeAccount.name.charAt(0).toUpperCase() : "A"}
+          </div>
+          {isOpen && (
+            <div className="min-w-0 flex-1">
+              <div className="text-sm font-medium truncate" style={{ color: C.text }}>
+                {activeAccount?.name || "Agnes"}
+              </div>
+              <div className="text-xs truncate" style={{ color: C.textFaint }}>
+                Frontline Lead
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Logout Button */}
+        <button
+          onClick={onLogoutClick}
+          title="Logout"
+          className={`mt-2 w-full flex items-center rounded-lg py-2 text-sm text-red-600 hover:bg-red-50 border-0 bg-transparent cursor-pointer font-medium ${
+            isOpen ? "gap-3 px-2" : "justify-center px-0"
+          }`}
+        >
+          <i className="fa-solid fa-right-from-bracket text-sm text-center"></i>
+          {isOpen && <span>Logout</span>}
         </button>
       </div>
-    </div>
+    </aside>
   );
 }
 
@@ -923,27 +1036,42 @@ function ChatModule({ state, actions }) {
   const targetChat = contextMenu ? chats.find(c => c.id === contextMenu.chatId) : null;
 
   return (
-    <div className="flex flex-1 min-w-0" style={{ background: C.bgApp }}>
+    <div className="flex flex-1 min-w-0 h-full overflow-hidden" style={{ background: C.bgApp }}>
       {/* KOLOM: CHAT LIST */}
-      <div style={{ width: 320, background: C.bgPanel, borderRight: `1px solid ${C.border}`, display: "flex", flexDirection: "column", flexShrink: 0 }}>
+      <div style={{ width: 340, background: C.bgPanel, borderRight: `1px solid ${C.border}`, display: "flex", flexDirection: "column", flexShrink: 0, height: "100%" }}>
+        {/* Search Bar ala WhatsApp Web */}
         <div className="px-3 pt-3 pb-2">
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: C.bgPanelAlt, border: `1px solid ${C.border}` }}>
+          <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl" style={{ background: C.bgPanelAlt, border: `1px solid ${C.border}` }}>
             <Search size={15} color={C.textFaint} />
-            <input value={chatSearch} onChange={e=>setChatSearch(e.target.value)} placeholder="Cari chat..." style={{ border: "none", outline: "none", background: "transparent", fontSize: 13, width: "100%", color: C.text }} />
+            <input
+              value={chatSearch}
+              onChange={e=>setChatSearch(e.target.value)}
+              placeholder="Cari atau mulai chat baru..."
+              className="border-none outline-none bg-transparent text-sm w-full"
+              style={{ color: C.text }}
+            />
+            {chatSearch && (
+              <button onClick={()=>setChatSearch("")} className="border-0 bg-transparent cursor-pointer p-0 text-gray-400 hover:text-gray-600">
+                <X size={14} />
+              </button>
+            )}
           </div>
         </div>
-        <div className="cc-chat-filters" style={{ overflowX:"hidden", overflowY:"hidden", whiteSpace:"nowrap", display:"flex", flexWrap:"nowrap", gap:4, paddingLeft:6, paddingRight:6, paddingBottom:8 }}>
+
+        {/* WhatsApp-Style Filter Pills */}
+        <div className="cc-chat-filters flex items-center gap-1.5 px-3 pb-2 overflow-x-auto no-scrollbar">
           <Pill active={activeFilters.includes("semua")} onClick={() => actions.setFilter("semua")}>Semua</Pill>
           <Pill active={activeFilters.includes("unread")} onClick={() => actions.setFilter("unread")}>Belum Dibaca</Pill>
           <Pill active={activeFilters.includes("kiosnet")} onClick={() => actions.setFilter("kiosnet")}>KiosNet</Pill>
           <Pill active={activeFilters.includes("griyanet")} onClick={() => actions.setFilter("griyanet")}>GriyaNet</Pill>
         </div>
+
         <div className="px-3 pb-2">
           <LabelFilterSelect tags={tags} value={labelFilter} onChange={actions.setLabelFilter} />
         </div>
 
         {selectionMode && (
-          <div className="flex items-center justify-between px-3 py-2" style={{ borderTop:`1px solid ${C.border}`, borderBottom:`1px solid ${C.border}`, background:C.bgPanelAlt }}>
+          <div className="flex items-center justify-between px-3.5 py-2" style={{ borderTop:`1px solid ${C.border}`, borderBottom:`1px solid ${C.border}`, background:C.bgPanelAlt }}>
             <div className="flex items-center gap-2">
               <button onClick={actions.exitSelectionMode} title="Keluar dari Selection Mode" style={{width:26,height:26,border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.textSoft,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><X size={14}/></button>
               <span style={{fontSize:12.5,fontWeight:700,color:C.text}}>{selectedChatIds.length} dipilih</span>
@@ -953,9 +1081,13 @@ function ChatModule({ state, actions }) {
           </div>
         )}
 
+        {/* WhatsApp-Style Chat List Items */}
         <div style={{ overflowY: "auto", flex: 1, borderTop: selectionMode ? "none" : `1px solid ${C.border}` }}>
           {filteredChats.length === 0 && (
-            <div className="text-center py-10" style={{ color: C.textFaint, fontSize: 13 }}>Tidak ada chat pada filter ini.</div>
+            <div className="text-center py-12 px-4" style={{ color: C.textFaint, fontSize: 13 }}>
+              <i className="fa-regular fa-comments text-3xl mb-2 text-gray-300 block"></i>
+              Tidak ada percakapan pada filter ini.
+            </div>
           )}
           {filteredChats.map((chat) => {
             const isSelected = chat.id === selectedChatId;
@@ -975,33 +1107,60 @@ function ChatModule({ state, actions }) {
                   else actions.selectChat(chat.id);
                 }}
                 onContextMenu={(e) => { e.preventDefault(); e.stopPropagation(); setContextMenu({ chatId:chat.id, x:e.clientX, y:e.clientY }); }}
-                className="flex items-start gap-3 px-3 py-3 cursor-pointer"
+                className="flex items-center gap-3 px-3.5 py-3 cursor-pointer transition-colors relative group"
                 style={{
-                  background: isSelected ? C.accentSoft : C.bgPanel,
-                  borderLeft: isSelected ? `3px solid ${C.accent}` : "3px solid transparent",
+                  background: isSelected ? C.bgPanelAlt : "transparent",
                   borderBottom: `1px solid ${C.border}`,
                 }}
               >
-                {selectionMode && <input type="checkbox" checked={isSelectionChecked} onChange={() => actions.toggleChatSelection(chat.id)} onClick={e=>e.stopPropagation()} style={{marginTop:8,accentColor:C.accent}} />}
-                <Avatar active={isSelected || isSelectionChecked} />
+                {/* Active indicator bar */}
+                {isSelected && (
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-600 rounded-r"></div>
+                )}
+                {selectionMode && <input type="checkbox" checked={isSelectionChecked} onChange={() => actions.toggleChatSelection(chat.id)} onClick={e=>e.stopPropagation()} style={{accentColor:C.accent}} />}
+                
+                {/* Avatar with status border */}
+                <div className="relative flex-shrink-0">
+                  <Avatar size={46} active={isSelected || isSelectionChecked} />
+                  <span className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${isKnown ? "bg-emerald-500" : "bg-amber-400"}`}></span>
+                </div>
+
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-2">
-                    <span style={{ fontSize: 13.5, fontWeight: isKnown ? 600 : 500, color: C.text, fontFamily: isKnown ? undefined : "monospace", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <div className="flex items-center justify-between gap-1 mb-1">
+                    <span className="text-[13.5px] font-semibold truncate" style={{ color: C.text, fontFamily: isKnown ? undefined : "monospace" }}>
                       {name}
                     </span>
-                    <span style={{ fontSize: 11, color: chat.unread ? C.accent : C.textFaint, fontWeight: chat.unread ? 700 : 400, flexShrink: 0 }}>{chat.time}</span>
+                    <span className={`text-[11px] flex-shrink-0 ${chat.unread ? "font-bold text-orange-600" : "text-gray-400"}`}>
+                      {chat.time}
+                    </span>
                   </div>
-                  <div className="flex items-center justify-between gap-2 mt-0.5">
-                    <div style={{ minWidth:0, overflow:"hidden", display:"flex", alignItems:"center", gap:6 }}>
-                      <span style={{ fontSize:12, color:C.textFaint, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
-                        {lastMsg.from === "cc" ? "Anda: " : ""}{lastMsg.text}
+
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+                      {lastMsg?.from === "cc" && (
+                        <span className="text-emerald-600 flex-shrink-0 text-xs">
+                          <i className="fa-solid fa-check-double text-[11px]"></i>
+                        </span>
+                      )}
+                      <span className="text-xs truncate" style={{ color: chat.unread ? C.text : C.textFaint, fontWeight: chat.unread ? 600 : 400 }}>
+                        {lastMsg?.text || "-"}
                       </span>
-                      {chat.tagIds?.length > 0 && <div className="cc-tag-icons" title={chat.tagIds.map(id=>tags.find(t=>t.id===id)?.nama).filter(Boolean).join(", ")}>{chat.tagIds.map(id=>{const tag=tags.find(t=>t.id===id);return tag?<span key={id} className="cc-tag-icon" style={{color:tag.color,border:`1px solid ${tag.color}`,background:C.bgPanelAlt}}><TagIcon size={10} color={tag.color}/></span>:null;})}</div>}
                     </div>
+
                     <div className="flex items-center gap-1 flex-shrink-0">
-                      {chat.pinned && <Pin size={11} color={C.textFaint} />}
+                      {chat.tagIds?.length > 0 && (
+                        <div className="cc-tag-icons">
+                          {chat.tagIds.slice(0, 2).map(id => {
+                            const tag = tags.find(t=>t.id===id);
+                            return tag ? (
+                              <span key={id} className="w-2 h-2 rounded-full inline-block" style={{ background: tag.color }} title={tag.nama}></span>
+                            ) : null;
+                          })}
+                        </div>
+                      )}
+                      {chat.pinned && <Pin size={12} color={C.textFaint} />}
                       {chat.unread > 0 && (
-                        <span style={{ background: C.accent, color: "#fff", fontSize: 10, fontWeight: 700, borderRadius: 999, minWidth: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 4px" }}>
+                        <span className="bg-orange-500 text-white text-[11px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
                           {chat.unread}
                         </span>
                       )}
@@ -1149,38 +1308,123 @@ function ConversationView({ chat, displayName, contactPhone, isKnown, tags, temp
   const send = () => { const text=message.trim(); if(!text) return; onSendMessage(text); setMessage(""); };
   return (
     <div className="flex-1 flex flex-col min-w-0" style={{ background: C.chatBg }}>
-      <div className="flex items-center justify-between px-4 py-3" style={{ background: C.bgPanel, borderBottom: `1px solid ${C.border}` }}>
+      {/* WhatsApp-Style Chat Header */}
+      <div className="flex items-center justify-between px-4 py-2.5 h-16" style={{ background: C.bgPanel, borderBottom: `1px solid ${C.border}` }}>
         <div className="flex items-center gap-3 min-w-0 cursor-pointer" onClick={onToggleProfile}>
-          <Avatar size={36} />
+          <div className="relative flex-shrink-0">
+            <Avatar size={40} />
+            <span className={`absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border border-white ${isKnown ? "bg-emerald-500" : "bg-amber-400"}`}></span>
+          </div>
           <div className="min-w-0">
-            <div style={{display:"flex",alignItems:"center",gap:8,minWidth:0,flexWrap:"nowrap",overflow:"hidden"}}>
-              <div style={{fontSize:13.5,fontWeight:600,color:C.text,fontFamily:isKnown?undefined:"monospace"}}>{displayName}</div>
-              <div style={{display:"flex",alignItems:"center",gap:5,overflow:"hidden"}}>{chatTags.map(t=><Badge key={t.id} bg={C.bgPanelAlt} fg={t.color} border={t.color}>{t.nama}</Badge>)}</div>
+            <div className="flex items-center gap-2 min-w-0 flex-wrap">
+              <div className="text-sm font-semibold truncate" style={{ color: C.text, fontFamily: isKnown ? undefined : "monospace" }}>{displayName}</div>
+              <div className="flex items-center gap-1.5 overflow-hidden">
+                {chatTags.map(t=><Badge key={t.id} bg="#f1f5f9" fg={t.color} border={t.color}>{t.nama}</Badge>)}
+              </div>
             </div>
-            {isKnown && contactPhone && <div style={{fontSize:11.5,color:C.textFaint}}>{contactPhone}</div>}
-            {!isKnown && <div style={{fontSize:11,color:C.warning,fontWeight:600}}>Nomor belum teridentifikasi</div>}
+            {isKnown && contactPhone && <div className="text-xs text-gray-500 truncate">{contactPhone}</div>}
+            {!isKnown && <div className="text-[11px] text-amber-600 font-semibold truncate">Nomor belum teridentifikasi</div>}
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={onUnread} title="Tandai unread" style={{border:`1px solid ${chat.unread?C.accent:C.border}`,background:chat.unread?C.accentSoft:C.bgPanel,borderRadius:7,padding:"5px 9px",color:chat.unread?C.accent:C.textSoft,fontSize:11.5,fontWeight:700,cursor:"pointer"}}>Unread</button>
-          <MoreVertical size={17} color={C.textFaint} />
+          <button
+            onClick={onUnread}
+            title="Tandai unread"
+            className="px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer border transition-colors"
+            style={{
+              borderColor: chat.unread ? "#ea580c" : C.border,
+              background: chat.unread ? "#fff7ed" : C.bgPanel,
+              color: chat.unread ? "#ea580c" : C.textSoft
+            }}
+          >
+            {chat.unread ? "Sudah Dibaca" : "Tandai Unread"}
+          </button>
+          <button onClick={onToggleProfile} title="Info Kontak" className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 border-0 bg-transparent cursor-pointer">
+            <i className="fa-solid fa-circle-info text-gray-500"></i>
+          </button>
         </div>
       </div>
-      <div className="cc-conversation-context" style={{flex:1,overflowY:"auto",padding:"18px 22px",display:"flex",flexDirection:"column",gap:10,backgroundColor:C.chatBg,backgroundImage:C.chatPattern,backgroundRepeat:"repeat"}}>
-        <div style={{display:"flex",justifyContent:"center",margin:"2px 0 4px"}}><span style={{background:C.bgPanelAlt,color:C.textFaint,border:`1px solid ${C.border}`,borderRadius:999,padding:"3px 9px",fontSize:10.5,fontWeight:700}}>{chat.id === "CH1" ? "KEMARIN" : "11 AGUSTUS 2026"}</span></div>
-        {chat.messages.map((m,i)=><div key={i} style={{display:"flex",justifyContent:m.from==="cc"?"flex-end":"flex-start"}}><div style={{maxWidth:"62%",padding:"8px 12px",borderRadius:10,fontSize:13,lineHeight:1.45,background:m.from==="cc"?C.accentSoft:C.bgPanelAlt,border:`1px solid ${m.from==="cc"?C.accentSoftBorder:C.border}`,color:C.text}}>{m.text}<div style={{fontSize:10,color:C.textFaint,marginTop:4,textAlign:"right"}}>{m.time}</div></div></div>)}
+
+      {/* WhatsApp Message Area with Doodle Background */}
+      <div className="cc-conversation-context flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col gap-2.5" style={{ backgroundColor: C.chatBg, backgroundImage: C.chatPattern, backgroundRepeat: "repeat" }}>
+        <div className="flex justify-center my-2">
+          <span className="bg-white/80 text-gray-600 border border-gray-200/80 rounded-lg px-3 py-1 text-[11px] font-semibold shadow-xs">
+            {chat.id === "CH1" ? "KEMARIN" : "11 AGUSTUS 2026"}
+          </span>
+        </div>
+        {chat.messages.map((m, i) => {
+          const isMe = m.from === "cc";
+          return (
+            <div key={i} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
+              <div
+                className={`max-w-[75%] sm:max-w-[62%] px-3.5 py-2 rounded-2xl text-[13.5px] leading-relaxed shadow-xs relative ${
+                  isMe
+                    ? "bg-[#d9fdd3] text-gray-900 rounded-tr-xs border border-[#bbf7d0]"
+                    : "bg-white text-gray-900 rounded-tl-xs border border-gray-200/90"
+                }`}
+              >
+                <div>{m.text}</div>
+                <div className="flex items-center justify-end gap-1 mt-1 text-[10.5px] text-gray-500">
+                  <span>{m.time}</span>
+                  {isMe && <i className="fa-solid fa-check-double text-[11px] text-emerald-600 ml-0.5"></i>}
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
-      <div className="px-4 py-3" style={{background:C.bgPanel,borderTop:`1px solid ${C.border}`}}>
+
+      {/* WhatsApp-Style Bottom Chat Input Bar */}
+      <div className="px-4 py-3 border-t border-gray-200" style={{ background: C.bgPanel }}>
         <div className="flex items-center gap-2">
-          <div style={{position:"relative",flexShrink:0}}>
-            <button onClick={()=>setTemplateOpen(v=>!v)} style={{border:`1px solid ${C.border}`,background:C.bgPanelAlt,color:C.textSoft,borderRadius:8,padding:"8px 10px",fontSize:11.5,fontWeight:700,cursor:"pointer"}}>Template Chat</button>
-            {templateOpen && <div style={{position:"absolute",left:0,bottom:"calc(100% + 6px)",width:280,maxHeight:280,overflowY:"auto",background:C.bgPanel,border:`1px solid ${C.border}`,borderRadius:9,boxShadow:"0 10px 24px rgba(0,0,0,.16)",padding:5,zIndex:80}}>
-              {activeTemplates.map(t=><button key={t.id} onClick={()=>{setMessage(t.isi);setTemplateOpen(false)}} style={{display:"block",width:"100%",textAlign:"left",padding:"8px 9px",border:"none",borderRadius:7,background:"transparent",color:C.text,cursor:"pointer"}}><div style={{fontSize:12,fontWeight:700}}>{t.nama}</div><div style={{fontSize:11,color:C.textFaint,marginTop:2,lineHeight:1.35}}>{t.isi}</div></button>)}
-              {!activeTemplates.length && <div style={{padding:10,fontSize:12,color:C.textFaint,textAlign:"center"}}>Belum ada template Active.</div>}
-            </div>}
+          <div className="relative flex-shrink-0">
+            <button
+              onClick={()=>setTemplateOpen(v=>!v)}
+              className="px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer border border-gray-200 flex items-center gap-1.5 hover:bg-orange-50 hover:text-orange-700 transition-colors"
+              style={{ background: C.bgPanelAlt, color: C.textSoft }}
+            >
+              <i className="fa-regular fa-file-lines text-orange-600"></i>
+              <span>Template</span>
+            </button>
+            {templateOpen && (
+              <div className="absolute left-0 bottom-[calc(100%+8px)] w-72 max-h-72 overflow-y-auto rounded-xl border border-gray-200 shadow-xl p-2 z-50" style={{ background: C.bgPanel }}>
+                <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-2 py-1 mb-1">Pilih Template Balasan</div>
+                {activeTemplates.map(t=>(
+                  <button key={t.id} onClick={()=>{setMessage(t.isi);setTemplateOpen(false)}} className="w-full text-left p-2.5 rounded-lg border-0 bg-transparent hover:bg-orange-50 cursor-pointer transition-colors group">
+                    <div className="text-xs font-semibold text-gray-800 group-hover:text-orange-700">{t.nama}</div>
+                    <div className="text-[11px] text-gray-500 mt-1 line-clamp-2 leading-relaxed">{t.isi}</div>
+                  </button>
+                ))}
+                {!activeTemplates.length && <div className="p-3 text-xs text-gray-400 text-center">Belum ada template Active.</div>}
+              </div>
+            )}
           </div>
-          <input value={message} onChange={e=>setMessage(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"){e.preventDefault();send()}}} placeholder="Type a message..." style={{flex:1,border:`1px solid ${C.border}`,borderRadius:20,padding:"9px 14px",fontSize:13,outline:"none",background:C.bgPanel,color:C.text}} />
-          <button onClick={send} disabled={!message.trim()} style={{background:message.trim()?C.accent:"#aeb7c5",border:"none",borderRadius:"50%",width:36,height:36,display:"flex",alignItems:"center",justifyContent:"center",cursor:message.trim()?"pointer":"not-allowed",flexShrink:0}}><Send size={15} color="#fff"/></button>
+
+          <div className="flex-1 relative flex items-center">
+            <input
+              value={message}
+              onChange={e=>setMessage(e.target.value)}
+              onKeyDown={e=>{if(e.key==="Enter"){e.preventDefault();send()}}}
+              placeholder="Ketik pesan..."
+              className="w-full rounded-2xl px-4 py-2.5 text-sm border border-gray-200 outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-400 pr-10"
+              style={{ background: C.bgPanel, color: C.text }}
+            />
+            <button className="absolute right-3 text-gray-400 hover:text-gray-600 border-0 bg-transparent cursor-pointer">
+              <i className="fa-regular fa-face-smile text-base"></i>
+            </button>
+          </div>
+
+          <button
+            onClick={send}
+            disabled={!message.trim()}
+            className={`w-10 h-10 rounded-full flex items-center justify-center border-0 flex-shrink-0 transition-colors shadow-sm ${
+              message.trim()
+                ? "bg-orange-600 text-white hover:bg-orange-700 cursor-pointer"
+                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+            }`}
+          >
+            <Send size={16} color="#fff" />
+          </button>
         </div>
       </div>
     </div>
@@ -2235,6 +2479,7 @@ function CR12Toast({message,type="success",onClose}) {
 function App() {
   const [activeMenu, setActiveMenu] = useState("chat");
   const [theme, setTheme] = useState("light");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeAccountId] = useState("tachta");
   const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
   const [loggedOut, setLoggedOut] = useState(false);
@@ -2457,9 +2702,18 @@ function App() {
     );
   }
 
+  const menuTitles = {
+    chat: "Customer Care Chats",
+    tag: "Tag & Label Operasional",
+    template: "Template Pesan Cepat",
+    user: "Data User Pelanggan",
+    service: "Data Layanan PPPOE",
+    contact: "Data Kontak Terhubung"
+  };
+
   return (
-    <div data-cc-theme={theme} style={{ display: "flex", height: "100%", minHeight: 640, width: "100%", fontFamily: FONT, background: C.bgApp, overflow: "hidden", borderRadius: 12, border: `1px solid ${C.border}`, "--cc-text": C.text, "--cc-text-soft": C.textSoft, "--cc-bg-panel": C.bgPanel, "--cc-bg-panel-alt": C.bgPanelAlt, "--cc-border": C.border }}>
-      <MainMenu active={activeMenu} onChange={changeMenu} activeAccount={activeAccount} onLogoutClick={() => setLogoutConfirmOpen(true)} theme={theme} onThemeToggle={() => setTheme(theme === "light" ? "dark" : "light")} />
+    <div data-cc-theme={theme} className="flex h-screen w-screen overflow-hidden" style={{ fontFamily: FONT, background: C.bgApp, color: C.text, "--cc-text": C.text, "--cc-text-soft": C.textSoft, "--cc-bg-panel": C.bgPanel, "--cc-bg-panel-alt": C.bgPanelAlt, "--cc-border": C.border }}>
+      <MainMenu isOpen={sidebarOpen} active={activeMenu} onChange={changeMenu} activeAccount={activeAccount} onLogoutClick={() => setLogoutConfirmOpen(true)} theme={theme} onThemeToggle={() => setTheme(theme === "light" ? "dark" : "light")} />
 
       {logoutConfirmOpen && (
         <Modal title="Logout" onClose={() => setLogoutConfirmOpen(false)}>
@@ -2471,40 +2725,61 @@ function App() {
         </Modal>
       )}
 
-      {activeMenu === "chat" && (
-        <ChatModule
-          state={{ chats, contacts, users, services, serviceContacts, tags, templates, selectedChatId, filter, labelFilter, profileOpen, selectionMode, selectedChatIds, deleteConfirmOpen }}
-          actions={chatActions}
-        />
-      )}
+      {/* Main Content Wrapper dengan Top Navbar Header — Sesuai contoh-desain.html */}
+      <div className="flex-grow flex flex-col h-full min-w-0" style={{ background: C.bgPanel }}>
+        {/* Top Navbar */}
+        <header className="h-16 border-b flex items-center px-4 sm:px-6 gap-3 flex-shrink-0" style={{ background: C.bgPanel, borderColor: C.border }}>
+          <button onClick={() => setSidebarOpen(v => !v)} title={sidebarOpen ? "Tutup Sidebar" : "Buka Sidebar"} className="w-9 h-9 rounded hover:bg-gray-100 flex items-center justify-center border-0 bg-transparent cursor-pointer transition-colors" style={{ color: C.textSoft }}>
+            <i className="fa-solid fa-bars"></i>
+          </button>
+          <div className="h-6 w-px" style={{ background: C.border }}></div>
+          <div className="text-sm font-semibold" style={{ color: C.text }}>
+            {menuTitles[activeMenu] || "Customer Care"}
+          </div>
+          <div className="ml-auto inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 border border-emerald-100">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Terhubung ke Realtime Service
+          </div>
+        </header>
 
-      {activeMenu === "tag" && <TagModule tags={tags} setTags={setTags} />}
+        {/* Dynamic Content View */}
+        <main className="flex-1 min-w-0 h-full overflow-hidden" style={{ background: C.bgApp }}>
+          {activeMenu === "chat" && (
+            <ChatModule
+              state={{ chats, contacts, users, services, serviceContacts, tags, templates, selectedChatId, filter, labelFilter, profileOpen, selectionMode, selectedChatIds, deleteConfirmOpen }}
+              actions={chatActions}
+            />
+          )}
 
-      {activeMenu === "template" && <TemplateChatModule templates={templates} actions={chatActions} />}
+          {activeMenu === "tag" && <TagModule tags={tags} setTags={setTags} />}
 
-      {activeMenu === "user" && (
-        <UserModule
-          users={users} services={services} contacts={contacts} serviceContacts={serviceContacts}
-          selectedUserId={selectedUserId} openUserDetail={openUserDetail}
-          back={() => setSelectedUserId(null)} openServiceDetail={openServiceDetail}
-        />
-      )}
+          {activeMenu === "template" && <TemplateChatModule templates={templates} actions={chatActions} />}
 
-      {activeMenu === "service" && (
-        <ServiceModule
-          services={services} users={users} contacts={contacts} serviceContacts={serviceContacts}
-          selectedPppoe={selectedPppoe} openServiceDetail={openServiceDetail}
-          back={() => setSelectedPppoe(null)} openUserDetail={openUserDetail} onChangePrimary={changePrimary} actions={chatActions}
-        />
-      )}
+          {activeMenu === "user" && (
+            <UserModule
+              users={users} services={services} contacts={contacts} serviceContacts={serviceContacts}
+              selectedUserId={selectedUserId} openUserDetail={openUserDetail}
+              back={() => setSelectedUserId(null)} openServiceDetail={openServiceDetail}
+            />
+          )}
 
-      {activeMenu === "contact" && (
-        <ContactModule
-          contacts={contacts} users={users} services={services} serviceContacts={serviceContacts}
-          selectedContactId={selectedContactId} openContactDetail={openContactDetail}
-          back={() => setSelectedContactId(null)} openServiceDetail={openServiceDetail} actions={chatActions}
-        />
-      )}
+          {activeMenu === "service" && (
+            <ServiceModule
+              services={services} users={users} contacts={contacts} serviceContacts={serviceContacts}
+              selectedPppoe={selectedPppoe} openServiceDetail={openServiceDetail}
+              back={() => setSelectedPppoe(null)} openUserDetail={openUserDetail} onChangePrimary={changePrimary} actions={chatActions}
+            />
+          )}
+
+          {activeMenu === "contact" && (
+            <ContactModule
+              contacts={contacts} users={users} services={services} serviceContacts={serviceContacts}
+              selectedContactId={selectedContactId} openContactDetail={openContactDetail}
+              back={() => setSelectedContactId(null)} openServiceDetail={openServiceDetail} actions={chatActions}
+            />
+          )}
+        </main>
+      </div>
     </div>
   );
 }
