@@ -62,6 +62,6 @@ Aplikasi ini bersifat standalone tanpa memerlukan build tools atau `npm install`
 ```text
 Prototype-WABA/
 ├── index.html           # File utama aplikasi prototype WABA
-├── contoh-desain.html   # Panduan desain Dasaria Design System
+├── index-v1.html        # Versi legacy / baseline prototype WABA
 └── README.md            # Dokumentasi proyek
 ```
