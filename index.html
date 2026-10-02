@@ -1798,7 +1798,7 @@ function TagModule({ tags, setTags }) {
   };
 
   return (
-    <div className="flex-1 flex flex-col min-w-0" style={{ background: C.bgApp }}>
+    <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto" style={{ background: C.bgApp }}>
       <ListPageHeader
         icon={<TagIcon size={17} color={C.accent} />}
         title="Tag"
@@ -1917,7 +1917,7 @@ function TemplateChatModule({ templates, actions }) {
     else actions.updateTemplate(modal.id,{nama:modal.nama.trim(),isi:modal.isi.trim(),status:modal.status});
     setModal(null);
   };
-  return <div className="flex-1 flex flex-col min-w-0" style={{background:C.bgApp,overflowY:"auto"}}>
+  return <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto" style={{background:C.bgApp}}>
     <ListPageHeader icon={<MessageCircle size={17} color={C.accent}/>} title="Template Chat" subtitle={`${templates.length} template terdaftar`} action={<button onClick={()=>setModal({mode:"add",nama:"",isi:"",status:"Active"})} className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold" style={{background:C.accent,color:"#fff",border:"none",cursor:"pointer"}}><Plus size={15}/> Tambah Template</button>}/>
     <div className="px-6 pt-4 flex gap-2">
       <div style={{display:"flex",alignItems:"center",gap:7,flex:1,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 10px",background:C.bgPanel}}><Search size={14} color={C.textFaint}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Cari nama atau isi template" style={{border:"none",outline:"none",background:"transparent",color:C.text,width:"100%",fontSize:12.5}}/></div>
@@ -1949,7 +1949,7 @@ function UserModule({ users, services, contacts, serviceContacts, selectedUserId
   if (!user) {
     const rows = users.filter(u=>!search||[u.userId,u.nik,u.nama].some(v=>String(v).toLowerCase().includes(search.toLowerCase()))).filter(u=>!statusFilter||deriveUserStatus(u.userId, services)===statusFilter).map((u) => ({ ...u, status: deriveUserStatus(u.userId, services), serviceCount: services.filter((s) => s.userId === u.userId).length }));
     return (
-      <div className="flex-1 flex flex-col min-w-0" style={{ background: C.bgApp }}>
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto" style={{ background: C.bgApp }}>
         <ListPageHeader icon={<Users size={17} color={C.accent} />} title="User" subtitle={`${users.length} user terdaftar`} />
         <div className="px-6 pt-4 flex gap-2"><div style={{display:"flex",alignItems:"center",gap:7,flex:1,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 10px",background:C.bgPanel}}><Search size={14} color={C.textFaint}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Cari User ID, NIK, atau Nama" style={{border:"none",outline:"none",background:"transparent",color:C.text,width:"100%",fontSize:12.5}}/></div><FilterSelect label="Status" value={statusFilter} onChange={setStatusFilter} options={[{value:"",label:"All"},{value:"Active",label:"Active"},{value:"Non Active",label:"Non Active"}]}/></div>
         <div className="p-6">
@@ -1976,7 +1976,7 @@ function UserModule({ users, services, contacts, serviceContacts, selectedUserId
   ).values());
 
   return (
-    <div className="flex-1 flex flex-col min-w-0" style={{ background: C.bgApp, overflowY: "auto" }}>
+    <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto" style={{ background: C.bgApp }}>
       <DetailHeader onBack={back} title={user.nama} subtitle={user.userId} statusBadge={<StatusDot status={deriveUserStatus(user.userId, services)} />} />
       <div className="p-6" style={{ maxWidth: 780 }}>
         <SectionCard title="Overview">
@@ -2065,7 +2065,7 @@ function ServiceModule({ services, users, contacts, serviceContacts, selectedPpp
       .filter(s=>!paketFilter||s.paket===paketFilter)
       .map((s) => ({ ...s, userNama: users.find((u) => u.userId === s.userId)?.nama }));
     return (
-      <div className="flex-1 flex flex-col min-w-0" style={{ background: C.bgApp }}>
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto" style={{ background: C.bgApp }}>
         <ListPageHeader icon={<Wifi size={17} color={C.accent} />} title="Service" subtitle={`${services.length} layanan terdaftar`} />
         <div className="px-6 pt-4 flex gap-2">
           <div style={{display:"flex",alignItems:"center",gap:7,flex:1,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 10px",background:C.bgPanel}}>
@@ -2160,7 +2160,7 @@ function ServiceModule({ services, users, contacts, serviceContacts, selectedPpp
   };
 
   return (
-    <div className="flex-1 flex flex-col min-w-0" style={{ background: C.bgApp, overflowY: "auto" }}>
+    <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto" style={{ background: C.bgApp }}>
       <DetailHeader onBack={back} title={service.pppoe} subtitle={`${service.paket} • ${service.branch}`} statusBadge={<StatusDot status={service.status} />} />
       <div className="p-6" style={{ maxWidth: 780 }}>
         <SectionCard title="Informasi Service" right={<button onClick={()=>{setEditPaket(service.paket);setEditDiscount(service.discountValue||"");setEditDiscountType(service.discountType||"Permanent");setEditServiceOpen(true);setTerminationOpen(false);}} style={{padding:"5px 10px",border:`1px solid ${C.accentSoftBorder}`,borderRadius:7,background:C.accentSoft,color:C.accent,fontSize:11.5,fontWeight:700,cursor:"pointer"}}>Edit</button>}>
@@ -2303,7 +2303,7 @@ function ContactModule({ contacts, users, services, serviceContacts, selectedCon
       .map(c => [c.nomorHp, c])
     ).values());
     return (
-      <div className="flex-1 flex flex-col min-w-0" style={{ background: C.bgApp }}>
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto" style={{ background: C.bgApp }}>
         <ListPageHeader icon={<Phone size={17} color={C.accent} />} title="Contact" subtitle={`${contacts.length} contact terdaftar`} />
         <div className="px-6 pt-4 flex gap-2"><div style={{display:"flex",alignItems:"center",gap:7,flex:1,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 10px",background:C.bgPanel}}><Search size={14} color={C.textFaint}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Cari Nomor HP atau Nama" style={{border:"none",outline:"none",background:"transparent",color:C.text,width:"100%",fontSize:12.5}}/></div><FilterSelect label="Status Contact" value={statusFilter} onChange={setStatusFilter} options={[{value:"",label:"All"},{value:"Active",label:"Active"},{value:"Non Active",label:"Non Active"}]}/></div>
         <div className="p-6">
@@ -2373,7 +2373,7 @@ function ContactModule({ contacts, users, services, serviceContacts, selectedCon
   };
 
   return (
-    <div className="flex-1 flex flex-col min-w-0" style={{ background: C.bgApp, overflowY: "auto" }}>
+    <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto" style={{ background: C.bgApp }}>
       <DetailHeader onBack={back} title={contact.verification==="Unknown" ? contact.nomorHp : (contact.nama || contact.nomorHp)} subtitle={contact.nomorHp} statusBadge={<StatusDot status={contact.status} />} />
       <div className="p-6" style={{ maxWidth: 780 }}>
         <SectionCard title="Contact Information">
@@ -2743,7 +2743,7 @@ function App() {
         </header>
 
         {/* Dynamic Content View */}
-        <main className="flex-1 min-w-0 h-full overflow-hidden" style={{ background: C.bgApp }}>
+        <main className="flex-1 min-w-0 h-full flex flex-col overflow-hidden" style={{ background: C.bgApp }}>
           {activeMenu === "chat" && (
             <ChatModule
               state={{ chats, contacts, users, services, serviceContacts, tags, templates, selectedChatId, filter, labelFilter, profileOpen, selectionMode, selectedChatIds, deleteConfirmOpen }}
