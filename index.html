@@ -456,18 +456,25 @@ const formatRupiah = (value) => {
    ============================================================ */
 
 const USERS0 = [
-  { userId: "USR-001", nik: "3512011205900012", nama: "Yusuf Ananta", ttl: "Malang, 12 Mei 1990", provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Lowokwaru", kelurahan: "Tulusrejo", alamat: "Jl. Soekarno Hatta No. 12", status: "Active" },
-  { userId: "USR-002", nik: "3578022308880004", nama: "Budi Santoso", ttl: "Surabaya, 23 Agustus 1988", provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Klojen", kelurahan: "Kiduldalem", alamat: "Jl. Basuki Rahmat No. 45", status: "Active" },
-  { userId: "USR-003", nik: "3573030107950009", nama: "Dedi Kurniawan", ttl: "Malang, 1 Juli 1995", provinsi: "Jawa Timur", kotaKab: "Kabupaten Malang", kecamatan: "Dau", kelurahan: "Landungsari", alamat: "Jl. Raya Landungsari No. 8", status: "Active" },
-  { userId: "USR-004", nik: "3578041504870021", nama: "Rudi Hartono", ttl: "Surabaya, 15 April 1987", provinsi: "Jawa Timur", kotaKab: "Kota Surabaya", kecamatan: "Gubeng", kelurahan: "Airlangga", alamat: "Jl. Airlangga No. 21", status: "Non Active" },
+  { userId: "USR-001", nama: "Yusuf Ananta", ttl: "Malang, 12 Mei 1990", provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Lowokwaru", kelurahan: "Tulusrejo", alamat: "Jl. Soekarno Hatta No. 12", status: "Active" },
+  { userId: "USR-002", nama: "Budi Santoso", ttl: "Surabaya, 23 Agustus 1988", provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Klojen", kelurahan: "Kiduldalem", alamat: "Jl. Basuki Rahmat No. 45", status: "Active" },
+  { userId: "USR-003", nama: "Dedi Kurniawan", ttl: "Malang, 1 Juli 1995", provinsi: "Jawa Timur", kotaKab: "Kabupaten Malang", kecamatan: "Dau", kelurahan: "Landungsari", alamat: "Jl. Raya Landungsari No. 8", status: "Active" },
+  { userId: "USR-004", nama: "Rudi Hartono", ttl: "Surabaya, 15 April 1987", provinsi: "Jawa Timur", kotaKab: "Kota Surabaya", kecamatan: "Gubeng", kelurahan: "Airlangga", alamat: "Jl. Airlangga No. 21", status: "Non Active" },
 ];
 
 const SERVICES0 = [
-  { pppoe: "G11042622719", userId: "USR-001", paket: "50 Mbps", branch: "Malang", status: "Active", subStart: "2023-01-10", subExpired: "2026-01-10", peruntukan: "Rumah Tangga", prospect: "Website", salesNip: "SLS-0012", salesHead: "SLS-HEAD-01", salesPhone: "0812-3000-1122", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Budi Santoso", surveySalesName: "Andi Pratama", coverage: "MLG-COV-01", splitter: "SPL-12", port: 4, snModem: "SNM-88231", onu: 2, oltRx: -18.4, onuRx: -19.1, provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Lowokwaru", kelurahan: "Tulusrejo", rw: "03", rt: "05", alamat: "Jl. Soekarno Hatta No. 12", lat: -7.9492, lng: 112.6122, va: "88123456701", cashback: "-", typeCustomer: "Residential", role: "Home User", resourcename: "res-mlg-001", pppoeVlan: "100", hotspotVlan: "-" },
-  { pppoe: "G09042622717", userId: "USR-001", paket: "100 Mbps", branch: "Malang", status: "Active", subStart: "2024-03-02", subExpired: "2026-03-02", peruntukan: "Rumah Tangga", prospect: "Referral", salesNip: "SLS-0012", salesHead: "SLS-HEAD-01", salesPhone: "0812-3000-1122", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Budi Santoso", surveySalesName: "Andi Pratama", coverage: "MLG-COV-02", splitter: "SPL-14", port: 1, snModem: "SNM-88540", onu: 5, oltRx: -17.9, onuRx: -18.6, provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Lowokwaru", kelurahan: "Tulusrejo", rw: "03", rt: "05", alamat: "Jl. Soekarno Hatta No. 12 (Ruko Belakang)", lat: -7.9490, lng: 112.6118, va: "88123456702", cashback: "-", typeCustomer: "Residential", role: "Home User", resourcename: "res-mlg-002", pppoeVlan: "100", hotspotVlan: "-" },
-  { pppoe: "BJ23032622700", userId: "USR-002", paket: "20 Mbps", branch: "Malang", status: "Isolir", subStart: "2022-06-15", subExpired: "2026-06-15", peruntukan: "Bisnis / Kios", prospect: "Canvassing", salesNip: "SLS-0031", salesHead: "SLS-HEAD-02", salesPhone: "0812-4000-3344", salesSurvey: "Sudah Survey", salesType: "admin", salesName: "Budi Admin", surveySalesName: "Andi Pratama", coverage: "MLG-COV-05", splitter: "SPL-03", port: 8, snModem: "SNM-77021", onu: 1, oltRx: -21.2, onuRx: -22.4, provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Klojen", kelurahan: "Kiduldalem", rw: "01", rt: "02", alamat: "Jl. Basuki Rahmat No. 45", lat: -7.9775, lng: 112.6304, va: "88123456703", cashback: "Budi Santoso", typeCustomer: "Business", role: "KiosNet Partner", resourcename: "res-mlg-005", pppoeVlan: "200", hotspotVlan: "210" },
-  { pppoe: "KK23032622695", userId: "USR-003", paket: "30 Mbps", branch: "Malang", status: "Active", subStart: "2023-11-20", subExpired: "2026-11-20", peruntukan: "Rumah Tangga", prospect: "Website", salesNip: "SLS-0018", salesHead: "SLS-HEAD-01", salesPhone: "0812-3000-1122", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Budi Santoso", surveySalesName: "Andi Pratama", coverage: "MLG-COV-03", splitter: "SPL-09", port: 2, snModem: "SNM-90112", onu: 3, oltRx: -19.0, onuRx: -19.8, provinsi: "Jawa Timur", kotaKab: "Kabupaten Malang", kecamatan: "Dau", kelurahan: "Landungsari", rw: "02", rt: "01", alamat: "Jl. Raya Landungsari No. 8", lat: -7.9145, lng: 112.5845, va: "88123456704", cashback: "-", typeCustomer: "Residential", role: "Home User", resourcename: "res-mlg-003", pppoeVlan: "100", hotspotVlan: "-" },
-  { pppoe: "BL23032622687", userId: "USR-004", paket: "50 Mbps", branch: "Surabaya", status: "Terminated", subStart: "2021-09-05", subExpired: "2026-09-05", peruntukan: "Rumah Tangga", prospect: "Referral", salesNip: "SLS-0044", salesHead: "SLS-HEAD-03", salesPhone: "0812-5000-7788", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Budi Santoso", surveySalesName: "Andi Pratama", coverage: "SBY-COV-01", splitter: "SPL-21", port: 6, snModem: "SNM-65210", onu: 4, oltRx: -18.9, onuRx: -19.5, provinsi: "Jawa Timur", kotaKab: "Kota Surabaya", kecamatan: "Gubeng", kelurahan: "Airlangga", rw: "04", rt: "03", alamat: "Jl. Airlangga No. 21", lat: -7.2685, lng: 112.7521, va: "88123456705", cashback: "-", typeCustomer: "Residential", role: "Home User", resourcename: "res-sby-001", pppoeVlan: "100", hotspotVlan: "-" },
+  { pppoe: "G11042622719", userId: "USR-001", paket: "50 Mbps", harga: 250000, branch: "Wendit", status: "Active", subStart: "2023-01-10", subExpired: "2026-01-10", peruntukan: "Rumah Tangga", prospect: "Website", salesNip: "SLS-0012", salesHead: "SLS-HEAD-01", salesPhone: "0812-3000-1122", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Budi Santoso", surveySalesName: "Andi Pratama", coverage: "MLG-COV-01", splitter: "SPL-12", port: 4, snModem: "SNM-88231", onu: 2, oltRx: -18.4, onuRx: -19.1, provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Lowokwaru", kelurahan: "Tulusrejo", rw: "03", rt: "05", alamat: "Jl. Soekarno Hatta No. 12", lat: -7.9492, lng: 112.6122, va: "88123456701", cashback: "-", typeCustomer: "Residential", role: "Home User", resourcename: "res-mlg-001", pppoeVlan: "100", hotspotVlan: "-" },
+  { pppoe: "G09042622717", userId: "USR-001", paket: "100 Mbps", harga: 400000, branch: "Kota Lama", status: "Active", subStart: "2024-03-02", subExpired: "2026-03-02", peruntukan: "Rumah Tangga", prospect: "Referral", salesNip: "SLS-0012", salesHead: "SLS-HEAD-01", salesPhone: "0812-3000-1122", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Budi Santoso", surveySalesName: "Andi Pratama", coverage: "MLG-COV-02", splitter: "SPL-14", port: 1, snModem: "SNM-88540", onu: 5, oltRx: -17.9, onuRx: -18.6, provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Lowokwaru", kelurahan: "Tulusrejo", rw: "03", rt: "05", alamat: "Jl. Soekarno Hatta No. 12 (Ruko Belakang)", lat: -7.9490, lng: 112.6118, va: "88123456702", cashback: "-", typeCustomer: "Residential", role: "Home User", resourcename: "res-mlg-002", pppoeVlan: "100", hotspotVlan: "-" },
+  { pppoe: "BJ23032622700", userId: "USR-002", paket: "20 Mbps", harga: 150000, branch: "Sawojajar", status: "Isolir", subStart: "2022-06-15", subExpired: "2026-06-15", peruntukan: "Bisnis / Kios", prospect: "Canvassing", salesNip: "SLS-0031", salesHead: "SLS-HEAD-02", salesPhone: "0812-4000-3344", salesSurvey: "Sudah Survey", salesType: "admin", salesName: "Budi Admin", surveySalesName: "Andi Pratama", coverage: "MLG-COV-05", splitter: "SPL-03", port: 8, snModem: "SNM-77021", onu: 1, oltRx: -21.2, onuRx: -22.4, provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Klojen", kelurahan: "Kiduldalem", rw: "01", rt: "02", alamat: "Jl. Basuki Rahmat No. 45", lat: -7.9775, lng: 112.6304, va: "88123456703", cashback: "Budi Santoso", typeCustomer: "Business", role: "KiosNet Partner", resourcename: "res-mlg-005", pppoeVlan: "200", hotspotVlan: "210" },
+  { pppoe: "KK23032622695", userId: "USR-003", paket: "30 Mbps", harga: 200000, branch: "Dau", status: "Active", subStart: "2023-11-20", subExpired: "2026-11-20", peruntukan: "Rumah Tangga", prospect: "Website", salesNip: "SLS-0018", salesHead: "SLS-HEAD-01", salesPhone: "0812-3000-1122", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Budi Santoso", surveySalesName: "Andi Pratama", coverage: "MLG-COV-03", splitter: "SPL-09", port: 2, snModem: "SNM-90112", onu: 3, oltRx: -19.0, onuRx: -19.8, provinsi: "Jawa Timur", kotaKab: "Kabupaten Malang", kecamatan: "Dau", kelurahan: "Landungsari", rw: "02", rt: "01", alamat: "Jl. Raya Landungsari No. 8", lat: -7.9145, lng: 112.5845, va: "88123456704", cashback: "-", typeCustomer: "Residential", role: "Home User", resourcename: "res-mlg-003", pppoeVlan: "100", hotspotVlan: "-" },
+  { pppoe: "BL23032622687", userId: "USR-004", paket: "50 Mbps", harga: 250000, branch: "Blimbing", status: "Terminated", subStart: "2021-09-05", subExpired: "2026-09-05", peruntukan: "Rumah Tangga", prospect: "Referral", salesNip: "SLS-0044", salesHead: "SLS-HEAD-03", salesPhone: "0812-5000-7788", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Budi Santoso", surveySalesName: "Andi Pratama", coverage: "BLM-COV-01", splitter: "SPL-21", port: 6, snModem: "SNM-65210", onu: 4, oltRx: -18.9, onuRx: -19.5, provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Blimbing", kelurahan: "Purwodadi", rw: "04", rt: "03", alamat: "Jl. Blimbing Indah No. 21", lat: -7.9350, lng: 112.6450, va: "88123456705", cashback: "-", typeCustomer: "Residential", role: "Home User", resourcename: "res-blm-001", pppoeVlan: "100", hotspotVlan: "-" },
+];
+
+const SERVICES_FASUM0 = [
+  { pppoe: "FS01042622801", userId: "USR-001", paket: "100 Mbps", harga: 500000, branch: "Wendit", status: "Active", subStart: "2023-03-01", subExpired: "2026-03-01", peruntukan: "Fasum", namaFasum: "Masjid Al-Hikmah", prospect: "Referral", salesNip: "SLS-0012", salesHead: "SLS-HEAD-01", salesPhone: "0812-3000-1122", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Budi Santoso", surveySalesName: "Andi Pratama", coverage: "MLG-COV-01", splitter: "SPL-15", port: 2, snModem: "SNM-99001", onu: 1, oltRx: -17.5, onuRx: -18.2, provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Lowokwaru", kelurahan: "Tulusrejo", rw: "03", rt: "02", alamat: "Jl. Soekarno Hatta No. 88", lat: -7.9500, lng: 112.6130, va: "88123456801", cashback: "-", typeCustomer: "Fasum", role: "Fasum", resourcename: "res-fasum-001", pppoeVlan: "300", hotspotVlan: "310" },
+  { pppoe: "FS02032622802", userId: "USR-002", paket: "50 Mbps", harga: 300000, branch: "Sawojajar", status: "Active", subStart: "2022-08-10", subExpired: "2026-08-10", peruntukan: "Fasum", namaFasum: "Puskesmas Sawojajar", prospect: "Canvassing", salesNip: "SLS-0031", salesHead: "SLS-HEAD-02", salesPhone: "0812-4000-3344", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Dina Rahayu", surveySalesName: "Andi Pratama", coverage: "MLG-COV-05", splitter: "SPL-04", port: 3, snModem: "SNM-99002", onu: 2, oltRx: -20.1, onuRx: -21.0, provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Kedungkandang", kelurahan: "Sawojajar", rw: "05", rt: "01", alamat: "Jl. Sawojajar Blok C No. 12", lat: -7.9820, lng: 112.6500, va: "88123456802", cashback: "-", typeCustomer: "Fasum", role: "Fasum", resourcename: "res-fasum-002", pppoeVlan: "300", hotspotVlan: "310" },
+  { pppoe: "FS03112622803", userId: "USR-003", paket: "30 Mbps", harga: 200000, branch: "Dau", status: "Isolir", subStart: "2023-07-15", subExpired: "2026-07-15", peruntukan: "Fasum", namaFasum: "SDN Landungsari 1", prospect: "Website", salesNip: "SLS-0018", salesHead: "SLS-HEAD-01", salesPhone: "0812-3000-1122", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Budi Santoso", surveySalesName: "Andi Pratama", coverage: "MLG-COV-03", splitter: "SPL-10", port: 6, snModem: "SNM-99003", onu: 3, oltRx: -19.3, onuRx: -20.1, provinsi: "Jawa Timur", kotaKab: "Kabupaten Malang", kecamatan: "Dau", kelurahan: "Landungsari", rw: "01", rt: "04", alamat: "Jl. Raya Dau No. 55", lat: -7.9160, lng: 112.5860, va: "88123456803", cashback: "-", typeCustomer: "Fasum", role: "Fasum", resourcename: "res-fasum-003", pppoeVlan: "300", hotspotVlan: "-" },
+  { pppoe: "FS04092622804", userId: "USR-001", paket: "20 Mbps", harga: 150000, branch: "Blimbing", status: "Active", subStart: "2024-01-05", subExpired: "2027-01-05", peruntukan: "Fasum", namaFasum: "Balai RW 08 Blimbing", prospect: "Referral", salesNip: "SLS-0044", salesHead: "SLS-HEAD-03", salesPhone: "0812-5000-7788", salesSurvey: "Sudah Survey", salesType: "sales", salesName: "Budi Santoso", surveySalesName: "Andi Pratama", coverage: "BLM-COV-01", splitter: "SPL-22", port: 7, snModem: "SNM-99004", onu: 1, oltRx: -18.7, onuRx: -19.4, provinsi: "Jawa Timur", kotaKab: "Kota Malang", kecamatan: "Blimbing", kelurahan: "Purwodadi", rw: "08", rt: "02", alamat: "Jl. Purwodadi Indah No. 3", lat: -7.9370, lng: 112.6460, va: "88123456804", cashback: "-", typeCustomer: "Fasum", role: "Fasum", resourcename: "res-fasum-004", pppoeVlan: "300", hotspotVlan: "310" },
 ];
 
 const CONTACTS0 = [
@@ -488,14 +495,18 @@ const CONTACTS0 = [
 // Contoh patuh: C1 primary di G11042622719 + non-primary di G09042622717 (boleh),
 // C12 primary di G09042622717.
 const SERVICE_CONTACTS0 = [
-  { id: "SC1", pppoe: "G11042622719", contactId: "C1", hubungan: "Pemilik", primary: true },
-  { id: "SC2", pppoe: "G09042622717", contactId: "C1", hubungan: "Pemilik", primary: false },
-  { id: "SC8", pppoe: "G09042622717", contactId: "C12", hubungan: "Pemilik", primary: true },
-  { id: "SC3", pppoe: "G11042622719", contactId: "C2", hubungan: "Istri", primary: false },
-  { id: "SC4", pppoe: "BJ23032622700", contactId: "C2", hubungan: "PIC", primary: true },
-  { id: "SC5", pppoe: "KK23032622695", contactId: "C6", hubungan: "Pemilik", primary: true },
-  { id: "SC6", pppoe: "BL23032622687", contactId: "C8", hubungan: "Pemilik", primary: true },
-  { id: "SC7", pppoe: "BJ23032622700", contactId: "C7", hubungan: "Adik", primary: false },
+  { id: "SC1", pppoe: "G11042622719", contactId: "C1", hubungan: "Pemilik", primary: true, serviceType: "personal" },
+  { id: "SC2", pppoe: "G09042622717", contactId: "C1", hubungan: "Pemilik", primary: false, serviceType: "personal" },
+  { id: "SC8", pppoe: "G09042622717", contactId: "C12", hubungan: "Pemilik", primary: true, serviceType: "personal" },
+  { id: "SC3", pppoe: "G11042622719", contactId: "C2", hubungan: "Istri", primary: false, serviceType: "personal" },
+  { id: "SC4", pppoe: "BJ23032622700", contactId: "C2", hubungan: "PIC", primary: true, serviceType: "personal" },
+  { id: "SC5", pppoe: "KK23032622695", contactId: "C6", hubungan: "Pemilik", primary: true, serviceType: "personal" },
+  { id: "SC6", pppoe: "BL23032622687", contactId: "C8", hubungan: "Pemilik", primary: true, serviceType: "personal" },
+  { id: "SC7", pppoe: "BJ23032622700", contactId: "C7", hubungan: "Adik", primary: false, serviceType: "personal" },
+  // Fasum service contacts
+  { id: "SCF1", pppoe: "FS01042622801", contactId: "C1", hubungan: "Pemilik", primary: true, serviceType: "fasum" },
+  { id: "SCF2", pppoe: "FS02032622802", contactId: "C6", hubungan: "PIC", primary: true, serviceType: "fasum" },
+  { id: "SCF3", pppoe: "FS04092622804", contactId: "C1", hubungan: "Karyawan", primary: false, serviceType: "fasum" },
 ];
 
 const TAGS0 = [
@@ -510,12 +521,12 @@ const TAGS0 = [
 const TAG_COLOR_OPTIONS = ["#e5484d", "#d98a1f", "#3b6fe6", "#8a5cf6", "#22a35e", "#0d9488", "#c026d3"];
 
 const TEMPLATE_CHATS0 = [
-  { id:"TPL1", nama:"Greeting Customer", isi:"Halo Kak, terima kasih sudah menghubungi Customer Care. Ada yang bisa kami bantu?", status:"Active" },
-  { id:"TPL2", nama:"Konfirmasi Gangguan", isi:"Baik Kak, kami bantu cek gangguan pada layanan Kakak terlebih dahulu.", status:"Active" },
-  { id:"TPL3", nama:"Follow Up Gangguan", isi:"Halo Kak, kami melakukan follow up terkait laporan gangguan sebelumnya. Apakah layanan sudah kembali normal?", status:"Active" },
-  { id:"TPL4", nama:"Informasi Pembayaran", isi:"Untuk informasi pembayaran layanan, kami dapat membantu mengecek tagihan dan status pembayaran Kakak.", status:"Active" },
-  { id:"TPL5", nama:"Konfirmasi Service", isi:"Baik Kak, kami konfirmasi terlebih dahulu detail layanan yang akan kami bantu.", status:"Non Active" },
-  { id:"TPL6", nama:"Penutupan Chat", isi:"Terima kasih sudah menghubungi Customer Care. Semoga layanan Kakak kembali nyaman digunakan.", status:"Active" },
+  { id:"TPL1", nama:"Greeting Customer", isi:"Halo Kak, terima kasih sudah menghubungi Customer Care. Ada yang bisa kami bantu?", status:"Active", statusPengajuan:"Approved" },
+  { id:"TPL2", nama:"Konfirmasi Gangguan", isi:"Baik Kak, kami bantu cek gangguan pada layanan Kakak terlebih dahulu.", status:"Active", statusPengajuan:"Approved" },
+  { id:"TPL3", nama:"Follow Up Gangguan", isi:"Halo Kak, kami melakukan follow up terkait laporan gangguan sebelumnya. Apakah layanan sudah kembali normal?", status:"Active", statusPengajuan:"Approved" },
+  { id:"TPL4", nama:"Informasi Pembayaran", isi:"Untuk informasi pembayaran layanan, kami dapat membantu mengecek tagihan dan status pembayaran Kakak.", status:"Active", statusPengajuan:"Approved" },
+  { id:"TPL5", nama:"Konfirmasi Service", isi:"Baik Kak, kami konfirmasi terlebih dahulu detail layanan yang akan kami bantu.", status:"Non Active", statusPengajuan:"Submission" },
+  { id:"TPL6", nama:"Penutupan Chat", isi:"Terima kasih sudah menghubungi Customer Care. Semoga layanan Kakak kembali nyaman digunakan.", status:"Non Active", statusPengajuan:"Rejected" },
 ];
 
 // Chat records. contactId null => Unknown Contact (identitas sementara = nomor HP).
@@ -687,6 +698,24 @@ function Avatar({ size = 40, active }) {
   );
 }
 
+function ChatAvatar({ size = 40, isKnown }) {
+  const bg = isKnown ? "#dcfce7" : "#ffedd5";
+  const border = isKnown ? "#86efac" : "#fdba74";
+  const iconColor = isKnown ? "#16a34a" : "#ea580c";
+  return (
+    <div
+      style={{
+        width: size, height: size, borderRadius: "50%",
+        background: bg, border: `2px solid ${border}`,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        flexShrink: 0,
+      }}
+    >
+      <User size={size * 0.52} color={iconColor} />
+    </div>
+  );
+}
+
 function StatusDot({ status }) {
   const sc = statusColor(status);
   return (
@@ -820,12 +849,13 @@ function DetailHeader({ onBack, title, subtitle, statusBadge }) {
 }
 
 function MainMenu({ active, onChange, activeAccount, onLogoutClick, theme, onThemeToggle, isOpen = true }) {
+  const [openSubmenu, setOpenSubmenu] = useState(null); // "service", etc.
   const menuGroups = [
     {
       category: "Umum",
       items: [
         { key: "chat", label: "Chats", icon: "fa-regular fa-comment-dots", reactIcon: MessageCircle },
-        { key: "tag", label: "Tag & Label", icon: "fa-solid fa-tags", reactIcon: TagIcon },
+        { key: "tag", label: "Label", icon: "fa-solid fa-tags", reactIcon: TagIcon },
         { key: "template", label: "Template Chat", icon: "fa-solid fa-envelope-open-text", reactIcon: MessageCircle },
       ]
     },
@@ -833,7 +863,14 @@ function MainMenu({ active, onChange, activeAccount, onLogoutClick, theme, onThe
       category: "Data Pelanggan",
       items: [
         { key: "user", label: "User", icon: "fa-solid fa-user-group", reactIcon: Users },
-        { key: "service", label: "Service / Layanan", icon: "fa-solid fa-wifi", reactIcon: Wifi },
+        {
+          key: "service", label: "Service", icon: "fa-solid fa-wifi", reactIcon: Wifi,
+          submenuKey: "service",
+          submenuItems: [
+            { key: "service-personal", label: "Personal", icon: "fa-solid fa-house-signal" },
+            { key: "service-fasum", label: "Fasum", icon: "fa-solid fa-building-columns" },
+          ]
+        },
         { key: "contact", label: "Contact", icon: "fa-solid fa-address-book", reactIcon: Phone },
       ]
     }
@@ -884,28 +921,62 @@ function MainMenu({ active, onChange, activeAccount, onLogoutClick, theme, onThe
             <div className="space-y-1">
               {grp.items.map((it) => {
                 const isActive = active === it.key;
+                const hasSub = !!it.submenuItems;
+                const isSubActive = hasSub ? it.submenuItems.some(si => active === si.key) : false;
+                const isExpanded = hasSub ? (openSubmenu === it.submenuKey || (openSubmenu === null && isSubActive)) : false;
                 return (
-                  <button
-                    key={it.key}
-                    onClick={() => onChange(it.key)}
-                    title={!isOpen ? it.label : undefined}
-                    className={`w-full flex items-center rounded-lg transition-colors duration-150 border-0 cursor-pointer group ${
-                      isOpen ? "px-3 py-2 text-left" : "justify-center py-2.5 px-0"
-                    }`}
-                    style={{
-                      background: isActive ? C.sidebarActiveBg : "transparent",
-                      color: isActive ? C.sidebarActiveText : C.textSoft
-                    }}
-                  >
-                    <span className={`flex items-center justify-center text-center ${isOpen ? "w-6 mr-2" : "w-8"}`}>
-                      <i className={`${it.icon} text-base ${isActive ? "text-orange-600" : "text-gray-400 group-hover:text-gray-600"}`}></i>
-                    </span>
-                    {isOpen && (
-                      <span className={`text-sm truncate ${isActive ? "font-semibold" : "font-medium"}`}>
-                        {it.label}
+                  <React.Fragment key={it.key}>
+                    <button
+                      key={it.key}
+                      onClick={() => hasSub ? setOpenSubmenu(isExpanded ? "CLOSED" : it.submenuKey) : (onChange(it.key), setOpenSubmenu(null))}
+                      title={!isOpen ? it.label : undefined}
+                      className={`w-full flex items-center rounded-lg transition-colors duration-150 border-0 cursor-pointer group ${
+                        isOpen ? "px-3 py-2 text-left" : "justify-center py-2.5 px-0"
+                      }`}
+                      style={{
+                        background: (isActive || isSubActive) ? C.sidebarActiveBg : "transparent",
+                        color: (isActive || isSubActive) ? C.sidebarActiveText : C.textSoft
+                      }}
+                    >
+                      <span className={`flex items-center justify-center text-center ${isOpen ? "w-6 mr-2" : "w-8"}`}>
+                        {it.reactIcon ? React.createElement(it.reactIcon, { size: 18, color: (isActive || isSubActive) ? C.sidebarActiveIcon : C.textFaint }) : <i className={`${it.icon} text-base ${(isActive || isSubActive) ? "text-orange-600" : "text-gray-400 group-hover:text-gray-600"}`}></i>}
                       </span>
+                      {isOpen && (
+                        <span className={`text-sm truncate flex-1 ${(isActive || isSubActive) ? "font-semibold" : "font-medium"}`}>
+                          {it.label}
+                        </span>
+                      )}
+                      {hasSub && isOpen && (
+                        <ChevronDown size={14} color={C.textFaint} style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }} />
+                      )}
+                    </button>
+                    {hasSub && isExpanded && (
+                      <div className="pl-6 pr-2 space-y-0.5">
+                        {it.submenuItems.map((si) => {
+                          const subActive = active === si.key;
+                          return (
+                            <button
+                              key={si.key}
+                              onClick={() => { onChange(si.key); setOpenSubmenu(null); }}
+                              title={!isOpen ? si.label : undefined}
+                              className={`w-full flex items-center rounded-lg transition-colors duration-150 border-0 cursor-pointer group ${
+                                isOpen ? "px-3 py-1.5 text-left" : "justify-center py-2 px-0"
+                              }`}
+                              style={{
+                                background: subActive ? C.sidebarActiveBg : "transparent",
+                                color: subActive ? C.sidebarActiveText : C.textSoft
+                              }}
+                            >
+                              <span className={`flex items-center justify-center text-center ${isOpen ? "w-5 mr-1.5" : "w-7"}`}>
+                                <i className={`${si.icon} text-sm ${subActive ? "text-orange-600" : "text-gray-400 group-hover:text-gray-600"}`}></i>
+                              </span>
+                              {isOpen && <span className={`text-sm truncate ${subActive ? "font-semibold" : "font-medium"}`}>{si.label}</span>}
+                            </button>
+                          );
+                        })}
+                      </div>
                     )}
-                  </button>
+                  </React.Fragment>
                 );
               })}
             </div>
@@ -975,7 +1046,14 @@ function ChatModule({ state, actions }) {
 
   const getContact = (id) => contacts.find((c) => c.contactId === id);
   const getUser = (id) => users.find((u) => u.userId === id);
-  const getService = (pppoe) => services.find((s) => s.pppoe === pppoe);
+  const getService = (pppoe) => {
+    const fromActions = actions?.getServices ? (() => {
+      const all = actions.getServices();
+      return all.find((s) => s.pppoe === pppoe);
+    })() : null;
+    if (fromActions) return fromActions;
+    return [...services, ...state.servicesFasum].find((s) => s.pppoe === pppoe);
+  };
   const servicesForContact = (contactId) => serviceContacts.filter((sc) => sc.contactId === contactId);
 
   const chatDisplayName = (chat) => {
@@ -986,27 +1064,92 @@ function ChatModule({ state, actions }) {
     return chat.nomorHp;
   };
 
+  const allBranches = ["Wendit","Kota Lama","Sawojajar","Kedungkandang","Pasuruan Selatan","Karangploso","Blimbing","Dau","Bumiaji","Pakis","Temas","Pasuruan Utara"];
+
+  const getChatBranches = (chat) => {
+    const branches = new Set();
+    if (chat.contactId) {
+      servicesForContact(chat.contactId).forEach(sc => {
+        const svc = getService(sc.pppoe);
+        if (svc?.branch) branches.add(svc.branch);
+      });
+    } else if (chat.candidatePppoe) {
+      const svc = getService(chat.candidatePppoe);
+      if (svc?.branch) branches.add(svc.branch);
+    }
+    return branches;
+  };
+
   const [chatSearch, setChatSearch] = useState("");
+  const [branchFilter, setBranchFilter] = useState("");
   const activeFilters = Array.isArray(filter) ? filter : [filter || "semua"];
-  const filteredChats = useMemo(() => {
+
+  // Compute per-chat metadata needed for matching
+  const getChatMeta = (c) => {
+    const contact = c.contactId ? getContact(c.contactId) : null;
+    const chatServiceLinks = c.contactId ? servicesForContact(c.contactId) : [];
+    const pppoeList = c.contactId
+      ? chatServiceLinks.map(sc => sc.pppoe)
+      : (c.candidatePppoe ? [c.candidatePppoe] : []);
+    return { contact, pppoeList };
+  };
+
+  const passesBaseFilters = (c) => {
+    if (activeFilters.includes("unread") && !(c.unread > 0)) return false;
+    if (activeFilters.includes("kiosnet") && c.brand !== "KiosNet") return false;
+    if (activeFilters.includes("griyanet") && c.brand !== "GriyaNet") return false;
+    if (labelFilter && !c.tagIds.includes(labelFilter)) return false;
+    if (branchFilter) {
+      const branches = getChatBranches(c);
+      if (!branches.has(branchFilter)) return false;
+    }
+    return true;
+  };
+
+  // Categorized search results
+  const searchResults = useMemo(() => {
     const q = chatSearch.trim().toLowerCase();
-    return chats.filter((c) => {
-      if (activeFilters.includes("unread") && !(c.unread > 0)) return false;
-      if (activeFilters.includes("kiosnet") && c.brand !== "KiosNet") return false;
-      if (activeFilters.includes("griyanet") && c.brand !== "GriyaNet") return false;
-      if (labelFilter && !c.tagIds.includes(labelFilter)) return false;
-      if (q) {
-        const contact = c.contactId ? getContact(c.contactId) : null;
-        const haystack = [
-          c.nomorHp, c.phone, c.message, c.lastMessage,
-          contact?.nama, contact?.nomorHp,
-          ...(c.messages || []).flatMap(m => [m.text, m.content])
-        ].filter(Boolean).join(" ").toLowerCase();
-        if (!haystack.includes(q)) return false;
+    const base = chats.filter(passesBaseFilters);
+
+    if (!q) {
+      return {
+        mode: "normal",
+        chats: base.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0)),
+        chatMatches: [],
+        messageMatches: [],
+      };
+    }
+
+    const chatMatches = [];
+    const messageMatches = [];
+
+    base.forEach(c => {
+      const { contact, pppoeList } = getChatMeta(c);
+      // Check chat-level fields (nama, nomor, pppoe)
+      const chatHaystack = [
+        c.nomorHp, c.phone,
+        contact?.nama, contact?.nomorHp,
+        ...pppoeList,
+      ].filter(Boolean).join(" ").toLowerCase();
+
+      const matchesChat = chatHaystack.includes(q);
+
+      // Check message contents
+      const matchingMessages = (c.messages || []).filter(m =>
+        (m.text || "").toLowerCase().includes(q)
+      );
+
+      if (matchesChat) {
+        chatMatches.push(c);
       }
-      return true;
-    }).sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
-  }, [chats, activeFilters.join("|"), labelFilter, chatSearch, contacts]);
+      if (matchingMessages.length > 0) {
+        // Only add to messageMatches if not already a chatMatch or if it has message hits
+        messageMatches.push({ chat: c, messages: matchingMessages });
+      }
+    });
+
+    return { mode: "search", chats: [], chatMatches, messageMatches };
+  }, [chats, activeFilters.join("|"), labelFilter, branchFilter, chatSearch, contacts, services, serviceContacts]);
 
   const [contextMenu, setContextMenu] = useState(null);
   const [removeTagChatId, setRemoveTagChatId] = useState(null);
@@ -1046,7 +1189,7 @@ function ChatModule({ state, actions }) {
             <input
               value={chatSearch}
               onChange={e=>setChatSearch(e.target.value)}
-              placeholder="Cari atau mulai chat baru..."
+              placeholder="Cari PPoE, Nomor HP, Nama, isi chat..."
               className="border-none outline-none bg-transparent text-sm w-full"
               style={{ color: C.text }}
             />
@@ -1066,8 +1209,13 @@ function ChatModule({ state, actions }) {
           <Pill active={activeFilters.includes("griyanet")} onClick={() => actions.setFilter("griyanet")}>GriyaNet</Pill>
         </div>
 
-        <div className="px-3 pb-2">
-          <LabelFilterSelect tags={tags} value={labelFilter} onChange={actions.setLabelFilter} />
+        <div className="px-3 pb-2 flex gap-2">
+          <div style={{flex:1}}>
+            <LabelFilterSelect tags={tags} value={labelFilter} onChange={actions.setLabelFilter} />
+          </div>
+          <div style={{flex:1}}>
+            <BranchFilterSelect branches={allBranches} value={branchFilter} onChange={setBranchFilter} />
+          </div>
         </div>
 
         {selectionMode && (
@@ -1075,101 +1223,101 @@ function ChatModule({ state, actions }) {
             <div className="flex items-center gap-2">
               <button onClick={actions.exitSelectionMode} title="Keluar dari Selection Mode" style={{width:26,height:26,border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.textSoft,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><X size={14}/></button>
               <span style={{fontSize:12.5,fontWeight:700,color:C.text}}>{selectedChatIds.length} dipilih</span>
-              <button title="Pilih semua chat" onClick={()=>actions.toggleSelectAllChats(filteredChats.map(c=>c.id))} style={{width:28,height:28,border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.textSoft,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><CheckSquare size={14}/></button>
+              <button title="Pilih semua chat" onClick={()=>actions.toggleSelectAllChats(searchResults.chats.map(c=>c.id))} style={{width:28,height:28,border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.textSoft,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><CheckSquare size={14}/></button>
             </div>
             <button disabled={!selectedChatIds.length} onClick={actions.requestDeleteSelected} style={{padding:"5px 10px",border:"none",borderRadius:7,background:selectedChatIds.length?C.danger:"#b9c0ca",color:"#fff",fontSize:11.5,fontWeight:700,cursor:selectedChatIds.length?"pointer":"not-allowed"}}>Hapus</button>
           </div>
         )}
 
-        {/* WhatsApp-Style Chat List Items */}
+        {/* Chat List Area */}
         <div style={{ overflowY: "auto", flex: 1, borderTop: selectionMode ? "none" : `1px solid ${C.border}` }}>
-          {filteredChats.length === 0 && (
-            <div className="text-center py-12 px-4" style={{ color: C.textFaint, fontSize: 13 }}>
-              <i className="fa-regular fa-comments text-3xl mb-2 text-gray-300 block"></i>
-              Tidak ada percakapan pada filter ini.
-            </div>
+          {searchResults.mode === "normal" && (
+            <>
+              {searchResults.chats.length === 0 && (
+                <div className="text-center py-12 px-4" style={{ color: C.textFaint, fontSize: 13 }}>
+                  <i className="fa-regular fa-comments text-3xl mb-2 text-gray-300 block"></i>
+                  Tidak ada percakapan pada filter ini.
+                </div>
+              )}
+              {searchResults.chats.map((chat) => (
+                <ChatListItem
+                  key={chat.id}
+                  chat={chat}
+                  name={chatDisplayName(chat)}
+                  isSelected={chat.id === selectedChatId}
+                  isSelectionChecked={selectedChatIds.includes(chat.id)}
+                  selectionMode={selectionMode}
+                  tags={tags}
+                  onLongPressStart={() => startLongPress(chat.id)}
+                  onLongPressEnd={endLongPress}
+                  onClick={() => {
+                    if (longPressTriggered.current) { longPressTriggered.current = false; return; }
+                    if (selectionMode) actions.toggleChatSelection(chat.id);
+                    else actions.selectChat(chat.id);
+                  }}
+                  onContextMenu={(e) => { e.preventDefault(); e.stopPropagation(); setContextMenu({ chatId: chat.id, x: e.clientX, y: e.clientY }); }}
+                />
+              ))}
+            </>
           )}
-          {filteredChats.map((chat) => {
-            const isSelected = chat.id === selectedChatId;
-            const isSelectionChecked = selectedChatIds.includes(chat.id);
-            const name = chatDisplayName(chat);
-            const isKnown = !!chat.contactId;
-            const lastMsg = chat.messages[chat.messages.length - 1];
-            return (
-              <div
-                key={chat.id}
-                onMouseDown={() => startLongPress(chat.id)}
-                onMouseUp={endLongPress}
-                onMouseLeave={endLongPress}
-                onClick={(e) => {
-                  if (longPressTriggered.current) { longPressTriggered.current = false; return; }
-                  if (selectionMode) actions.toggleChatSelection(chat.id);
-                  else actions.selectChat(chat.id);
-                }}
-                onContextMenu={(e) => { e.preventDefault(); e.stopPropagation(); setContextMenu({ chatId:chat.id, x:e.clientX, y:e.clientY }); }}
-                className="flex items-center gap-3 px-3.5 py-3 cursor-pointer transition-colors relative group"
-                style={{
-                  background: isSelected ? C.bgPanelAlt : "transparent",
-                  borderBottom: `1px solid ${C.border}`,
-                }}
-              >
-                {/* Active indicator bar */}
-                {isSelected && (
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-600 rounded-r"></div>
-                )}
-                {selectionMode && <input type="checkbox" checked={isSelectionChecked} onChange={() => actions.toggleChatSelection(chat.id)} onClick={e=>e.stopPropagation()} style={{accentColor:C.accent}} />}
-                
-                {/* Avatar with status border */}
-                <div className="relative flex-shrink-0">
-                  <Avatar size={46} active={isSelected || isSelectionChecked} />
-                  <span className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${isKnown ? "bg-emerald-500" : "bg-amber-400"}`}></span>
+
+          {searchResults.mode === "search" && (
+            <>
+              {searchResults.chatMatches.length === 0 && searchResults.messageMatches.length === 0 && (
+                <div className="text-center py-12 px-4" style={{ color: C.textFaint, fontSize: 13 }}>
+                  <i className="fa-regular fa-magnifying-glass text-3xl mb-2 text-gray-300 block"></i>
+                  Tidak ada hasil untuk pencarian ini.
                 </div>
+              )}
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-1 mb-1">
-                    <span className="text-[13.5px] font-semibold truncate" style={{ color: C.text, fontFamily: isKnown ? undefined : "monospace" }}>
-                      {name}
-                    </span>
-                    <span className={`text-[11px] flex-shrink-0 ${chat.unread ? "font-bold text-orange-600" : "text-gray-400"}`}>
-                      {chat.time}
-                    </span>
+              {searchResults.chatMatches.length > 0 && (
+                <>
+                  <div style={{ padding: "8px 14px 4px", fontSize: 11, fontWeight: 700, color: C.textFaint, textTransform: "uppercase", letterSpacing: 0.6, background: C.bgPanelAlt, borderBottom: `1px solid ${C.border}` }}>
+                    Chat ({searchResults.chatMatches.length})
                   </div>
+                  {searchResults.chatMatches.map((chat) => (
+                    <ChatListItem
+                      key={chat.id}
+                      chat={chat}
+                      name={chatDisplayName(chat)}
+                      isSelected={chat.id === selectedChatId}
+                      isSelectionChecked={selectedChatIds.includes(chat.id)}
+                      selectionMode={selectionMode}
+                      tags={tags}
+                      searchQuery={chatSearch}
+                      onLongPressStart={() => startLongPress(chat.id)}
+                      onLongPressEnd={endLongPress}
+                      onClick={() => {
+                        if (longPressTriggered.current) { longPressTriggered.current = false; return; }
+                        if (selectionMode) actions.toggleChatSelection(chat.id);
+                        else actions.selectChat(chat.id);
+                      }}
+                      onContextMenu={(e) => { e.preventDefault(); e.stopPropagation(); setContextMenu({ chatId: chat.id, x: e.clientX, y: e.clientY }); }}
+                    />
+                  ))}
+                </>
+              )}
 
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
-                      {lastMsg?.from === "cc" && (
-                        <span className="text-emerald-600 flex-shrink-0 text-xs">
-                          <i className="fa-solid fa-check-double text-[11px]"></i>
-                        </span>
-                      )}
-                      <span className="text-xs truncate" style={{ color: chat.unread ? C.text : C.textFaint, fontWeight: chat.unread ? 600 : 400 }}>
-                        {lastMsg?.text || "-"}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-1 flex-shrink-0">
-                      {chat.tagIds?.length > 0 && (
-                        <div className="cc-tag-icons">
-                          {chat.tagIds.slice(0, 2).map(id => {
-                            const tag = tags.find(t=>t.id===id);
-                            return tag ? (
-                              <span key={id} className="w-2 h-2 rounded-full inline-block" style={{ background: tag.color }} title={tag.nama}></span>
-                            ) : null;
-                          })}
-                        </div>
-                      )}
-                      {chat.pinned && <Pin size={12} color={C.textFaint} />}
-                      {chat.unread > 0 && (
-                        <span className="bg-orange-500 text-white text-[11px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
-                          {chat.unread}
-                        </span>
-                      )}
-                    </div>
+              {searchResults.messageMatches.length > 0 && (
+                <>
+                  <div style={{ padding: "8px 14px 4px", fontSize: 11, fontWeight: 700, color: C.textFaint, textTransform: "uppercase", letterSpacing: 0.6, background: C.bgPanelAlt, borderBottom: `1px solid ${C.border}` }}>
+                    Pesan ({searchResults.messageMatches.length})
                   </div>
-                </div>
-              </div>
-            );
-          })}
+                  {searchResults.messageMatches.map(({ chat, messages }) => (
+                    <MessageSearchItem
+                      key={chat.id}
+                      chat={chat}
+                      name={chatDisplayName(chat)}
+                      matchingMessages={messages}
+                      searchQuery={chatSearch}
+                      isSelected={chat.id === selectedChatId}
+                      onClick={() => actions.selectChat(chat.id)}
+                    />
+                  ))}
+                </>
+              )}
+            </>
+          )}
         </div>
       </div>
 
@@ -1276,6 +1424,129 @@ function LabelFilterSelect({ tags, value, onChange }) {
   );
 }
 
+function BranchFilterSelect({ branches, value, onChange }) {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    const close = () => setOpen(false);
+    window.addEventListener("click", close);
+    return () => window.removeEventListener("click", close);
+  }, []);
+  return (
+    <div style={{position:"relative"}} onClick={e=>e.stopPropagation()}>
+      <button onClick={()=>setOpen(v=>!v)} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"space-between",gap:7,border:`1px solid ${C.border}`,borderRadius:8,padding:"6px 9px",background:C.bgPanel,color:C.textSoft,fontSize:12.5,cursor:"pointer"}}>
+        <span style={{display:"flex",alignItems:"center",gap:7}}>
+          {value || "Semua Branch"}
+        </span>
+        <ChevronDown size={14} color={C.textFaint}/>
+      </button>
+      {open && <div style={{position:"absolute",left:0,right:0,top:"calc(100% + 4px)",background:C.bgPanel,border:`1px solid ${C.border}`,borderRadius:8,boxShadow:"0 10px 24px rgba(0,0,0,.14)",padding:4,zIndex:50}}>
+        <button className="cc-filter-option" onClick={()=>{onChange("");setOpen(false);}}>Semua Branch</button>
+        {branches.map(b=><button key={b} className="cc-filter-option" onClick={()=>{onChange(b);setOpen(false);}} style={{background:value===b?C.accentSoft:"transparent",fontWeight:value===b?700:500}}>{b}</button>)}
+      </div>}
+    </div>
+  );
+}
+
+function highlightText(text, query) {
+  if (!query || !text) return text;
+  const idx = text.toLowerCase().indexOf(query.toLowerCase());
+  if (idx === -1) return text;
+  return (
+    <span>
+      {text.slice(0, idx)}
+      <mark style={{ background: "#fde68a", color: "#78350f", borderRadius: 2, padding: "0 1px" }}>
+        {text.slice(idx, idx + query.length)}
+      </mark>
+      {text.slice(idx + query.length)}
+    </span>
+  );
+}
+
+function ChatListItem({ chat, name, isSelected, isSelectionChecked, selectionMode, tags, searchQuery, onLongPressStart, onLongPressEnd, onClick, onContextMenu }) {
+  const isKnown = !!chat.contactId;
+  const lastMsg = chat.messages[chat.messages.length - 1];
+  return (
+    <div
+      onMouseDown={onLongPressStart}
+      onMouseUp={onLongPressEnd}
+      onMouseLeave={onLongPressEnd}
+      onClick={onClick}
+      onContextMenu={onContextMenu}
+      className="flex items-center gap-3 px-3.5 py-3 cursor-pointer transition-colors relative group"
+      style={{ background: isSelected ? C.bgPanelAlt : "transparent", borderBottom: `1px solid ${C.border}` }}
+    >
+      {isSelected && <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-600 rounded-r"></div>}
+      {selectionMode && <input type="checkbox" checked={isSelectionChecked} onChange={onClick} onClick={e=>e.stopPropagation()} style={{accentColor:C.accent}} />}
+      <div className="relative flex-shrink-0">
+        <ChatAvatar size={46} isKnown={isKnown} />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between gap-1 mb-1">
+          <span className="text-[13.5px] font-semibold truncate" style={{ color: C.text, fontFamily: isKnown ? undefined : "monospace" }}>
+            {searchQuery ? highlightText(name, searchQuery) : name}
+          </span>
+          <span className={`text-[11px] flex-shrink-0 ${chat.unread ? "font-bold text-orange-600" : "text-gray-400"}`}>{chat.time}</span>
+        </div>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+            {lastMsg?.from === "cc" && <span className="text-emerald-600 flex-shrink-0 text-xs"><i className="fa-solid fa-check-double text-[11px]"></i></span>}
+            <span className="text-xs truncate" style={{ color: chat.unread ? C.text : C.textFaint, fontWeight: chat.unread ? 600 : 400 }}>
+              {lastMsg?.text || "-"}
+            </span>
+          </div>
+          <div className="flex items-center gap-1 flex-shrink-0">
+            {chat.tagIds?.length > 0 && (
+              <div className="cc-tag-icons">
+                {chat.tagIds.slice(0, 2).map(id => {
+                  const tag = tags.find(t=>t.id===id);
+                  return tag ? <span key={id} className="w-2 h-2 rounded-full inline-block" style={{ background: tag.color }} title={tag.nama}></span> : null;
+                })}
+              </div>
+            )}
+            {chat.pinned && <Pin size={12} color={C.textFaint} />}
+            {chat.unread > 0 && (
+              <span className="bg-orange-500 text-white text-[11px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">{chat.unread}</span>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MessageSearchItem({ chat, name, matchingMessages, searchQuery, isSelected, onClick }) {
+  const isKnown = !!chat.contactId;
+  return (
+    <div>
+      {matchingMessages.map((msg, i) => (
+        <div
+          key={i}
+          onClick={onClick}
+          className="flex items-center gap-3 px-3.5 py-3 cursor-pointer transition-colors relative"
+          style={{ background: isSelected ? C.bgPanelAlt : "transparent", borderBottom: `1px solid ${C.border}` }}
+        >
+          {isSelected && <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-600 rounded-r"></div>}
+          <div className="flex-shrink-0">
+            <ChatAvatar size={46} isKnown={isKnown} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between gap-1 mb-0.5">
+              <span className="text-[13px] font-semibold truncate" style={{ color: C.text, fontFamily: isKnown ? undefined : "monospace" }}>{name}</span>
+              <span className="text-[11px] text-gray-400 flex-shrink-0">{msg.time}</span>
+            </div>
+            <div className="flex items-center gap-1 min-w-0">
+              {msg.from === "cc" && <span className="text-emerald-600 flex-shrink-0 text-xs"><i className="fa-solid fa-check-double text-[11px]"></i></span>}
+              <span className="text-xs truncate" style={{ color: C.textFaint }}>
+                {highlightText(msg.text || "", searchQuery)}
+              </span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function RemoveTagsModal({ chat, tags, onClose, onRemove }) {
   const [selected, setSelected] = useState([]);
   const assigned = (chat?.tagIds || []).map(id=>tags.find(t=>t.id===id)).filter(Boolean);
@@ -1310,10 +1581,9 @@ function ConversationView({ chat, displayName, contactPhone, isKnown, tags, temp
     <div className="flex-1 flex flex-col min-w-0" style={{ background: C.chatBg }}>
       {/* WhatsApp-Style Chat Header */}
       <div className="flex items-center justify-between px-4 py-2.5 h-16" style={{ background: C.bgPanel, borderBottom: `1px solid ${C.border}` }}>
-        <div className="flex items-center gap-3 min-w-0 cursor-pointer" onClick={onToggleProfile}>
+          <div className="flex items-center gap-3 min-w-0 cursor-pointer" onClick={onToggleProfile}>
           <div className="relative flex-shrink-0">
-            <Avatar size={40} />
-            <span className={`absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border border-white ${isKnown ? "bg-emerald-500" : "bg-amber-400"}`}></span>
+            <ChatAvatar size={40} isKnown={isKnown} />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2 min-w-0 flex-wrap">
@@ -1535,7 +1805,7 @@ function KnownContactBody({ contact, getUser, getService, servicesForContact, op
                 <div style={{minWidth:0, fontSize: 13, fontWeight: 700, color: C.text }}>{u.nama}</div>
                 <div style={{flexShrink:0}}><StatusDot status={userStatus} /></div>
               </div>
-              <div style={{ fontSize: 11, color: C.textFaint, marginTop: 2 }}>{u.userId} • NIK {maskNik(u.nik)}</div>
+              <div style={{ fontSize: 11, color: C.textFaint, marginTop: 2 }}>{u.userId}</div>
               <button onClick={() => openUserDetail(u.userId)} className="mt-1.5 w-full py-1 rounded-md text-sm font-semibold" style={{ background: C.accentSoft, color: C.accent, border: `1px solid ${C.accentSoftBorder}`, cursor: "pointer" }}>Detail</button>
             </div>
           );
@@ -1551,18 +1821,34 @@ function KnownContactBody({ contact, getUser, getService, servicesForContact, op
           const svc = getService(l.pppoe);
           if (!svc) return null;
           const sc = statusColor(svc.status);
+          const isFasum = l.serviceType === "fasum" || svc.serviceType === "fasum";
           return (
             <div key={l.id} style={{ border: `1px solid ${C.border}`, borderRadius: 8, padding: 9 }}>
               <div className="flex items-center justify-between">
-                <span style={{ fontSize: 13.5, fontWeight: 700, color: C.text }}>{svc.pppoe}</span>
-                <Badge bg={sc.bg} fg={sc.fg}>{sc.label}</Badge>
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <span style={{ fontSize: 13.5, fontWeight: 700, color: C.text }}>{svc.pppoe}</span>
+                  <Badge bg={isFasum ? C.warningSoft : C.bgPanelAlt} fg={isFasum ? C.warning : C.textSoft} border={isFasum ? C.warningSoftBorder : C.border}>
+                    {isFasum ? "Fasum" : "Personal"}
+                  </Badge>
+                </div>
+                <div className="flex items-center gap-2">
+                  {svc.subStart && svc.subExpired && (() => {
+                    const start = new Date(svc.subStart);
+                    const end = new Date(svc.subExpired);
+                    const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+                    return <span style={{ fontSize: 11, color: C.textFaint, fontWeight: 500 }}>{Math.max(0, months)} bln</span>;
+                  })()}
+                  <Badge bg={sc.bg} fg={sc.fg}>{sc.label}</Badge>
+                </div>
               </div>
               <div style={{ fontSize: 12, color: C.textFaint, marginTop: 2 }}>{svc.paket} • {svc.branch}</div>
               <div className="flex items-center gap-2 mt-2">
                 <Badge bg={C.bgPanelAlt} fg={C.textSoft} border={C.border}>Hubungan: {l.hubungan}</Badge>
-                {l.primary ? <Badge bg={C.successSoft} fg={C.success}>Primary</Badge> : <Badge bg={C.bgPanelAlt} fg={C.textFaint} border={C.border}>Non Primary</Badge>}
+                {l.primary ? <Badge bg={C.successSoft} fg={C.success}>Primary</Badge> : <Badge bg="#f1f2f5" fg={C.textFaint}>Non Primary</Badge>}
               </div>
-              <button onClick={() => openServiceDetail(svc.pppoe)} className="mt-2.5 w-full py-1.5 rounded-md text-sm font-semibold" style={{ background: C.bgPanel, color: C.accent, border: `1px solid ${C.accentSoftBorder}`, cursor: "pointer" }}>Detail Service</button>
+              <button onClick={() => openServiceDetail(svc.pppoe, isFasum ? "fasum" : "personal")} className="mt-2.5 w-full py-1.5 rounded-md text-sm font-semibold" style={{ background: C.bgPanel, color: C.accent, border: `1px solid ${C.accentSoftBorder}`, cursor: "pointer" }}>
+                Detail Service
+              </button>
             </div>
           );
         })}
@@ -1905,58 +2191,97 @@ function FilterSelect({ label, value, options, onChange }) {
 function TemplateChatModule({ templates, actions }) {
   const [search,setSearch]=useState("");
   const [statusFilter,setStatusFilter]=useState("");
+  const [pengajuanFilter,setPengajuanFilter]=useState("");
   const [modal,setModal]=useState(null);
   const [deleteId,setDeleteId]=useState(null);
-  const rows=(templates||[]).filter(t=>!statusFilter||t.status===statusFilter).filter(t=>{
-    const q=search.toLowerCase();
-    return !q || t.nama.toLowerCase().includes(q) || t.isi.toLowerCase().includes(q);
-  });
+  const rows=(templates||[])
+    .filter(t=>!statusFilter||t.status===statusFilter)
+    .filter(t=>!pengajuanFilter||t.statusPengajuan===pengajuanFilter)
+    .filter(t=>{
+      const q=search.toLowerCase();
+      return !q || t.nama.toLowerCase().includes(q) || t.isi.toLowerCase().includes(q);
+    });
+
+  // Aturan: Submission/Rejected → status penggunaan paksa Non Active, tidak bisa diubah ke Active
+  // Approved pertama kali → otomatis Active, tapi bisa diubah ke Non Active
+  const deriveStatus = (pengajuan, prevStatus) => {
+    if (pengajuan === "Approved") return prevStatus || "Active";
+    return "Non Active";
+  };
+  const statusLocked = (pengajuan) => pengajuan !== "Approved";
+
   const save=()=>{
     if(!modal?.nama?.trim() || !modal?.isi?.trim()) return;
-    if(modal.mode==="add") actions.createTemplate({id:"TPL"+Date.now(),nama:modal.nama.trim(),isi:modal.isi.trim(),status:modal.status});
-    else actions.updateTemplate(modal.id,{nama:modal.nama.trim(),isi:modal.isi.trim(),status:modal.status});
+    const finalStatus = deriveStatus(modal.statusPengajuan, modal.status);
+    if(modal.mode==="add") actions.createTemplate({id:"TPL"+Date.now(),nama:modal.nama.trim(),isi:modal.isi.trim(),status:finalStatus,statusPengajuan:modal.statusPengajuan||"Submission"});
+    else actions.updateTemplate(modal.id,{nama:modal.nama.trim(),isi:modal.isi.trim(),status:finalStatus,statusPengajuan:modal.statusPengajuan||"Submission"});
     setModal(null);
   };
+  const pengajuanBadge = (val) => {
+    if (val === "Approved") return <span style={{fontSize:11.5,fontWeight:600,padding:"2px 8px",borderRadius:6,background:"#d1fae5",color:"#065f46",border:"1px solid #a7f3d0"}}>Approved</span>;
+    if (val === "Rejected") return <span style={{fontSize:11.5,fontWeight:600,padding:"2px 8px",borderRadius:6,background:"#fee2e2",color:"#991b1b",border:"1px solid #fecaca"}}>Rejected</span>;
+    return <span style={{fontSize:11.5,fontWeight:600,padding:"2px 8px",borderRadius:6,background:"#fef3c7",color:"#92400e",border:"1px solid #fde68a"}}>Submission</span>;
+  };
   return <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto" style={{background:C.bgApp}}>
-    <ListPageHeader icon={<MessageCircle size={17} color={C.accent}/>} title="Template Chat" subtitle={`${templates.length} template terdaftar`} action={<button onClick={()=>setModal({mode:"add",nama:"",isi:"",status:"Active"})} className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold" style={{background:C.accent,color:"#fff",border:"none",cursor:"pointer"}}><Plus size={15}/> Tambah Template</button>}/>
+    <ListPageHeader icon={<MessageCircle size={17} color={C.accent}/>} title="Template Chat" subtitle={`${templates.length} template terdaftar`} action={<button onClick={()=>setModal({mode:"add",nama:"",isi:"",status:"Non Active",statusPengajuan:"Submission"})} className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold" style={{background:C.accent,color:"#fff",border:"none",cursor:"pointer"}}><Plus size={15}/> Tambah Template</button>}/>
     <div className="px-6 pt-4 flex gap-2">
       <div style={{display:"flex",alignItems:"center",gap:7,flex:1,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 10px",background:C.bgPanel}}><Search size={14} color={C.textFaint}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Cari nama atau isi template" style={{border:"none",outline:"none",background:"transparent",color:C.text,width:"100%",fontSize:12.5}}/></div>
-      <FilterSelect label="Status" value={statusFilter} onChange={setStatusFilter} options={[{value:"",label:"All"},{value:"Active",label:"Active"},{value:"Non Active",label:"Non Active"}]}/>
+      <FilterSelect label="Status Penggunaan" value={statusFilter} onChange={setStatusFilter} options={[{value:"",label:"All"},{value:"Active",label:"Active"},{value:"Non Active",label:"Non Active"}]}/>
+      <FilterSelect label="Status Pengajuan" value={pengajuanFilter} onChange={setPengajuanFilter} options={[{value:"",label:"All"},{value:"Submission",label:"Submission"},{value:"Approved",label:"Approved"},{value:"Rejected",label:"Rejected"}]}/>
     </div>
     <div className="p-6"><DataTable columns={[
       {key:"nama",label:"Nama Template"},
       {key:"isi",label:"Isi Template"},
-      {key:"status",label:"Status",render:r=><StatusDot status={r.status}/>},
-      {key:"action",label:"Action",render:r=><div className="flex gap-1.5"><button onClick={e=>{e.stopPropagation();setModal({mode:"edit",...r})}} style={{padding:"4px 8px",border:`1px solid ${C.border}`,borderRadius:6,background:C.bgPanel,color:C.accent,fontSize:11,cursor:"pointer"}}>Edit</button><button onClick={e=>{e.stopPropagation();setDeleteId(r.id)}} style={{padding:"4px 8px",border:`1px solid ${C.danger}`,borderRadius:6,background:C.dangerSoft,color:C.danger,fontSize:11,cursor:"pointer"}}>Delete</button></div>}
+      {key:"statusPengajuan",label:"Status Pengajuan",render:r=>pengajuanBadge(r.statusPengajuan)},
+      {key:"status",label:"Status Penggunaan",render:r=><StatusDot status={r.status}/>},
+      {key:"action",label:"Action",render:r=><div className="flex gap-1.5"><button onClick={e=>{e.stopPropagation();const sp=r.statusPengajuan||"Submission";setModal({mode:"edit",...r,status:deriveStatus(sp,r.status)});}} style={{padding:"4px 8px",border:`1px solid ${C.border}`,borderRadius:6,background:C.bgPanel,color:C.accent,fontSize:11,cursor:"pointer"}}>Edit</button></div>}
     ]} rows={rows}/>
     </div>
     {modal && <Modal title={modal.mode==="add"?"Tambah Template":"Edit Template"} onClose={()=>setModal(null)}>
       <div className="flex flex-col gap-3">
         <div><label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Nama Template</label><input autoFocus value={modal.nama} onChange={e=>setModal({...modal,nama:e.target.value})} style={{width:"100%",marginTop:4,padding:"8px 9px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12.5}}/></div>
         <div><label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Isi Template</label><textarea value={modal.isi} onChange={e=>setModal({...modal,isi:e.target.value})} style={{width:"100%",minHeight:110,marginTop:4,padding:"8px 9px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12.5}}/></div>
-        <div><label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Status</label><select value={modal.status} onChange={e=>setModal({...modal,status:e.target.value})} style={{width:"100%",marginTop:4,padding:"8px 9px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12.5}}><option>Active</option><option>Non Active</option></select></div>
+        <div>
+          <label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Status Pengajuan</label>
+          <div style={{marginTop:4,display:"flex",alignItems:"center",gap:8}}>
+            {pengajuanBadge(modal.statusPengajuan||"Submission")}
+            <span style={{fontSize:11,color:C.textFaint}}>— diatur otomatis oleh META</span>
+          </div>
+        </div>
+        <div>
+          <label style={{fontSize:11,color:C.textFaint,fontWeight:600}}>Status Penggunaan</label>
+          {statusLocked(modal.statusPengajuan) ? (
+            <div style={{marginTop:4,padding:"8px 9px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanelAlt,color:C.textFaint,fontSize:12.5,display:"flex",alignItems:"center",gap:8}}>
+              <span>Non Active</span>
+              <span style={{fontSize:11,color:C.textFaint}}>— otomatis (pengajuan belum Approved)</span>
+            </div>
+          ) : (
+            <select value={modal.status} onChange={e=>setModal({...modal,status:e.target.value})} style={{width:"100%",marginTop:4,padding:"8px 9px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,fontSize:12.5}}>
+              <option>Active</option><option>Non Active</option>
+            </select>
+          )}
+        </div>
         <div className="flex justify-end gap-2"><button onClick={()=>setModal(null)} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,cursor:"pointer"}}>Batal</button><button disabled={!modal.nama.trim()||!modal.isi.trim()} onClick={save} style={{padding:"7px 12px",border:"none",borderRadius:7,background:modal.nama.trim()&&modal.isi.trim()?C.accent:"#aeb7c5",color:"#fff",fontWeight:600,cursor:modal.nama.trim()&&modal.isi.trim()?"pointer":"not-allowed"}}>Simpan</button></div>
       </div>
     </Modal>}
-    {deleteId && <Modal title="Hapus Template" onClose={()=>setDeleteId(null)}><div style={{fontSize:12.5,color:C.text,lineHeight:1.5,marginBottom:14}}>Apakah Anda yakin ingin menghapus template ini?</div><div className="flex justify-end gap-2"><button onClick={()=>setDeleteId(null)} style={{padding:"7px 12px",border:`1px solid ${C.border}`,borderRadius:7,background:C.bgPanel,color:C.text,cursor:"pointer"}}>Batal</button><button onClick={()=>{actions.deleteTemplate(deleteId);setDeleteId(null)}} style={{padding:"7px 12px",border:"none",borderRadius:7,background:C.danger,color:"#fff",fontWeight:600,cursor:"pointer"}}>Hapus</button></div></Modal>}
+    {deleteId && <Modal title="Hapus Template" onClose={()=>setDeleteId(null)}></Modal>}
   </div>;
 }
 
-function UserModule({ users, services, contacts, serviceContacts, selectedUserId, openUserDetail, back, openServiceDetail }) {
+function UserModule({ users, services, servicesFasum, contacts, serviceContacts, selectedUserId, openUserDetail, back, openServiceDetail, onChangePrimary }) {
   const user = users.find((u) => u.userId === selectedUserId);
   const [search,setSearch]=useState(""); const [statusFilter,setStatusFilter]=useState("");
 
   if (!user) {
-    const rows = users.filter(u=>!search||[u.userId,u.nik,u.nama].some(v=>String(v).toLowerCase().includes(search.toLowerCase()))).filter(u=>!statusFilter||deriveUserStatus(u.userId, services)===statusFilter).map((u) => ({ ...u, status: deriveUserStatus(u.userId, services), serviceCount: services.filter((s) => s.userId === u.userId).length }));
+    const rows = users.filter(u=>!search||[u.userId,u.nama,u.ttl].some(v=>String(v).toLowerCase().includes(search.toLowerCase()))).filter(u=>!statusFilter||deriveUserStatus(u.userId, services)===statusFilter).map((u) => ({ ...u, status: deriveUserStatus(u.userId, services), serviceCount: services.filter((s) => s.userId === u.userId).length }));
     return (
       <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto" style={{ background: C.bgApp }}>
         <ListPageHeader icon={<Users size={17} color={C.accent} />} title="User" subtitle={`${users.length} user terdaftar`} />
-        <div className="px-6 pt-4 flex gap-2"><div style={{display:"flex",alignItems:"center",gap:7,flex:1,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 10px",background:C.bgPanel}}><Search size={14} color={C.textFaint}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Cari User ID, NIK, atau Nama" style={{border:"none",outline:"none",background:"transparent",color:C.text,width:"100%",fontSize:12.5}}/></div><FilterSelect label="Status" value={statusFilter} onChange={setStatusFilter} options={[{value:"",label:"All"},{value:"Active",label:"Active"},{value:"Non Active",label:"Non Active"}]}/></div>
+        <div className="px-6 pt-4 flex gap-2"><div style={{display:"flex",alignItems:"center",gap:7,flex:1,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 10px",background:C.bgPanel}}><Search size={14} color={C.textFaint}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Cari User ID, Nama, atau TTL" style={{border:"none",outline:"none",background:"transparent",color:C.text,width:"100%",fontSize:12.5}}/></div><FilterSelect label="Status" value={statusFilter} onChange={setStatusFilter} options={[{value:"",label:"All"},{value:"Active",label:"Active"},{value:"Non Active",label:"Non Active"}]}/></div>
         <div className="p-6">
           <DataTable
             columns={[
               { key: "userId", label: "User ID" },
-              { key: "nik", label: "NIK", render: (r) => maskNik(r.nik) },
               { key: "nama", label: "Nama Lengkap" },
               { key: "serviceCount", label: "Jumlah Service" },
               { key: "status", label: "Status", render: (r) => <StatusDot status={r.status} /> },
@@ -1969,31 +2294,26 @@ function UserModule({ users, services, contacts, serviceContacts, selectedUserId
     );
   }
 
-  const userServices = services.filter((s) => s.userId === user.userId);
+  const userServices = (services || []).filter((s) => s.userId === user.userId);
+  const userServicesFasum = (servicesFasum || []).filter((s) => s.userId === user.userId);
   const contactRows = Array.from(new Map(
-    userServices.flatMap(s => serviceContacts.filter(sc => sc.pppoe === s.pppoe).map(sc => contacts.find(c => c.contactId === sc.contactId)))
+    [...userServices, ...userServicesFasum].flatMap(s => serviceContacts.filter(sc => sc.pppoe === s.pppoe).map(sc => contacts.find(c => c.contactId === sc.contactId)))
       .filter(Boolean).map(c => [c.nomorHp, {nomorHp:c.nomorHp, nama:c.nama || "-", status:c.status}])
   ).values());
 
   return (
     <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto" style={{ background: C.bgApp }}>
-      <DetailHeader onBack={back} title={user.nama} subtitle={user.userId} statusBadge={<StatusDot status={deriveUserStatus(user.userId, services)} />} />
+      <DetailHeader onBack={back} title={user.nama} subtitle={user.userId} statusBadge={<StatusDot status={deriveUserStatus(user.userId, [...(services||[]), ...(servicesFasum||[])])} />} />
       <div className="p-6" style={{ maxWidth: 780 }}>
         <SectionCard title="Overview">
           <InfoRow label="User ID" value={user.userId} />
-          <InfoRow label="NIK" value={maskNik(user.nik)} />
           <InfoRow label="Nama Lengkap" value={user.nama} />
           <InfoRow label="TTL" value={user.ttl} />
-          <InfoRow label="Provinsi" value={user.provinsi} />
-          <InfoRow label="Kota/Kabupaten" value={user.kotaKab} />
-          <InfoRow label="Kecamatan" value={user.kecamatan} />
-          <InfoRow label="Kelurahan" value={user.kelurahan} />
-          <InfoRow label="Alamat" value={user.alamat} />
-          <InfoRow label="Status User" value={<StatusDot status={deriveUserStatus(user.userId, services)} />} />
+          <InfoRow label="Status User" value={<StatusDot status={deriveUserStatus(user.userId, [...(services||[]), ...(servicesFasum||[])])} />} />
         </SectionCard>
 
-        <SectionCard title={`Service Cards (${userServices.length})`}>
-          {userServices.length === 0 && <p style={{ fontSize: 12.5, color: C.textFaint }}>User ini belum memiliki Service.</p>}
+        <SectionCard title={`Service Personal (${userServices.length})`}>
+          {userServices.length === 0 && <p style={{ fontSize: 12.5, color: C.textFaint }}>User ini belum memiliki Service Personal.</p>}
           <div className="flex flex-col gap-2.5">
             {userServices.map((s) => {
               const sc = statusColor(s.status);
@@ -2001,10 +2321,50 @@ function UserModule({ users, services, contacts, serviceContacts, selectedUserId
                 <div key={s.pppoe} style={{ border: `1px solid ${C.border}`, borderRadius: 10, padding: 12 }}>
                   <div className="flex items-center justify-between">
                     <span style={{ fontSize: 13.5, fontWeight: 700 }}>{s.pppoe}</span>
-                    <Badge bg={sc.bg} fg={sc.fg}>{sc.label}</Badge>
+                    <div className="flex items-center gap-2">
+                      {s.subStart && s.subExpired && (() => {
+                        const start = new Date(s.subStart);
+                        const end = new Date(s.subExpired);
+                        const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+                        return <span style={{ fontSize: 11, color: C.textFaint }}>{Math.max(0, months)} bln</span>;
+                      })()}
+                      <Badge bg={sc.bg} fg={sc.fg}>{sc.label}</Badge>
+                    </div>
                   </div>
-                  <div style={{ fontSize: 12, color: C.textFaint, marginTop: 2 }}>{s.paket} • Subscribe s.d. {s.subExpired}</div>
-                  <button onClick={() => openServiceDetail(s.pppoe)} className="mt-2.5 py-1.5 px-3 rounded-md text-sm font-semibold" style={{ background: C.bgPanel, color: C.accent, border: `1px solid ${C.accentSoftBorder}`, cursor: "pointer" }}>
+                  <div style={{ fontSize: 12, color: C.textFaint, marginTop: 2 }}>{s.paket} • {s.branch}</div>
+                  <button onClick={() => openServiceDetail(s.pppoe, "personal")} className="mt-2.5 py-1.5 px-3 rounded-md text-sm font-semibold" style={{ background: C.bgPanel, color: C.accent, border: `1px solid ${C.accentSoftBorder}`, cursor: "pointer" }}>
+                    Detail Service
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </SectionCard>
+
+        <SectionCard title={`Service Fasum (${userServicesFasum.length})`}>
+          {userServicesFasum.length === 0 && <p style={{ fontSize: 12.5, color: C.textFaint }}>User ini belum memiliki Service Fasum.</p>}
+          <div className="flex flex-col gap-2.5">
+            {userServicesFasum.map((s) => {
+              const sc = statusColor(s.status);
+              return (
+                <div key={s.pppoe} style={{ border: `1px solid ${C.border}`, borderRadius: 10, padding: 12 }}>
+                  <div className="flex items-center justify-between">
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ fontSize: 13.5, fontWeight: 700 }}>{s.pppoe}</span>
+                      <Badge bg={C.warningSoft} fg={C.warning}>Fasum</Badge>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {s.subStart && s.subExpired && (() => {
+                        const start = new Date(s.subStart);
+                        const end = new Date(s.subExpired);
+                        const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+                        return <span style={{ fontSize: 11, color: C.textFaint }}>{Math.max(0, months)} bln</span>;
+                      })()}
+                      <Badge bg={sc.bg} fg={sc.fg}>{sc.label}</Badge>
+                    </div>
+                  </div>
+                  <div style={{ fontSize: 12, color: C.textFaint, marginTop: 2 }}>{s.paket} • {s.branch}</div>
+                  <button onClick={() => openServiceDetail(s.pppoe, "fasum")} className="mt-2.5 py-1.5 px-3 rounded-md text-sm font-semibold" style={{ background: C.bgPanel, color: C.accent, border: `1px solid ${C.accentSoftBorder}`, cursor: "pointer" }}>
                     Detail Service
                   </button>
                 </div>
@@ -2032,7 +2392,10 @@ function UserModule({ users, services, contacts, serviceContacts, selectedUserId
 /* ============================================================
    SERVICE MODULE
    ============================================================ */
-function ServiceModule({ services, users, contacts, serviceContacts, selectedPppoe, openServiceDetail, back, openUserDetail, onChangePrimary, actions }) {
+function ServiceModule({ serviceType, services, users, contacts, serviceContacts, selectedPppoe, openServiceDetail, back, openUserDetail, onChangePrimary, actions }) {
+  const isFasum = serviceType === "fasum";
+  const moduleTitle = isFasum ? "Service Fasum" : "Service Personal";
+  const moduleIcon = isFasum ? <Building2 size={17} color={C.accent} /> : <Wifi size={17} color={C.accent} />;
   const service = services.find((s) => s.pppoe === selectedPppoe);
   const [search,setSearch]=useState("");
   const [statusFilter,setStatusFilter]=useState("");
@@ -2066,7 +2429,7 @@ function ServiceModule({ services, users, contacts, serviceContacts, selectedPpp
       .map((s) => ({ ...s, userNama: users.find((u) => u.userId === s.userId)?.nama }));
     return (
       <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto" style={{ background: C.bgApp }}>
-        <ListPageHeader icon={<Wifi size={17} color={C.accent} />} title="Service" subtitle={`${services.length} layanan terdaftar`} />
+        <ListPageHeader icon={moduleIcon} title={moduleTitle} subtitle={`${services.length} layanan terdaftar`} />
         <div className="px-6 pt-4 flex gap-2">
           <div style={{display:"flex",alignItems:"center",gap:7,flex:1,border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 10px",background:C.bgPanel}}>
             <Search size={14} color={C.textFaint}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Cari PPPoE, User, atau data service" style={{border:"none",outline:"none",background:"transparent",color:C.text,width:"100%",fontSize:12.5}}/>
@@ -2079,7 +2442,7 @@ function ServiceModule({ services, users, contacts, serviceContacts, selectedPpp
           <DataTable columns={[
             { key: "pppoe", label: "PPPoE Secret" },
             { key: "userId", label: "User ID" },
-            { key: "userNama", label: "User" },
+            { key: "userNama", label: "Nama Lengkap" },
             { key: "paket", label: "Paket" },
             { key: "branch", label: "Branch" },
             { key: "status", label: "Status", render: (r) => <StatusDot status={r.status} /> },
@@ -2161,21 +2524,30 @@ function ServiceModule({ services, users, contacts, serviceContacts, selectedPpp
 
   return (
     <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto" style={{ background: C.bgApp }}>
-      <DetailHeader onBack={back} title={service.pppoe} subtitle={`${service.paket} • ${service.branch}`} statusBadge={<StatusDot status={service.status} />} />
+      <DetailHeader onBack={back} title={service.pppoe} subtitle={`${isFasum ? (service.namaFasum ? service.namaFasum + " • " : "") : ""}${service.paket} • ${service.branch}`} statusBadge={<StatusDot status={service.status} />} />
       <div className="p-6" style={{ maxWidth: 780 }}>
         <SectionCard title="Informasi Service" right={<button onClick={()=>{setEditPaket(service.paket);setEditDiscount(service.discountValue||"");setEditDiscountType(service.discountType||"Permanent");setEditServiceOpen(true);setTerminationOpen(false);}} style={{padding:"5px 10px",border:`1px solid ${C.accentSoftBorder}`,borderRadius:7,background:C.accentSoft,color:C.accent,fontSize:11.5,fontWeight:700,cursor:"pointer"}}>Edit</button>}>
           <InfoRow label="PPPoE Secret" value={service.pppoe} />
           <InfoRow label="Status" value={<StatusDot status={service.status} />} />
+          {isFasum && <InfoRow label="Nama Fasum" value={service.namaFasum || "-"} />}
           <InfoRow label="Paket" value={service.paket} />
+          <InfoRow label="Harga" value={service.harga ? formatRupiah(service.harga) : "-"} />
           <InfoRow label="Diskon" value={formatRupiah(service.discountValue)} />
           <InfoRow label="Subscribe Start" value={service.subStart} />
           <InfoRow label="Subscribe Expired" value={service.subExpired} />
+          <InfoRow label="Subscription Duration" value={(() => {
+            if (!service.subStart || !service.subExpired) return "-";
+            const start = new Date(service.subStart);
+            const end = new Date(service.subExpired);
+            const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+            return `${Math.max(0, months)} bulan`;
+          })()} />
           <InfoRow label="Peruntukan Layanan" value={service.peruntukan} />
         </SectionCard>
         <SectionCard title="Informasi User">
           <InfoRow label="User ID" value={owner?.userId} />
           <InfoRow label="Nama" value={owner?.nama} />
-          <InfoRow label="NIK" value={maskNik(owner?.nik)} />
+          <InfoRow label="TTL" value={owner?.ttl} />
           <button onClick={() => openUserDetail(owner?.userId)} className="mt-2 py-1.5 px-3 rounded-md text-sm font-semibold" style={{ background: C.accentSoft, color: C.accent, border: `1px solid ${C.accentSoftBorder}`, cursor: "pointer" }}>Detail User</button>
         </SectionCard>
         <SectionCard title="Informasi AE">
@@ -2186,7 +2558,7 @@ function ServiceModule({ services, users, contacts, serviceContacts, selectedPpp
           <InfoRow label="Coverage Area" value={service.coverage} /><InfoRow label="Splitter" value={service.splitter} /><InfoRow label="Port" value={service.port} /><InfoRow label="SN Modem" value={service.snModem} /><InfoRow label="ONU" value={service.onu} />
         </SectionCard>
         <SectionCard title="Informasi Lokasi">
-          <InfoRow label="Branch" value={service.branch} /><InfoRow label="Provinsi" value={service.provinsi} /><InfoRow label="Kota/Kabupaten" value={service.kotaKab} /><InfoRow label="Kecamatan" value={service.kecamatan} /><InfoRow label="Kelurahan" value={service.kelurahan} /><InfoRow label="RW" value={service.rw} /><InfoRow label="RT" value={service.rt} /><InfoRow label="Alamat" value={service.alamat} /><InfoRow label="Latitude" value={service.lat} /><InfoRow label="Longitude" value={service.lng} />
+          <InfoRow label="Branch" value={service.branch} /><InfoRow label="Provinsi" value={service.provinsi} /><InfoRow label="Kota/Kabupaten" value={service.kotaKab} /><InfoRow label="Kecamatan" value={service.kecamatan} /><InfoRow label="Kelurahan" value={service.kelurahan} /><InfoRow label="RW" value={service.rw} /><InfoRow label="RT" value={service.rt} /><InfoRow label="Alamat" value={service.alamat} /><InfoRow label="Titik Koordinat" value={service.lat && service.lng ? `${service.lat}, ${service.lng}` : "-"} />
         </SectionCard>
         <SectionCard title="Finance"><InfoRow label="VA" value={service.va} /></SectionCard>
 
@@ -2279,7 +2651,7 @@ function ServiceModule({ services, users, contacts, serviceContacts, selectedPpp
 /* ============================================================
    CONTACT MODULE
    ============================================================ */
-function ContactModule({ contacts, users, services, serviceContacts, selectedContactId, openContactDetail, back, openServiceDetail, actions }) {
+function ContactModule({ contacts, users, services, servicesFasum, serviceContacts, selectedContactId, openContactDetail, back, openServiceDetail, actions }) {
   const contact = contacts.find((c) => c.contactId === selectedContactId);
   // Keep all hooks unconditional so Contact List <-> Contact Detail navigation is stable.
   const [search,setSearch]=useState("");
@@ -2294,6 +2666,9 @@ function ContactModule({ contacts, users, services, serviceContacts, selectedCon
   const [hubungan, setHubungan] = useState("");
   const [matchNotice, setMatchNotice] = useState("");
   const [matchFeedback, setMatchFeedback] = useState(null);
+  const allServices = [...(services || []), ...(servicesFasum || [])];
+  const allServicesMap = new Map(allServices.map(s => [s.pppoe, s]));
+  const getServiceCombined = (pppoe) => allServicesMap.get(pppoe);
   const servicesForContact = (contactId) => serviceContacts.filter((sc) => sc.contactId === contactId);
 
   if (!contact) {
@@ -2353,11 +2728,11 @@ function ContactModule({ contacts, users, services, serviceContacts, selectedCon
   }
 
   const links = servicesForContact(contact.contactId);
-  const ownerUsers = [...new Set(links.map((l) => services.find((s) => s.pppoe === l.pppoe)?.userId).filter(Boolean))].map((id) => users.find((u) => u.userId === id));
+  const ownerUsers = [...new Set(links.map((l) => getServiceCombined(l.pppoe)?.userId).filter(Boolean))].map((id) => users.find((u) => u.userId === id));
   const relatedPppoe = new Set(links.map(l => l.pppoe));
   const myPrimaryPppoe = findPrimaryServiceForContact(contact.contactId, serviceContacts, null);
   const searchPool = matchExecuted && matchSearch.trim()
-    ? evaluateServiceMatch(matchSearch, services, relatedPppoe).results
+    ? evaluateServiceMatch(matchSearch, allServices, relatedPppoe).results
     : [];
   const closeMatch = () => { setMatchOpen(false); setMatchSearch(""); setMatchExecuted(false); setCandidate(null); setHubungan(""); setMatchNotice(""); };
   const confirmExisting = () => {
@@ -2390,7 +2765,7 @@ function ContactModule({ contacts, users, services, serviceContacts, selectedCon
             {ownerUsers.map((u) => (
               <div key={u.userId} style={{ border: `1px solid ${C.border}`, borderRadius: 10, padding: 12 }}>
                 <div style={{ fontSize: 13.5, fontWeight: 700 }}>{u.nama}</div>
-                <div style={{ fontSize: 12, color: C.textFaint }}>{u.userId} • NIK {maskNik(u.nik)}</div>
+                <div style={{ fontSize: 12, color: C.textFaint }}>{u.userId}</div>
               </div>
             ))}
           </div>
@@ -2439,21 +2814,34 @@ function ContactModule({ contacts, users, services, serviceContacts, selectedCon
         <SectionCard title={`Service Cards (${links.length})${myPrimaryPppoe ? ` • Primary di ${myPrimaryPppoe}` : ""}`}>
           <div className="flex flex-col gap-2.5">
             {links.map((l) => {
-              const svc = services.find((s) => s.pppoe === l.pppoe);
-              const sc = statusColor(svc?.status);
+              const svc = getServiceCombined(l.pppoe);
+              if (!svc) return null;
+              const sc = statusColor(svc.status);
               const owner = users.find((u) => u.userId === svc?.userId);
+              const isFasum = l.serviceType === "fasum";
               return (
                 <div key={l.id} style={{ border: `1px solid ${C.border}`, borderRadius: 10, padding: 12 }}>
                   <div className="flex items-center justify-between">
-                    <span style={{ fontSize: 13.5, fontWeight: 700 }}>{svc.pppoe}</span>
-                    <Badge bg={sc.bg} fg={sc.fg}>{sc.label}</Badge>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ fontSize: 13.5, fontWeight: 700 }}>{svc.pppoe}</span>
+                      <Badge bg={isFasum ? C.warningSoft : C.bgPanelAlt} fg={isFasum ? C.warning : C.textFaint} border={isFasum ? C.warningSoftBorder : C.border}>{isFasum ? "Fasum" : "Personal"}</Badge>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {svc.subStart && svc.subExpired && (() => {
+                        const start = new Date(svc.subStart);
+                        const end = new Date(svc.subExpired);
+                        const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+                        return <span style={{ fontSize: 11, color: C.textFaint }}>{Math.max(0, months)} bln</span>;
+                      })()}
+                      <Badge bg={sc.bg} fg={sc.fg}>{sc.label}</Badge>
+                    </div>
                   </div>
                   <div style={{ fontSize: 12, color: C.textFaint, marginTop: 2 }}>User: {owner?.nama}</div>
                   <div className="flex items-center gap-2 mt-2">
                     <Badge bg={C.bgPanelAlt} fg={C.textSoft} border={C.border}>Hubungan: {l.hubungan}</Badge>
                     {l.primary ? <Badge bg={C.successSoft} fg={C.success}>Primary</Badge> : <Badge bg="#f1f2f5" fg={C.textFaint}>Non Primary</Badge>}
                   </div>
-                  <button onClick={() => openServiceDetail(svc.pppoe)} className="mt-2.5 py-1.5 px-3 rounded-md text-sm font-semibold" style={{ background: C.bgPanel, color: C.accent, border: `1px solid ${C.accentSoftBorder}`, cursor: "pointer" }}>
+                  <button onClick={() => openServiceDetail(svc.pppoe, isFasum ? "fasum" : "personal")} className="mt-2.5 py-1.5 px-3 rounded-md text-sm font-semibold" style={{ background: C.bgPanel, color: C.accent, border: `1px solid ${C.accentSoftBorder}`, cursor: "pointer" }}>
                     Detail Service
                   </button>
                 </div>
@@ -2493,6 +2881,7 @@ function App() {
 
   const [users] = useState(USERS0);
   const [services, setServices] = useState(SERVICES0);
+  const [servicesFasum, setServicesFasum] = useState(SERVICES_FASUM0);
   const [contacts, setContacts] = useState(CONTACTS0);
   const [serviceContacts, setServiceContacts] = useState(SERVICE_CONTACTS0);
   const [tags, setTags] = useState(TAGS0);
@@ -2523,7 +2912,14 @@ function App() {
   };
 
   const openUserDetail = (id) => { setActiveMenu("user"); setSelectedUserId(id); };
-  const openServiceDetail = (pppoe) => { setActiveMenu("service"); setSelectedPppoe(pppoe); };
+  const openServiceDetail = (pppoe, type) => {
+    if (!type) {
+      // auto-detect: fasum if in servicesFasum
+      type = servicesFasum.some(s => s.pppoe === pppoe) ? "fasum" : "personal";
+    }
+    setActiveMenu(type === "fasum" ? "service-fasum" : "service-personal");
+    setSelectedPppoe(pppoe);
+  };
   const openContactDetail = (id) => { setActiveMenu("contact"); setSelectedContactId(id); };
 
   // ---- Match / ACC flow actions ----
@@ -2679,7 +3075,7 @@ function App() {
     matchConfirmAcc,
     openUserDetail,
     openServiceDetail,
-    getServices: () => services,
+    getServices: () => [...services, ...servicesFasum],
     getServiceContacts: () => serviceContacts,
     getContacts: () => contacts,
     confirmExistingServiceMatch,
@@ -2704,10 +3100,10 @@ function App() {
 
   const menuTitles = {
     chat: "Customer Care Chats",
-    tag: "Tag & Label Operasional",
+    tag: "Label Operasional",
     template: "Template Pesan Cepat",
     user: "Data User Pelanggan",
-    service: "Data Layanan PPPOE",
+    service: "Data Layanan",
     contact: "Data Kontak Terhubung"
   };
 
@@ -2746,8 +3142,13 @@ function App() {
         <main className="flex-1 min-w-0 h-full flex flex-col overflow-hidden" style={{ background: C.bgApp }}>
           {activeMenu === "chat" && (
             <ChatModule
-              state={{ chats, contacts, users, services, serviceContacts, tags, templates, selectedChatId, filter, labelFilter, profileOpen, selectionMode, selectedChatIds, deleteConfirmOpen }}
-              actions={chatActions}
+              state={{ chats, contacts, users, services, servicesFasum, serviceContacts, tags, templates, selectedChatId, filter, labelFilter, profileOpen, selectionMode, selectedChatIds, deleteConfirmOpen }}
+              actions={{
+                ...chatActions,
+                getServices: () => [...services, ...servicesFasum],
+                getServiceContacts: () => serviceContacts,
+                openServiceDetail,
+              }}
             />
           )}
 
@@ -2757,23 +3158,33 @@ function App() {
 
           {activeMenu === "user" && (
             <UserModule
-              users={users} services={services} contacts={contacts} serviceContacts={serviceContacts}
+               users={users} services={services} servicesFasum={servicesFasum} contacts={contacts} serviceContacts={serviceContacts}
               selectedUserId={selectedUserId} openUserDetail={openUserDetail}
               back={() => setSelectedUserId(null)} openServiceDetail={openServiceDetail}
             />
           )}
 
-          {activeMenu === "service" && (
+          {activeMenu === "service-personal" && (
             <ServiceModule
+              serviceType="personal"
               services={services} users={users} contacts={contacts} serviceContacts={serviceContacts}
-              selectedPppoe={selectedPppoe} openServiceDetail={openServiceDetail}
+              selectedPppoe={selectedPppoe} openServiceDetail={(p) => openServiceDetail(p, "personal")}
+              back={() => setSelectedPppoe(null)} openUserDetail={openUserDetail} onChangePrimary={changePrimary} actions={chatActions}
+            />
+          )}
+
+          {activeMenu === "service-fasum" && (
+            <ServiceModule
+              serviceType="fasum"
+              services={servicesFasum} users={users} contacts={contacts} serviceContacts={serviceContacts}
+              selectedPppoe={selectedPppoe} openServiceDetail={(p) => openServiceDetail(p, "fasum")}
               back={() => setSelectedPppoe(null)} openUserDetail={openUserDetail} onChangePrimary={changePrimary} actions={chatActions}
             />
           )}
 
           {activeMenu === "contact" && (
             <ContactModule
-              contacts={contacts} users={users} services={services} serviceContacts={serviceContacts}
+              contacts={contacts} users={users} services={services} servicesFasum={servicesFasum} serviceContacts={serviceContacts}
               selectedContactId={selectedContactId} openContactDetail={openContactDetail}
               back={() => setSelectedContactId(null)} openServiceDetail={openServiceDetail} actions={chatActions}
             />
