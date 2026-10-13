@@ -15,8 +15,8 @@ Prototype interaktif aplikasi Customer Care WhatsApp Business API (WABA) berbasi
 - **Collapsible Navigation Sidebar**:
   - Mode penuh (`w-64`) dan mode mini (`w-[68px]`) dengan toggle tombol hamburger di top navbar.
   - Menu terkelompok rapi:
-    - **Umum**: Chats, Tag & Label, Template Chat.
-    - **Data Pelanggan**: User, Service / Layanan, Contact.
+    - **Umum**: Chats, Label, Template Chat.
+    - **Data Pelanggan**: User, Service, Contact.
   - Profile card operator dan tombol Logout dengan dialog konfirmasi.
 - **Manajemen Data & Master**:
   - **User**: Pengelolaan master pelanggan (NIK, alamat, status verifikasi).
